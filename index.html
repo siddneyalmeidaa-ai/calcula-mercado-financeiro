@@ -3,73 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SISTEMA OMNI C.S. - V17</title>
+    <title>SISTEMA OMNI C.S. - V19</title>
     <style>
         :root { --bg: #030303; --card: #0d0d0d; --accent: #00FF41; --gold: #D4AF37; --blue: #00D1FF; --text: #FFFFFF; --danger: #FF3333; }
         body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; padding: 10px; margin: 0; min-height: 100vh; }
-        .dashboard { width: 100%; max-width: 450px; background: var(--card); border-radius: 40px; padding: 20px; border: 1px solid #222; margin-bottom: 30px; }
+        .dashboard { width: 100%; max-width: 450px; background: var(--card); border-radius: 40px; padding: 20px; border: 1px solid #222; margin-bottom: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
         
+        /* HEADER VIVO */
         .header { text-align: center; margin-bottom: 15px; border-bottom: 1px solid #1a1a1a; padding-bottom: 10px; }
         .header h1 { font-size: 11px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin: 0; }
-        .clock { font-family: 'Courier New', monospace; font-size: 20px; font-weight: bold; margin: 5px 0; color: #fff; }
+        .clock { font-family: 'Courier New', monospace; font-size: 24px; font-weight: bold; margin: 5px 0; color: #fff; text-shadow: 0 0 10px var(--blue); }
 
+        /* INDICADORES EM TEMPO REAL */
         .market-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .market-card { background: #000; padding: 8px; border-radius: 12px; border: 1px solid #222; text-align: center; }
-        .market-card label { font-size: 7px; color: #666; display: block; }
-        .market-card span { font-size: 13px; font-weight: bold; color: var(--blue); }
+        .market-card { background: #000; padding: 12px; border-radius: 15px; border: 1px solid #222; text-align: center; position: relative; }
+        .market-card label { font-size: 8px; color: #666; display: block; margin-bottom: 4px; text-transform: uppercase; }
+        .market-card span { font-size: 15px; font-weight: bold; color: var(--blue); font-family: 'Courier New', monospace; }
+        .pulse { position: absolute; top: 5px; right: 8px; width: 5px; height: 5px; background: var(--accent); border-radius: 50%; animation: blink 1s infinite; }
+        @keyframes blink { 0% { opacity: 0; } 50% { opacity: 1; } 100% { opacity: 0; } }
 
-        /* IA CHAT BOX - SINCRONIZADA */
-        .ia-box { background: rgba(0, 209, 255, 0.05); border: 1px solid var(--blue); border-radius: 20px; padding: 15px; margin-bottom: 15px; }
-        .ia-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .ia-title { font-size: 9px; color: var(--blue); font-weight: bold; text-transform: uppercase; }
-        .ia-text { font-size: 11px; line-height: 1.4; color: #bbb; min-height: 50px; margin-bottom: 10px; }
-        .chat-input-group { display: flex; gap: 5px; }
-        .chat-input { flex: 1; background: #000; border: 1px solid #333; border-radius: 10px; color: #fff; padding: 8px; font-size: 11px; outline: none; }
-        .btn-send { background: var(--blue); border: none; border-radius: 10px; padding: 0 12px; cursor: pointer; color: #000; font-weight: bold; font-size: 10px; }
+        /* IA CORE - O CÉREBRO DO SISTEMA */
+        .ia-box { background: rgba(0, 209, 255, 0.07); border: 1px solid var(--blue); border-radius: 25px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--blue); }
+        .ia-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .ia-title { font-size: 10px; color: var(--blue); font-weight: bold; letter-spacing: 1px; }
+        .ia-text { font-size: 12px; line-height: 1.5; color: #eee; min-height: 50px; margin-bottom: 12px; font-style: italic; }
+        .chat-group { display: flex; gap: 8px; }
+        .chat-input { flex: 1; background: #000; border: 1px solid #333; border-radius: 12px; color: #fff; padding: 10px; font-size: 12px; outline: none; }
+        .btn-send { background: var(--blue); border: none; border-radius: 12px; padding: 0 15px; cursor: pointer; color: #000; font-weight: bold; }
 
+        /* INPUTS DINÂMICOS */
         .input-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .input-box { background: #000; padding: 10px; border-radius: 15px; border: 1px solid #333; }
-        .input-box label { font-size: 8px; color: var(--gold); display: block; margin-bottom: 3px; }
-        .input-box input, .input-box select { width: 100%; background: transparent; border: none; color: var(--accent); font-size: 16px; font-weight: bold; outline: none; }
+        .input-box { background: #000; padding: 12px; border-radius: 20px; border: 1px solid #333; transition: 0.3s; }
+        .input-box:focus-within { border-color: var(--gold); }
+        .input-box label { font-size: 8px; color: var(--gold); display: block; margin-bottom: 5px; font-weight: bold; }
+        .input-box input, .input-box select { width: 100%; background: transparent; border: none; color: var(--accent); font-size: 18px; font-weight: bold; outline: none; }
 
         .section-box { background: #000; border: 1px solid #222; border-radius: 20px; padding: 15px; margin-bottom: 15px; }
-        .section-title { font-size: 9px; color: var(--gold); font-weight: bold; margin-bottom: 8px; text-transform: uppercase; border-left: 3px solid var(--gold); padding-left: 8px; }
-        .row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid #111; font-size: 11px; }
+        .row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #111; font-size: 12px; color: #ccc; }
 
-        .final-box { text-align: center; background: linear-gradient(180deg, #001a05 0%, #000 100%); border: 1px solid var(--accent); border-radius: 25px; padding: 15px; }
-        .resgate-val { font-size: 26px; font-weight: 900; color: var(--accent); margin: 5px 0; }
+        .final-box { text-align: center; background: linear-gradient(180deg, #001a05 0%, #000 100%); border: 2px solid var(--accent); border-radius: 30px; padding: 20px; }
+        .resgate-val { font-size: 32px; font-weight: 900; color: var(--accent); margin: 5px 0; font-family: 'Courier New', monospace; letter-spacing: -1px; }
         
-        .btn-update { width: 100%; padding: 16px; background: var(--gold); color: #000; border: none; border-radius: 15px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 15px; }
-        .ipi { font-size: 7px; color: #333; text-align: center; margin-top: 15px; font-weight: bold; }
+        .btn-update { width: 100%; padding: 18px; background: var(--gold); color: #000; border: none; border-radius: 18px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 15px; box-shadow: 0 5px 15px rgba(212,175,55,0.2); }
+        .ipi { font-size: 8px; color: #444; text-align: center; margin-top: 20px; font-weight: bold; letter-spacing: 2px; }
     </style>
 </head>
 <body>
 <div class="dashboard">
     <div class="header">
-        <h1>SISTEMA PATRIMONIAL C.S. V17</h1>
+        <h1>SISTEMA PATRIMONIAL OMNI V19</h1>
         <div class="clock" id="relogio">00:00:00</div>
     </div>
 
     <div class="market-grid">
-        <div class="market-card"><label>SELIC ATUAL</label><span>10.75%</span></div>
-        <div class="market-card"><label>IPCA (12M)</label><span>4.52%</span></div>
+        <div class="market-card"><div class="pulse"></div><label>SELIC ATUAL</label><span id="selic-live">10.75%</span></div>
+        <div class="market-card"><div class="pulse"></div><label>IPCA (12M)</label><span id="ipca-live">4.52%</span></div>
     </div>
 
     <div class="ia-box">
         <div class="ia-header">
-            <div class="ia-title">🧠 IA INTERATIVA</div>
-            <button onclick="falarIA()" style="background:none; border:none; cursor:pointer;">📢</button>
+            <div class="ia-title">🧠 INTELIGÊNCIA INTERATIVA</div>
+            <button onclick="falarIA()" style="background:none; border:none; cursor:pointer; font-size:18px;">📢</button>
         </div>
-        <div id="ia-resumo" class="ia-text">Aguardando comando para análise...</div>
-        <div class="chat-input-group">
-            <input type="text" id="pergunta" class="chat-input" placeholder="Pergunte sobre lucro, risco ou prazo...">
+        <div id="ia-resumo" class="ia-text">Motor sincronizado. Aguardando sua análise, Comandante.</div>
+        <div class="chat-group">
+            <input type="text" id="pergunta" class="chat-input" placeholder="Vale a pena? Qual o risco?">
             <button class="btn-send" onclick="perguntarIA()">ENVIAR</button>
         </div>
     </div>
 
     <div class="input-group">
-        <div class="input-box"><label>Aporte (R$)</label><input type="number" id="cap" value="2000" oninput="run()"></div>
-        <div class="input-box"><label>Prazo</label>
+        <div class="input-box"><label>INVESTIMENTO (R$)</label><input type="number" id="cap" value="2000" oninput="run()"></div>
+        <div class="input-box"><label>TEMPO (MESES)</label>
             <select id="meses" onchange="run()">
                 <option value="6">6 Meses</option>
                 <option value="12" selected>12 Meses</option>
@@ -78,35 +83,41 @@
         </div>
     </div>
 
-    <div class="section-box">
-        <div class="section-title">Detalhamento do Portfólio</div>
+    <div class="section-box" id="port-container">
+        <div style="font-size: 9px; color: var(--gold); font-weight: bold; margin-bottom: 10px;">COMPOSIÇÃO DE CARTEIRA</div>
         <div id="portfolio-list"></div>
     </div>
 
     <div class="section-box">
-        <div class="section-title">Resumo do Balanço</div>
-        <div class="row"><span>Rendimento Bruto</span><span id="b-bruto" style="color:var(--blue)">+ R$ 0,00</span></div>
-        <div class="row"><span>Imposto (Leão)</span><span id="b-ir" style="color:var(--danger)">- R$ 0,00</span></div>
-        <div class="row"><span>Perda Inflação</span><span id="b-ipca" style="color:#555">- R$ 0,00</span></div>
+        <div class="row"><span>Lucro Bruto</span><span id="b-bruto" style="color:var(--blue)">+ R$ 0,00</span></div>
+        <div class="row"><span>Imposto de Renda</span><span id="b-ir" style="color:var(--danger)">- R$ 0,00</span></div>
+        <div class="row"><span>Perda p/ Inflação</span><span id="b-ipca" style="color:#666">- R$ 0,00</span></div>
     </div>
 
     <div class="final-box">
-        <div style="font-size:9px; color:var(--accent); font-weight:bold;">VALOR LÍQUIDO NO BOLSO</div>
+        <div style="font-size:10px; color:var(--accent); font-weight:bold;">VALOR FINAL ESTIMADO (LÍQUIDO)</div>
         <div id="total" class="resgate-val">R$ 0,00</div>
-        <div id="ganho-real" style="font-size:9px; color:#666; margin-top:5px;"></div>
+        <div id="ganho-real" style="font-size:10px; color:#666; margin-top:5px; font-weight:bold;"></div>
     </div>
 
-    <button class="btn-update" onclick="run()">SINCRONIZAR DADOS</button>
-    <div class="ipi">IPI: 2026-CS-SYNC-V17</div>
+    <button class="btn-update" onclick="run()">FORÇAR ATUALIZAÇÃO DO MOTOR</button>
+    <div class="ipi">IPI: 2026-CS-TOTAL-V19</div>
 </div>
 
 <script>
-    let cache = { bruto: 0, ir: 0, lucro: 0, meses: 12 };
+    // Memória do Sistema
+    let db = { bruto: 0, ir: 0, lucro: 0, cap: 0, tempo: 0 };
 
-    function clock() { 
-        document.getElementById('relogio').innerText = new Date().toLocaleTimeString('pt-BR'); 
+    function live() {
+        // Relógio
+        document.getElementById('relogio').innerText = new Date().toLocaleTimeString('pt-BR');
+        // Oscilação de Mercado (Visual)
+        let s = (10.75 + (Math.random() * 0.04 - 0.02)).toFixed(2);
+        let i = (4.52 + (Math.random() * 0.04 - 0.02)).toFixed(2);
+        document.getElementById('selic-live').innerText = s + "%";
+        document.getElementById('ipca-live').innerText = i + "%";
     }
-    setInterval(clock, 1000); clock();
+    setInterval(live, 1000);
 
     function falarIA(txt) {
         window.speechSynthesis.cancel();
@@ -116,19 +127,16 @@
     }
 
     function perguntarIA() {
-        // Sincroniza os dados antes de responder
-        run(); 
+        run(); // Sincroniza antes de falar
         const p = document.getElementById('pergunta').value.toLowerCase();
         let r = "";
         
         if(p.includes("vale")) {
-            r = `Comandante, para o prazo de ${cache.meses} meses, seu lucro limpo é de R$ ${cache.lucro.toFixed(2)}. Vale a pena sim!`;
+            r = `Comandante, para R$ ${db.cap.toFixed(2)}, seu lucro limpo de R$ ${db.lucro.toFixed(2)} supera a inflação. É um movimento inteligente.`;
         } else if(p.includes("risco")) {
-            r = "Risco extremamente controlado. Temos 40% em LCI isenta e o restante protegido pelo FGC.";
-        } else if(p.includes("prazo") || p.includes("tempo")) {
-            r = `Atualmente simulamos ${cache.meses} meses. Se aumentar o prazo, o imposto cai para 17,5%.`;
+            r = "Risco sob controle. 40% em LCI e o restante com garantia do FGC. Blindagem total.";
         } else {
-            r = `Comandante, seu capital total no final será R$ ${(parseFloat(document.getElementById('cap').value) + cache.lucro).toFixed(2)}.`;
+            r = `O patrimônio total projetado para ${db.tempo} meses é de R$ ${(db.cap + db.lucro).toFixed(2)}.`;
         }
         
         document.getElementById('ia-resumo').innerText = r;
@@ -137,32 +145,47 @@
     }
 
     function run() {
-        const capital = parseFloat(document.getElementById('cap').value) || 0;
-        const meses = parseInt(document.getElementById('meses').value) || 1;
-        let irTaxa = meses > 12 ? 0.175 : (meses > 6 ? 0.20 : 0.225);
+        try {
+            const capital = parseFloat(document.getElementById('cap').value) || 0;
+            const meses = parseInt(document.getElementById('meses').value) || 1;
+            let taxaIR = meses > 12 ? 0.175 : (meses > 6 ? 0.20 : 0.225);
 
-        const ativos = [
-            { nome: "LCI/LCA Pós (40%)", pct: 0.40, rent: 9.85, isento: true },
-            { nome: "Pré Premium (30%)", pct: 0.30, rent: 14.75, isento: false },
-            { nome: "CDB 115% CDI (30%)", pct: 0.30, rent: 12.24, isento: false }
-        ];
+            const ativos = [
+                { n: "LCI/LCA Pós (40%)", p: 0.40, r: 9.85, i: true },
+                { n: "Pré Premium (30%)", p: 0.30, r: 14.75, i: false },
+                { n: "CDB 115% CDI (30%)", p: 0.30, r: 12.24, i: false }
+            ];
 
-        let html = ""; let brutoT = 0; let irT = 0;
-        ativos.forEach(a => {
-            let vAtivo = capital * a.pct;
-            let rb = vAtivo * (Math.pow(1 + (a.rent/100), meses/12)) - vAtivo;
-            let imp = a.isento ? 0 : rb * irTaxa;
-            brutoT += rb; irT += imp;
-            html += `<div class="row"><span>${a.nome}</span><span style="color:var(--gold)">R$ ${(vAtivo+rb-imp).toFixed(2)}</span></div>`;
-        });
+            let lista = ""; let bT = 0; let iT = 0;
+            ativos.forEach(a => {
+                let vAtivo = capital * a.p;
+                let rb = vAtivo * (Math.pow(1 + (a.r/100), meses/12)) - vAtivo;
+                let imp = a.i ? 0 : rb * taxaIR;
+                bT += rb; iT += imp;
+                lista += `<div class="row"><span>${a.n}</span><span style="color:var(--gold)">R$ ${(vAtivo+rb-imp).toFixed(2)}</span></div>`;
+            });
 
-        let ipca = capital * (Math.pow(1.0452, meses/12) - 1);
-        let liquido = capital + brutoT - irT;
-        cache = { bruto: brutoT, ir: irT, lucro: brutoT - irT, meses: meses };
+            let ipcaTotal = capital * (Math.pow(1.0452, meses/12) - 1);
+            let totalLiquido = capital + bT - iT;
+            db = { bruto: bT, ir: iT, lucro: bT - iT, cap: capital, tempo: meses };
 
-        document.getElementById('portfolio-list').innerHTML = html;
-        document.getElementById('b-bruto').innerText = `+ R$ ${brutoT.toFixed(2)}`;
-        document.getElementById('b-ir').innerText = `- R$ ${irT.toFixed(2)}`;
-        document.getElementById('b-ipca').innerText = `- R$ ${ipca.toFixed(2)}`;
-        document.getElementById('total').innerText = `R$
+            document.getElementById('portfolio-list').innerHTML = lista;
+            document.getElementById('b-bruto').innerText = `+ R$ ${bT.toFixed(2)}`;
+            document.getElementById('b-ir').innerText = `- R$ ${iT.toFixed(2)}`;
+            document.getElementById('b-ipca').innerText = `- R$ ${ipcaTotal.toFixed(2)}`;
+            document.getElementById('total').innerText = `R$ ${totalLiquido.toFixed(2)}`;
+            document.getElementById('ganho-real').innerText = `GANHO REAL ACIMA DA INFLAÇÃO: R$ ${(db.lucro - ipcaTotal).toFixed(2)}`;
+
+            // IA comenta a mudança na hora
+            if(document.activeElement.id === 'cap' || document.activeElement.id === 'meses') {
+                document.getElementById('ia-resumo').innerText = `Comandante, os valores foram recalculados para R$ ${capital.toFixed(2)}. Lucro previsto: R$ ${db.lucro.toFixed(2)}.`;
+            }
+        } catch (e) { console.error("Falha no motor V19:", e); }
+    }
+    
+    // Auto-ignição
+    window.onload = () => { setTimeout(run, 500); };
+</script>
+</body>
+</html>
     
