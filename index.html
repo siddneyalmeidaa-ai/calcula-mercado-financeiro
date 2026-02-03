@@ -3,124 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SISTEMA PATRIMONIAL IA - C.S.</title>
+    <title>SISTEMA INTERATIVO C.S.</title>
     <style>
         :root { --bg: #030303; --card: #0d0d0d; --accent: #00FF41; --gold: #D4AF37; --blue: #00D1FF; --text: #FFFFFF; --danger: #FF3333; }
         body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; padding: 15px; margin: 0; }
         .dashboard { width: 100%; max-width: 450px; background: var(--card); border-radius: 40px; padding: 25px; border: 1px solid #222; }
         .header { text-align: center; margin-bottom: 15px; border-bottom: 1px solid #1a1a1a; padding-bottom: 10px; }
         .header h1 { font-size: 11px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin: 0; }
-        .clock { font-family: 'Courier New', monospace; font-size: 22px; font-weight: bold; margin: 5px 0; }
         
-        .market-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .market-card { background: #000; padding: 10px; border-radius: 15px; border: 1px solid #222; text-align: center; }
-        .market-card label { font-size: 8px; color: #666; display: block; }
-        .market-card span { font-size: 14px; font-weight: bold; color: var(--blue); }
+        .ia-box { background: rgba(0, 209, 255, 0.05); border: 1px solid var(--blue); border-radius: 20px; padding: 15px; margin-bottom: 15px; }
+        .ia-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .ia-title { font-size: 10px; color: var(--blue); font-weight: bold; }
+        .ia-text { font-size: 11px; line-height: 1.5; color: #bbb; min-height: 40px; }
+
+        /* CAMPO DE INTERAÇÃO */
+        .chat-input-group { display: flex; gap: 5px; margin-top: 10px; }
+        .chat-input { flex: 1; background: #000; border: 1px solid #333; border-radius: 10px; color: #fff; padding: 8px; font-size: 12px; outline: none; }
+        .btn-send { background: var(--blue); border: none; border-radius: 10px; padding: 0 15px; cursor: pointer; color: #000; font-weight: bold; }
 
         .input-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
         .input-box { background: #000; padding: 10px; border-radius: 15px; border: 1px solid #333; }
-        .input-box label { font-size: 8px; color: var(--gold); display: block; margin-bottom: 4px; }
-        .input-box input, .input-box select { width: 100%; background: transparent; border: none; color: var(--accent); font-size: 16px; font-weight: bold; outline: none; }
+        .input-box label { font-size: 8px; color: var(--gold); display: block; }
+        .input-box input { width: 100%; background: transparent; border: none; color: var(--accent); font-size: 16px; font-weight: bold; outline: none; }
         
-        .section-box { background: #000; border: 1px solid #222; border-radius: 20px; padding: 15px; margin-bottom: 15px; }
-        .section-title { font-size: 9px; color: var(--blue); font-weight: bold; margin-bottom: 10px; text-transform: uppercase; }
-        .row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #111; font-size: 11px; }
-        .row:last-child { border: none; }
-
-        /* BOX DA IA EXPLICADORA */
-        .ia-box { background: rgba(212, 175, 55, 0.05); border: 1px solid var(--gold); border-radius: 20px; padding: 15px; margin-bottom: 15px; position: relative; }
-        .ia-title { font-size: 10px; color: var(--gold); font-weight: bold; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
-        .ia-text { font-size: 11px; line-height: 1.5; color: #bbb; font-style: italic; }
-
-        .final-box { text-align: center; background: linear-gradient(180deg, #001a05 0%, #000 100%); border: 1px solid var(--accent); border-radius: 20px; padding: 15px; }
-        .resgate-val { font-size: 24px; font-weight: 900; color: var(--accent); margin-top: 5px; }
-        
-        .btn-update { width: 100%; padding: 18px; background: var(--gold); color: #000; border: none; border-radius: 18px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 15px; }
+        .final-box { text-align: center; background: #000; border: 1px solid var(--accent); border-radius: 20px; padding: 15px; }
+        .resgate-val { font-size: 24px; font-weight: 900; color: var(--accent); }
         .ipi { font-size: 8px; color: #222; text-align: center; margin-top: 15px; font-weight: bold; }
     </style>
 </head>
 <body>
 <div class="dashboard">
-    <div class="header">
-        <h1>SISTEMA PATRIMONIAL IA</h1>
-        <div class="clock" id="relogio">00:00:00</div>
-    </div>
+    <div class="header"><h1>SISTEMA INTERATIVO MASTER</h1></div>
 
-    <div class="market-grid">
-        <div class="market-card"><label>SELIC ATUAL</label><span>10.75%</span></div>
-        <div class="market-card"><label>IPCA (12M)</label><span>4.52%</span></div>
+    <div class="ia-box">
+        <div class="ia-header">
+            <div class="ia-title">💬 CONVERSAR COM A IA</div>
+            <button onclick="falarResumo()" style="background:none; border:none; cursor:pointer;">📢</button>
+        </div>
+        <div id="ia-chat" class="ia-text">Olá Comandante! Como posso ajudar com seu balanço hoje?</div>
+        <div class="chat-input-group">
+            <input type="text" id="pergunta" class="chat-input" placeholder="Ex: Vale a pena? / Qual o risco?">
+            <button class="btn-send" onclick="perguntarIA()">ENVIAR</button>
+        </div>
     </div>
 
     <div class="input-group">
         <div class="input-box"><label>Aporte (R$)</label><input type="number" id="cap" value="2000" oninput="run()"></div>
-        <div class="input-box"><label>Prazo</label>
-            <select id="meses" onchange="run()">
-                <option value="6">6 Meses</option>
-                <option value="12" selected>12 Meses</option>
-                <option value="24">24 Meses</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="ia-box">
-        <div class="ia-title">🧠 IA-EXPLICADORA: ANALISANDO BALANÇO</div>
-        <div id="ia-resumo" class="ia-text">Processando dados...</div>
-    </div>
-
-    <div class="section-box">
-        <div class="section-title">Resumo do Balanço</div>
-        <div class="row"><span>Rendimento Bruto</span><span id="b-bruto" style="color:var(--blue)">+ R$ 0,00</span></div>
-        <div class="row"><span>Imposto (Leão)</span><span id="b-ir" style="color:var(--danger)">- R$ 0,00</span></div>
-        <div class="row"><span>Perda Inflação</span><span id="b-ipca" style="color:#666">- R$ 0,00</span></div>
+        <div class="input-box"><label>Tempo (Meses)</label><input type="number" id="meses" value="12" oninput="run()"></div>
     </div>
 
     <div class="final-box">
-        <div style="font-size:9px; color:var(--accent); font-weight:bold;">VALOR LÍQUIDO FINAL (PATRIMÔNIO + LUCRO)</div>
+        <div style="font-size:9px; color:var(--accent); font-weight:bold;">BALANÇO LÍQUIDO</div>
         <div id="total" class="resgate-val">R$ 0,00</div>
     </div>
 
-    <button class="btn-update" onclick="run()">RECALCULAR TUDO</button>
-    <div class="ipi">IPI: 2026-CS-IA-V11</div>
+    <div class="ipi">IPI: 2026-CS-INTERATIVO-V13</div>
 </div>
 
 <script>
-    function clock() { document.getElementById('relogio').innerText = new Date().toLocaleTimeString('pt-BR'); }
-    setInterval(clock, 1000); clock();
+    let dadosAtuais = {};
+
+    function falarResumo(txtOverride) {
+        const texto = txtOverride || document.getElementById('ia-chat').innerText;
+        const msg = new SpeechSynthesisUtterance(texto);
+        msg.lang = 'pt-BR';
+        window.speechSynthesis.speak(msg);
+    }
+
+    function perguntarIA() {
+        const pergunta = document.getElementById('pergunta').value.toLowerCase();
+        let resposta = "";
+
+        if(pergunta.includes("vale a pena")) {
+            resposta = `Comandante, com um lucro líquido de R$ ${dadosAtuais.lucro.toFixed(2)}, você está batendo a inflação. Vale a pena sim!`;
+        } else if(pergunta.includes("risco")) {
+            resposta = "O risco é baixo, pois 70% da sua carteira está em ativos com garantia do FGC.";
+        } else if(pergunta.includes("imposto")) {
+            resposta = `O leão vai levar R$ ${dadosAtuais.ir.toFixed(2)}. Se você esperar mais meses, esse valor diminui.`;
+        } else {
+            resposta = "Pergunta recebida. Estou analisando seu balanço. O rendimento bruto total projetado é de R$ " + dadosAtuais.bruto.toFixed(2);
+        }
+
+        document.getElementById('ia-chat').innerText = resposta;
+        falarResumo(resposta);
+        document.getElementById('pergunta').value = "";
+    }
 
     function run() {
         const capital = parseFloat(document.getElementById('cap').value) || 0;
-        const meses = parseInt(document.getElementById('meses').value);
-        const ipcaAnual = 4.52;
-        let irTaxa = meses > 12 ? 0.175 : (meses > 6 ? 0.20 : 0.225);
+        const meses = parseInt(document.getElementById('meses').value) || 0;
+        let irTaxa = meses > 12 ? 0.175 : 0.225;
 
-        const ativos = [
-            { nome: "LCI/LCA Pós", pct: 0.40, rent: 9.85, isento: true },
-            { nome: "Pré-Fixado Premium", pct: 0.30, rent: 14.75, isento: false },
-            { nome: "CDB 115% CDI", pct: 0.30, rent: 12.24, isento: false }
-        ];
+        let bruto = capital * (Math.pow(1 + 0.123/12, meses)) - capital;
+        let ir = bruto * irTaxa;
+        let liquido = capital + bruto - ir;
 
-        let brutoT = 0; let irT = 0;
-
-        ativos.forEach(a => {
-            let valorAlocado = capital * a.pct;
-            let taxaMensal = Math.pow(1 + (a.rent/100), 1/12) - 1;
-            let brutoAtivo = valorAlocado * Math.pow(1 + taxaMensal, meses) - valorAlocado;
-            let imposto = a.isento ? 0 : brutoAtivo * irTaxa;
-            brutoT += brutoAtivo;
-            irT += imposto;
-        });
-
-        let perdaIPCA = capital * (Math.pow(1 + (ipcaAnual/100), meses/12) - 1);
-        let liquidoFinal = capital + brutoT - irT;
-        let lucroLimpo = brutoT - irT;
-
-        // ELEMENTO IA EXPLICADORA
-        document.getElementById('ia-resumo').innerText = `Comandante, seu capital inicial de R$ ${capital.toFixed(2)} rendeu um total bruto de R$ ${brutoT.toFixed(2)}. Após o desconto de R$ ${irT.toFixed(2)} de imposto, seu lucro limpo é de R$ ${lucroLimpo.toFixed(2)}. O valor final no seu bolso combina seu dinheiro original mais esse lucro, totalizando R$ ${liquidoFinal.toFixed(2)}.`;
-
-        document.getElementById('b-bruto').innerText = `+ R$ ${brutoT.toFixed(2)}`;
-        document.getElementById('b-ir').innerText = `- R$ ${irT.toFixed(2)}`;
-        document.getElementById('b-ipca').innerText = `- R$ ${perdaIPCA.toFixed(2)}`;
-        document.getElementById('total').innerText = `R$ ${liquidoFinal.toFixed(2)}`;
+        dadosAtuais = { bruto, ir, lucro: bruto - ir, total: liquido };
+        document.getElementById('total').innerText = `R$ ${liquido.toFixed(2)}`;
     }
     run();
 </script>
