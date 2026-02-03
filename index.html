@@ -3,105 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SISTEMA INTERATIVO C.S.</title>
+    <title>SISTEMA OMNI C.S. - V14</title>
     <style>
         :root { --bg: #030303; --card: #0d0d0d; --accent: #00FF41; --gold: #D4AF37; --blue: #00D1FF; --text: #FFFFFF; --danger: #FF3333; }
-        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; padding: 15px; margin: 0; }
-        .dashboard { width: 100%; max-width: 450px; background: var(--card); border-radius: 40px; padding: 25px; border: 1px solid #222; }
+        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; padding: 10px; margin: 0; }
+        .dashboard { width: 100%; max-width: 450px; background: var(--card); border-radius: 40px; padding: 20px; border: 1px solid #222; margin-bottom: 50px; }
+        
         .header { text-align: center; margin-bottom: 15px; border-bottom: 1px solid #1a1a1a; padding-bottom: 10px; }
         .header h1 { font-size: 11px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin: 0; }
-        
+        .clock { font-family: 'Courier New', monospace; font-size: 20px; font-weight: bold; margin: 5px 0; }
+
+        /* MERCADO */
+        .market-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .market-card { background: #000; padding: 8px; border-radius: 12px; border: 1px solid #222; text-align: center; }
+        .market-card label { font-size: 7px; color: #666; display: block; }
+        .market-card span { font-size: 13px; font-weight: bold; color: var(--blue); }
+
+        /* CHAT IA */
         .ia-box { background: rgba(0, 209, 255, 0.05); border: 1px solid var(--blue); border-radius: 20px; padding: 15px; margin-bottom: 15px; }
         .ia-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .ia-title { font-size: 10px; color: var(--blue); font-weight: bold; }
-        .ia-text { font-size: 11px; line-height: 1.5; color: #bbb; min-height: 40px; }
-
-        /* CAMPO DE INTERAÇÃO */
-        .chat-input-group { display: flex; gap: 5px; margin-top: 10px; }
-        .chat-input { flex: 1; background: #000; border: 1px solid #333; border-radius: 10px; color: #fff; padding: 8px; font-size: 12px; outline: none; }
-        .btn-send { background: var(--blue); border: none; border-radius: 10px; padding: 0 15px; cursor: pointer; color: #000; font-weight: bold; }
-
-        .input-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .input-box { background: #000; padding: 10px; border-radius: 15px; border: 1px solid #333; }
-        .input-box label { font-size: 8px; color: var(--gold); display: block; }
-        .input-box input { width: 100%; background: transparent; border: none; color: var(--accent); font-size: 16px; font-weight: bold; outline: none; }
-        
-        .final-box { text-align: center; background: #000; border: 1px solid var(--accent); border-radius: 20px; padding: 15px; }
-        .resgate-val { font-size: 24px; font-weight: 900; color: var(--accent); }
-        .ipi { font-size: 8px; color: #222; text-align: center; margin-top: 15px; font-weight: bold; }
-    </style>
-</head>
-<body>
-<div class="dashboard">
-    <div class="header"><h1>SISTEMA INTERATIVO MASTER</h1></div>
-
-    <div class="ia-box">
-        <div class="ia-header">
-            <div class="ia-title">💬 CONVERSAR COM A IA</div>
-            <button onclick="falarResumo()" style="background:none; border:none; cursor:pointer;">📢</button>
-        </div>
-        <div id="ia-chat" class="ia-text">Olá Comandante! Como posso ajudar com seu balanço hoje?</div>
-        <div class="chat-input-group">
-            <input type="text" id="pergunta" class="chat-input" placeholder="Ex: Vale a pena? / Qual o risco?">
-            <button class="btn-send" onclick="perguntarIA()">ENVIAR</button>
-        </div>
-    </div>
-
-    <div class="input-group">
-        <div class="input-box"><label>Aporte (R$)</label><input type="number" id="cap" value="2000" oninput="run()"></div>
-        <div class="input-box"><label>Tempo (Meses)</label><input type="number" id="meses" value="12" oninput="run()"></div>
-    </div>
-
-    <div class="final-box">
-        <div style="font-size:9px; color:var(--accent); font-weight:bold;">BALANÇO LÍQUIDO</div>
-        <div id="total" class="resgate-val">R$ 0,00</div>
-    </div>
-
-    <div class="ipi">IPI: 2026-CS-INTERATIVO-V13</div>
-</div>
-
-<script>
-    let dadosAtuais = {};
-
-    function falarResumo(txtOverride) {
-        const texto = txtOverride || document.getElementById('ia-chat').innerText;
-        const msg = new SpeechSynthesisUtterance(texto);
-        msg.lang = 'pt-BR';
-        window.speechSynthesis.speak(msg);
-    }
-
-    function perguntarIA() {
-        const pergunta = document.getElementById('pergunta').value.toLowerCase();
-        let resposta = "";
-
-        if(pergunta.includes("vale a pena")) {
-            resposta = `Comandante, com um lucro líquido de R$ ${dadosAtuais.lucro.toFixed(2)}, você está batendo a inflação. Vale a pena sim!`;
-        } else if(pergunta.includes("risco")) {
-            resposta = "O risco é baixo, pois 70% da sua carteira está em ativos com garantia do FGC.";
-        } else if(pergunta.includes("imposto")) {
-            resposta = `O leão vai levar R$ ${dadosAtuais.ir.toFixed(2)}. Se você esperar mais meses, esse valor diminui.`;
-        } else {
-            resposta = "Pergunta recebida. Estou analisando seu balanço. O rendimento bruto total projetado é de R$ " + dadosAtuais.bruto.toFixed(2);
-        }
-
-        document.getElementById('ia-chat').innerText = resposta;
-        falarResumo(resposta);
-        document.getElementById('pergunta').value = "";
-    }
-
-    function run() {
-        const capital = parseFloat(document.getElementById('cap').value) || 0;
-        const meses = parseInt(document.getElementById('meses').value) || 0;
-        let irTaxa = meses > 12 ? 0.175 : 0.225;
-
-        let bruto = capital * (Math.pow(1 + 0.123/12, meses)) - capital;
-        let ir = bruto * irTaxa;
-        let liquido = capital + bruto - ir;
-
-        dadosAtuais = { bruto, ir, lucro: bruto - ir, total: liquido };
-        document.getElementById('total').innerText = `R$ ${liquido.toFixed(2)}`;
-    }
-    run();
-</script>
-</body>
-</html>
+        .ia-title { font-size: 9px; color
+                   
