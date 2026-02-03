@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CALCULA MERCADO FINANCEIRO - V5.0</title>
+    <title>CALCULA MERCADO - PORTFÓLIO V6</title>
     <style>
         :root { --bg: #030303; --card: #0d0d0d; --accent: #00FF41; --gold: #D4AF37; --blue: #00D1FF; --text: #FFFFFF; }
         body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; padding: 15px; margin: 0; }
@@ -14,12 +14,16 @@
         .input-section { background: #000; padding: 15px; border-radius: 20px; margin-bottom: 20px; border: 1px solid #222; }
         .input-section label { font-size: 9px; color: var(--gold); text-transform: uppercase; display: block; margin-bottom: 8px; }
         .input-section input { width: 100%; background: transparent; border: none; color: var(--accent); font-size: 26px; font-weight: bold; outline: none; }
-        .indicators-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .ind-card { background: #080808; padding: 12px; border-radius: 15px; border: 1px solid #1a1a1a; }
-        .ind-card label { font-size: 8px; color: #666; text-transform: uppercase; display: block; }
-        .ind-card .val { font-size: 16px; font-weight: bold; color: var(--blue); }
-        .decision-box { background: #000; border: 1px solid var(--accent); border-radius: 25px; padding: 20px; margin-bottom: 20px; }
-        .profit-highlight { color: var(--accent); font-weight: bold; font-size: 18px; display: block; margin-top: 5px; }
+        
+        /* ESTILO DO PORTFÓLIO */
+        .portfolio-box { background: #000; border: 1px solid var(--blue); border-radius: 25px; padding: 20px; margin-bottom: 20px; }
+        .portfolio-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #111; }
+        .portfolio-item:last-child { border: none; }
+        .asset-name { font-size: 12px; color: #ccc; }
+        .asset-val { font-size: 12px; font-weight: bold; color: var(--blue); }
+        .asset-pct { font-size: 10px; background: #111; padding: 2px 6px; border-radius: 5px; color: var(--gold); }
+
+        .profit-banner { text-align: center; background: rgba(0,255,65,0.05); border: 1px solid var(--accent); border-radius: 15px; padding: 15px; margin-top: 10px; }
         .btn-refresh { width: 100%; padding: 20px; background: var(--gold); color: #000; border: none; border-radius: 20px; font-weight: 900; font-size: 15px; cursor: pointer; text-transform: uppercase; box-shadow: 0 6px 0 #8c732a; }
         .ipi { font-size: 8px; color: #222; text-align: center; margin-top: 25px; font-weight: bold; }
     </style>
@@ -27,39 +31,74 @@
 <body>
 <div class="dashboard">
     <div class="header">
-        <h1>CALCULA MERCADO FINANCEIRO</h1>
+        <h1>PORTFÓLIO INTELIGENTE C.S.</h1>
         <div class="clock" id="relogio">00:00:00</div>
-        <div style="font-size: 9px; color: #666;">TERÇA, 03 DE FEVEREIRO</div>
+        <div style="font-size: 9px; color: #666;">TERÇA, 03 DE FEVEREIRO | 2026</div>
     </div>
+
     <div class="input-section">
-        <label>Capital para Simulação (R$)</label>
-        <input type="number" id="capital" value="1000" oninput="processar()">
+        <label>Capital Total Estratégico (R$)</label>
+        <input type="number" id="capital" value="2000" oninput="gerarPortfolio()">
     </div>
-    <div class="indicators-grid">
-        <div class="ind-card"><label>SELIC</label><span class="val">10.75%</span></div>
-        <div class="ind-card"><label>IPCA</label><span class="val">4.52%</span></div>
+
+    <div class="portfolio-box">
+        <div style="font-size: 9px; color: var(--blue); font-weight: bold; margin-bottom: 10px; text-transform: uppercase;">Divisão de Ativos Recomendada</div>
+        <div id="lista-ativos"></div>
     </div>
-    <div class="decision-box">
-        <div style="font-size: 9px; color: var(--accent); font-weight: bold;">MELHOR OPÇÃO DETECTADA</div>
-        <div id="sugestao" style="font-size: 13px; margin: 10px 0;">Calculando...</div>
-        <div id="lucro" class="profit-highlight">R$ 0,00</div>
+
+    <div class="profit-banner">
+        <div style="font-size: 9px; color: var(--accent); font-weight: bold;">LUCRO REAL ESTIMADO DA CARTEIRA (ANUAL)</div>
+        <div id="lucro-total" style="font-size: 20px; font-weight: bold; color: var(--accent); margin-top: 5px;">R$ 0,00</div>
     </div>
-    <button class="btn-refresh" onclick="processar()">ATUALIZAR MERCADO</button>
-    <div class="ipi">IPI: 2026-CS-MERCADO-FINANCEIRO</div>
+
+    <button class="btn-refresh" style="margin-top:20px;" onclick="gerarPortfolio()">RECALCULAR MIX DE ATIVOS</button>
+    <div class="ipi">IPI: 2026-CS-PORTFOLIO-QUANTUM-V6</div>
 </div>
+
 <script>
     function clock() { document.getElementById('relogio').innerText = new Date().toLocaleTimeString('pt-BR'); }
     setInterval(clock, 1000); clock();
-    function processar() {
+
+    function gerarPortfolio() {
         const cap = parseFloat(document.getElementById('capital').value) || 0;
-        const seed = Math.random();
-        let opt = seed > 0.5 ? "LCI/LCA (Isenta)" : "CDB 115% CDI";
-        let rent = seed > 0.5 ? 9.89 : 12.24;
-        let ganhoReal = (cap * (rent/100)) - (cap * 0.0452);
-        document.getElementById('sugestao').innerText = `Invista em: ${opt}`;
-        document.getElementById('lucro').innerText = `Lucro Real: R$ ${ganhoReal.toFixed(2)}`;
+        const lista = document.getElementById('lista-ativos');
+        const lucroDisplay = document.getElementById('lucro-total');
+
+        // Estratégia de Portfólio (Mix de Ativos)
+        const ativos = [
+            { nome: "LCI/LCA (Liquidez 90d)", pct: 40, rent: 9.85, isento: true },
+            { nome: "Tesouro IPCA+ (Proteção)", pct: 30, rent: 10.72, isento: false },
+            { nome: "CDB 115% CDI (Oportunidade)", pct: 30, rent: 12.24, isento: false }
+        ];
+
+        let html = "";
+        let lucroGeral = 0;
+        const ipca = 4.52;
+
+        ativos.forEach(a => {
+            let valorAlocado = cap * (a.pct / 100);
+            let rendBruto = valorAlocado * (a.rent / 100);
+            let imposto = a.isento ? 0 : rendBruto * 0.175;
+            let lucroLiquido = rendBruto - imposto;
+            let perdaInflacao = valorAlocado * (ipca / 100);
+            
+            lucroGeral += (lucroLiquido - perdaInflacao);
+
+            html += `
+                <div class="portfolio-item">
+                    <div>
+                        <span class="asset-pct">${a.pct}%</span>
+                        <span class="asset-name">${a.nome}</span>
+                    </div>
+                    <span class="asset-val">R$ ${valorAlocado.toFixed(2)}</span>
+                </div>
+            `;
+        });
+
+        lista.innerHTML = html;
+        lucroDisplay.innerText = `R$ ${lucroGeral.toFixed(2)}`;
     }
-    processar();
+    gerarPortfolio();
 </script>
 </body>
 </html>
