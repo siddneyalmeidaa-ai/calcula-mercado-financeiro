@@ -3,128 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BALANÇO PATRIMONIAL C.S.</title>
+    <title>SISTEMA PATRIMONIAL MASTER - C.S.</title>
     <style>
         :root { --bg: #030303; --card: #0d0d0d; --accent: #00FF41; --gold: #D4AF37; --blue: #00D1FF; --text: #FFFFFF; --danger: #FF3333; }
         body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; padding: 15px; margin: 0; }
         .dashboard { width: 100%; max-width: 450px; background: var(--card); border-radius: 40px; padding: 25px; border: 1px solid #222; }
-        .header { text-align: center; margin-bottom: 20px; border-bottom: 1px solid #1a1a1a; padding-bottom: 15px; }
+        .header { text-align: center; margin-bottom: 15px; border-bottom: 1px solid #1a1a1a; padding-bottom: 10px; }
         .header h1 { font-size: 11px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin: 0; }
-        .clock { font-family: 'Courier New', monospace; font-size: 24px; font-weight: bold; margin: 8px 0; color: #fff; }
+        .clock { font-family: 'Courier New', monospace; font-size: 22px; font-weight: bold; margin: 5px 0; }
         
-        .input-group { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        .input-box { background: #000; padding: 12px; border-radius: 15px; border: 1px solid #333; }
-        .input-box label { font-size: 8px; color: var(--gold); text-transform: uppercase; display: block; margin-bottom: 5px; }
-        .input-box input, .input-box select { width: 100%; background: transparent; border: none; color: var(--accent); font-size: 18px; font-weight: bold; outline: none; }
-        
-        .balanco-container { background: #000; border: 1px solid #222; border-radius: 20px; padding: 15px; margin-bottom: 20px; }
-        .balanco-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #111; font-size: 12px; }
-        .balanco-row:last-child { border: none; }
-        .label-tecnica { color: #666; font-size: 10px; text-transform: uppercase; }
-        .val-tecnico { font-weight: bold; font-family: 'Consolas', monospace; }
+        /* INDICADORES */
+        .market-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .market-card { background: #000; padding: 10px; border-radius: 15px; border: 1px solid #222; text-align: center; }
+        .market-card label { font-size: 8px; color: #666; display: block; }
+        .market-card span { font-size: 14px; font-weight: bold; color: var(--blue); }
 
-        .patrimonio-box { text-align: center; background: linear-gradient(180deg, #001a05 0%, #000 100%); border: 1px solid var(--accent); border-radius: 20px; padding: 20px; box-shadow: 0 0 20px rgba(0,255,65,0.1); }
-        .resgate-final { font-size: 28px; font-weight: 900; color: var(--accent); margin-top: 5px; }
+        .input-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .input-box { background: #000; padding: 10px; border-radius: 15px; border: 1px solid #333; }
+        .input-box label { font-size: 8px; color: var(--gold); display: block; margin-bottom: 4px; }
+        .input-box input, .input-box select { width: 100%; background: transparent; border: none; color: var(--accent); font-size: 16px; font-weight: bold; outline: none; }
         
-        .btn-update { width: 100%; padding: 20px; background: var(--gold); color: #000; border: none; border-radius: 20px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 15px; }
-        .ipi { font-size: 8px; color: #222; text-align: center; margin-top: 20px; font-weight: bold; }
+        /* PORTFÓLIO E BALANÇO */
+        .section-box { background: #000; border: 1px solid #222; border-radius: 20px; padding: 15px; margin-bottom: 15px; }
+        .section-title { font-size: 9px; color: var(--blue); font-weight: bold; margin-bottom: 10px; text-transform: uppercase; }
+        .row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #111; font-size: 11px; }
+        .row:last-child { border: none; }
+
+        .final-box { text-align: center; background: linear-gradient(180deg, #001a05 0%, #000 100%); border: 1px solid var(--accent); border-radius: 20px; padding: 15px; }
+        .resgate-val { font-size: 24px; font-weight: 900; color: var(--accent); margin-top: 5px; }
+        
+        .btn-update { width: 100%; padding: 18px; background: var(--gold); color: #000; border: none; border-radius: 18px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 15px; }
+        .ipi { font-size: 8px; color: #222; text-align: center; margin-top: 15px; font-weight: bold; }
     </style>
 </head>
 <body>
 <div class="dashboard">
     <div class="header">
-        <h1>BALANÇO PATRIMONIAL ESTRATÉGICO</h1>
-        <div class="clock" id="relogio">02:29:00</div>
+        <h1>SISTEMA PATRIMONIAL MASTER</h1>
+        <div class="clock" id="relogio">00:00:00</div>
+    </div>
+
+    <div class="market-grid">
+        <div class="market-card"><label>SELIC ATUAL</label><span>10.75%</span></div>
+        <div class="market-card"><label>IPCA (12M)</label><span>4.52%</span></div>
     </div>
 
     <div class="input-group">
-        <div class="input-box">
-            <label>Aporte Inicial</label>
-            <input type="number" id="capital" value="1000" oninput="executarBalanco()">
-        </div>
-        <div class="input-box">
-            <label>Tempo (Meses)</label>
-            <select id="prazo" onchange="executarBalanco()">
-                <option value="6">06 Meses</option>
+        <div class="input-box"><label>Aporte (R$)</label><input type="number" id="cap" value="1000" oninput="run()"></div>
+        <div class="input-box"><label>Prazo</label>
+            <select id="meses" onchange="run()">
+                <option value="6">6 Meses</option>
                 <option value="12" selected>12 Meses</option>
                 <option value="24">24 Meses</option>
-                <option value="60">60 Meses</option>
             </select>
         </div>
     </div>
 
-    <div class="balanco-container">
-        <div class="balanco-row">
-            <span class="label-tecnica">Rendimento Bruto (Mix)</span>
-            <span id="bruto-val" class="val-tecnico" style="color:var(--blue)">R$ 0,00</span>
-        </div>
-        <div class="balanco-row">
-            <span class="label-tecnica">Provisão de IR (Leão)</span>
-            <span id="ir-val" class="val-tecnico" style="color:var(--danger)">- R$ 0,00</span>
-        </div>
-        <div class="balanco-row">
-            <span class="label-tecnica">Perda Inflacionária</span>
-            <span id="ipca-val" class="val-tecnico" style="color:#666">- R$ 0,00</span>
-        </div>
+    <div class="section-box">
+        <div class="section-title">Detalhamento do Portfólio</div>
+        <div id="portfolio-list"></div>
     </div>
 
-    <div class="patrimonio-box">
-        <div class="label-tecnica" style="color:var(--accent)">Valor de Resgate Líquido</div>
-        <div id="total-final" class="resgate-final">R$ 0,00</div>
-        <div id="aliquota-info" style="font-size:9px; color:#555; margin-top:5px;">IR: 17.5% | TAXA MÉDIA: 12.3%</div>
+    <div class="section-box">
+        <div class="section-title">Resumo do Balanço</div>
+        <div class="row"><span>Rendimento Bruto</span><span id="b-bruto" style="color:var(--blue)">+ R$ 0,00</span></div>
+        <div class="row"><span>Imposto (Leão)</span><span id="b-ir" style="color:var(--danger)">- R$ 0,00</span></div>
+        <div class="row"><span>Perda Inflação</span><span id="b-ipca" style="color:#666">- R$ 0,00</span></div>
     </div>
 
-    <button class="btn-update" onclick="executarBalanco()">GERAR NOVO BALANÇO</button>
-    <div class="ipi">IPI: 2026-CS-BALANCO-V9</div>
+    <div class="final-box">
+        <div style="font-size:9px; color:var(--accent); font-weight:bold;">VALOR LÍQUIDO NO BOLSO</div>
+        <div id="total" class="resgate-val">R$ 0,00</div>
+        <div id="info" style="font-size:9px; color:#555; margin-top:5px;"></div>
+    </div>
+
+    <button class="btn-update" onclick="run()">ATUALIZAR SISTEMA</button>
+    <div class="ipi">IPI: 2026-CS-MASTER-V10</div>
 </div>
 
 <script>
     function clock() { document.getElementById('relogio').innerText = new Date().toLocaleTimeString('pt-BR'); }
     setInterval(clock, 1000); clock();
 
-    function executarBalanco() {
-        const capital = parseFloat(document.getElementById('capital').value) || 0;
-        const meses = parseInt(document.getElementById('prazo').value);
+    function run() {
+        const capital = parseFloat(document.getElementById('cap').value) || 0;
+        const meses = parseInt(document.getElementById('meses').value);
         const ipcaAnual = 4.52;
-        
-        // Tabela Regressiva IR
-        let taxaIR = 0.225;
-        if(meses > 6) taxaIR = 0.20;
-        if(meses > 12) taxaIR = 0.175;
-        if(meses > 24) taxaIR = 0.15;
+        let irTaxa = meses > 12 ? 0.175 : (meses > 6 ? 0.20 : 0.225);
 
-        // Estratégia Diversificada
         const ativos = [
-            { pct: 0.40, rent: 9.85, isento: true }, // LCI
-            { pct: 0.30, rent: 14.75, isento: false }, // Pré-fixado Premium
-            { pct: 0.30, rent: 12.24, isento: false } // CDB
+            { nome: "LCI/LCA Pós", pct: 0.40, rent: 9.85, isento: true },
+            { nome: "Pré-Fixado Premium", pct: 0.30, rent: 14.75, isento: false },
+            { nome: "CDB 115% CDI", pct: 0.30, rent: 12.24, isento: false }
         ];
 
-        let rendBrutoTotal = 0;
-        let impostoTotal = 0;
+        let html = "";
+        let brutoT = 0; let irT = 0;
 
         ativos.forEach(a => {
-            let valorParte = capital * a.pct;
+            let valorAlocado = capital * a.pct;
             let taxaMensal = Math.pow(1 + (a.rent/100), 1/12) - 1;
-            let montanteAtivo = valorParte * Math.pow(1 + taxaMensal, meses);
-            let lucroAtivo = montanteAtivo - valorParte;
+            let brutoAtivo = valorAlocado * Math.pow(1 + taxaMensal, meses) - valorAlocado;
+            let imposto = a.isento ? 0 : brutoAtivo * irTaxa;
             
-            let irAtivo = a.isento ? 0 : lucroAtivo * taxaIR;
-            
-            rendBrutoTotal += lucroAtivo;
-            impostoTotal += irAtivo;
+            brutoT += brutoAtivo;
+            irT += imposto;
+
+            html += `<div class="row">
+                <span>${a.nome} (${(a.pct*100)}%)</span>
+                <span style="color:var(--gold)">R$ ${(valorAlocado + brutoAtivo - imposto).toFixed(2)}</span>
+            </div>`;
         });
 
         let perdaIPCA = capital * (Math.pow(1 + (ipcaAnual/100), meses/12) - 1);
-        let valorFinal = capital + rendBrutoTotal - impostoTotal;
+        let liquidoFinal = capital + brutoT - irT;
 
-        document.getElementById('bruto-val').innerText = `+ R$ ${rendBrutoTotal.toFixed(2)}`;
-        document.getElementById('ir-val').innerText = `- R$ ${impostoTotal.toFixed(2)}`;
-        document.getElementById('ipca-val').innerText = `- R$ ${perdaIPCA.toFixed(2)}`;
-        document.getElementById('total-final').innerText = `R$ ${valorFinal.toFixed(2)}`;
-        document.getElementById('aliquota-info').innerText = `IR: ${(taxaIR*100).toFixed(1)}% | IPCA PERÍODO: R$ ${perdaIPCA.toFixed(2)}`;
+        document.getElementById('portfolio-list').innerHTML = html;
+        document.getElementById('b-bruto').innerText = `+ R$ ${brutoT.toFixed(2)}`;
+        document.getElementById('b-ir').innerText = `- R$ ${irT.toFixed(2)}`;
+        document.getElementById('b-ipca').innerText = `- R$ ${perdaIPCA.toFixed(2)}`;
+        document.getElementById('total').innerText = `R$ ${liquidoFinal.toFixed(2)}`;
+        document.getElementById('info').innerText = `IR aplicado: ${(irTaxa*100)}% | Ganho Real: R$ ${(brutoT - irT - perdaIPCA).toFixed(2)}`;
     }
-    executarBalanco();
+    run();
 </script>
 </body>
 </html>
