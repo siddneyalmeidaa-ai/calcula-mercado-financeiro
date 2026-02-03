@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SISTEMA OMNI C.S. - V15</title>
+    <title>SISTEMA OMNI C.S. - V16</title>
     <style>
         :root { --bg: #030303; --card: #0d0d0d; --accent: #00FF41; --gold: #D4AF37; --blue: #00D1FF; --text: #FFFFFF; --danger: #FF3333; }
         body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; padding: 10px; margin: 0; min-height: 100vh; }
@@ -18,11 +18,11 @@
         .market-card label { font-size: 7px; color: #666; display: block; }
         .market-card span { font-size: 13px; font-weight: bold; color: var(--blue); }
 
-        /* IA CHAT BOX */
+        /* IA CHAT BOX - DESIGN V11 ENHANCED */
         .ia-box { background: rgba(0, 209, 255, 0.05); border: 1px solid var(--blue); border-radius: 20px; padding: 15px; margin-bottom: 15px; }
         .ia-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
         .ia-title { font-size: 9px; color: var(--blue); font-weight: bold; text-transform: uppercase; }
-        .ia-text { font-size: 11px; line-height: 1.4; color: #bbb; min-height: 50px; margin-bottom: 10px; font-style: italic; }
+        .ia-text { font-size: 11px; line-height: 1.4; color: #bbb; min-height: 50px; margin-bottom: 10px; }
         .chat-input-group { display: flex; gap: 5px; }
         .chat-input { flex: 1; background: #000; border: 1px solid #333; border-radius: 10px; color: #fff; padding: 8px; font-size: 11px; outline: none; }
         .btn-send { background: var(--blue); border: none; border-radius: 10px; padding: 0 12px; cursor: pointer; color: #000; font-weight: bold; font-size: 10px; }
@@ -35,19 +35,18 @@
         .section-box { background: #000; border: 1px solid #222; border-radius: 20px; padding: 15px; margin-bottom: 15px; }
         .section-title { font-size: 9px; color: var(--gold); font-weight: bold; margin-bottom: 8px; text-transform: uppercase; border-left: 3px solid var(--gold); padding-left: 8px; }
         .row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid #111; font-size: 11px; }
-        .row:last-child { border: none; }
 
         .final-box { text-align: center; background: linear-gradient(180deg, #001a05 0%, #000 100%); border: 1px solid var(--accent); border-radius: 25px; padding: 15px; }
         .resgate-val { font-size: 26px; font-weight: 900; color: var(--accent); margin: 5px 0; }
         
         .btn-update { width: 100%; padding: 16px; background: var(--gold); color: #000; border: none; border-radius: 15px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 15px; }
-        .ipi { font-size: 7px; color: #333; text-align: center; margin-top: 15px; letter-spacing: 1px; font-weight: bold; }
+        .ipi { font-size: 7px; color: #333; text-align: center; margin-top: 15px; font-weight: bold; }
     </style>
 </head>
 <body>
 <div class="dashboard">
     <div class="header">
-        <h1>SISTEMA PATRIMONIAL OMNI V15</h1>
+        <h1>SISTEMA PATRIMONIAL C.S. V16</h1>
         <div class="clock" id="relogio">00:00:00</div>
     </div>
 
@@ -58,12 +57,12 @@
 
     <div class="ia-box">
         <div class="ia-header">
-            <div class="ia-title">🧠 IA-EXPLICADORA INTERATIVA</div>
-            <button onclick="falarIA()" style="background:none; border:none; cursor:pointer; font-size:18px;">📢</button>
+            <div class="ia-title">🧠 IA INTERATIVA</div>
+            <button onclick="falarIA()" style="background:none; border:none; cursor:pointer;">📢</button>
         </div>
-        <div id="ia-resumo" class="ia-text">Carregando análise...</div>
+        <div id="ia-resumo" class="ia-text">Aguardando comando...</div>
         <div class="chat-input-group">
-            <input type="text" id="pergunta" class="chat-input" placeholder="Pergunte sobre risco ou lucro...">
+            <input type="text" id="pergunta" class="chat-input" placeholder="Dúvidas sobre lucro ou risco?">
             <button class="btn-send" onclick="perguntarIA()">ENVIAR</button>
         </div>
     </div>
@@ -88,5 +87,89 @@
         <div class="section-title">Resumo do Balanço</div>
         <div class="row"><span>Rendimento Bruto</span><span id="b-bruto" style="color:var(--blue)">+ R$ 0,00</span></div>
         <div class="row"><span>Imposto (Leão)</span><span id="b-ir" style="color:var(--danger)">- R$ 0,00</span></div>
-        <div class="row"><span>Perda Inflação</span><span id="b-ipca" style="color:#555">- R$
+        <div class="row"><span>Perda Inflação</span><span id="b-ipca" style="color:#555">- R$ 0,00</span></div>
+    </div>
+
+    <div class="final-box">
+        <div style="font-size:9px; color:var(--accent); font-weight:bold;">VALOR LÍQUIDO NO BOLSO</div>
+        <div id="total" class="resgate-val">R$ 0,00</div>
+        <div id="ganho-real" style="font-size:9px; color:#666; margin-top:5px;"></div>
+    </div>
+
+    <button class="btn-update" onclick="run()">RECALCULAR TUDO</button>
+    <div class="ipi">IPI: 2026-CS-TOTAL-V16</div>
+</div>
+
+<script>
+    // Inicialização segura do cache
+    let cache = { bruto: 0, ir: 0, lucro: 0 };
+
+    function clock() { 
+        const d = new Date();
+        document.getElementById('relogio').innerText = d.toLocaleTimeString('pt-BR'); 
+    }
+    setInterval(clock, 1000); clock();
+
+    function falarIA(txt) {
+        window.speechSynthesis.cancel();
+        const texto = txt || document.getElementById('ia-resumo').innerText;
+        const msg = new SpeechSynthesisUtterance(texto);
+        msg.lang = 'pt-BR';
+        window.speechSynthesis.speak(msg);
+    }
+
+    function perguntarIA() {
+        const p = document.getElementById('pergunta').value.toLowerCase();
+        let r = "";
+        if(p.includes("vale")) r = `Comandante, seu lucro líquido projetado é R$ ${cache.lucro.toFixed(2)}. Supera a inflação, então vale a pena.`;
+        else if(p.includes("risco")) r = "O risco está diversificado. 40% em ativos isentos e 60% com proteção FGC.";
+        else r = `Análise pronta: Rendimento total de R$ ${cache.bruto.toFixed(2)} antes dos impostos.`;
+        
+        document.getElementById('ia-resumo').innerText = r;
+        falarIA(r);
+        document.getElementById('pergunta').value = "";
+    }
+
+    function run() {
+        try {
+            const capital = parseFloat(document.getElementById('cap').value) || 0;
+            const meses = parseInt(document.getElementById('meses').value) || 1;
+            let irTaxa = meses > 12 ? 0.175 : (meses > 6 ? 0.20 : 0.225);
+
+            const ativos = [
+                { nome: "LCI/LCA Pós (40%)", pct: 0.40, rent: 9.85, isento: true },
+                { nome: "Pré Premium (30%)", pct: 0.30, rent: 14.75, isento: false },
+                { nome: "CDB 115% CDI (30%)", pct: 0.30, rent: 12.24, isento: false }
+            ];
+
+            let html = ""; let brutoT = 0; let irT = 0;
+            ativos.forEach(a => {
+                let vAtivo = capital * a.pct;
+                let rb = vAtivo * (Math.pow(1 + (a.rent/100), meses/12)) - vAtivo;
+                let imp = a.isento ? 0 : rb * irTaxa;
+                brutoT += rb; irT += imp;
+                html += `<div class="row"><span>${a.nome}</span><span style="color:var(--gold)">R$ ${(vAtivo+rb-imp).toFixed(2)}</span></div>`;
+            });
+
+            let ipca = capital * (Math.pow(1.0452, meses/12) - 1);
+            let liquido = capital + brutoT - irT;
+            cache = { bruto: brutoT, ir: irT, lucro: brutoT - irT };
+
+            document.getElementById('portfolio-list').innerHTML = html;
+            document.getElementById('b-bruto').innerText = `+ R$ ${brutoT.toFixed(2)}`;
+            document.getElementById('b-ir').innerText = `- R$ ${irT.toFixed(2)}`;
+            document.getElementById('b-ipca').innerText = `- R$ ${ipca.toFixed(2)}`;
+            document.getElementById('total').innerText = `R$ ${liquido.toFixed(2)}`;
+            document.getElementById('ganho-real').innerText = `LUCRO REAL (DESCONTADA INFLAÇÃO): R$ ${(cache.lucro - ipca).toFixed(2)}`;
             
+            if(document.getElementById('ia-resumo').innerText === "Aguardando comando...") {
+                document.getElementById('ia-resumo').innerText = `Comandante, seu balanço para ${meses} meses indica um lucro líquido de R$ ${cache.lucro.toFixed(2)}.`;
+            }
+        } catch (e) { console.error("Erro no cálculo:", e); }
+    }
+    
+    // Executa a carga inicial
+    window.onload = run;
+</script>
+</body>
+</html>
