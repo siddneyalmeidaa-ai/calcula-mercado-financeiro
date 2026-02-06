@@ -3,26 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SISTEMA OMNI V94 | S.A. SUPREMACIA</title>
+    <title>S.A. SUPREMACIA | V97 INTEGRAL</title>
     <style>
         :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --red: #FF4444; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
-        body { background: #000; color: #fff; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+        body { background: #000; color: #fff; height: 100vh; overflow-y: auto; display: flex; flex-direction: column; }
+        
         .header { border-bottom: 2px solid var(--gold); padding: 12px; display: flex; justify-content: space-between; font-size: 11px; color: var(--gold); font-weight: 900; }
-        .container { flex: 1; overflow-y: auto; padding: 15px; }
-        .card { background: #0a0a0a; border: 1px solid #1a1a1a; padding: 12px; margin-bottom: 12px; border-left: 4px solid var(--gold); border-radius: 4px; }
+        .container { padding: 15px; flex: 1; }
+
+        .quantum-box { border: 1px solid var(--accent); background: rgba(0, 255, 65, 0.05); padding: 10px; border-radius: 4px; margin-bottom: 12px; text-align: center; }
+        .profile-tag { background: var(--gold); color: #000; padding: 2px 10px; border-radius: 10px; font-size: 10px; font-weight: 900; margin-top: 5px; display: inline-block; }
+
+        /* DASHBOARD PRINCIPAL */
+        .dash-main { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .card { background: #0a0a0a; border: 1px solid #1a1a1a; padding: 12px; border-left: 4px solid var(--gold); border-radius: 4px; }
         .label { font-size: 9px; color: var(--gold); font-weight: bold; text-transform: uppercase; margin-bottom: 5px; display: block; }
-        .dash { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
-        .box { background: #050505; border: 1px solid #111; padding: 10px; text-align: center; }
-        .val { font-size: 19px; font-weight: bold; margin-top: 5px; }
-        .chat-wrap { background: #050505; border: 1px solid var(--blue); border-radius: 8px; display: flex; flex-direction: column; }
+        input { background: #111; border: 1px solid #333; color: var(--accent); padding: 10px; width: 100%; font-size: 16px; border-radius: 4px; outline: none; }
+
+        /* VITRINE DE PRODUTOS (SEMPRE VISÍVEL) */
+        .product-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 15px 0; }
+        .p-card { background: #0a0a0a; border: 1px solid var(--blue); padding: 10px; border-radius: 4px; text-align: center; transition: 0.3s; }
+        .p-card.highlight { border-color: var(--accent); box-shadow: 0 0 10px var(--accent); }
+        .p-name { font-size: 8px; color: var(--blue); font-weight: bold; display: block; }
+        .p-tax { font-size: 12px; font-weight: bold; color: #fff; }
+
+        .res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .res-box { background: #050505; border: 1px solid #111; padding: 12px; text-align: center; border-radius: 4px; }
+        .val { font-size: 18px; font-weight: bold; margin-top: 5px; }
+
+        /* CHAT ANGELA V97 */
+        .chat-wrap { background: #050505; border: 2px solid var(--blue); border-radius: 8px; display: flex; flex-direction: column; }
         .chat-head { background: var(--blue); color: #000; padding: 10px; font-size: 10px; font-weight: 900; text-align: center; text-transform: uppercase; }
-        .chat-area { padding: 12px; height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; border-bottom: 1px solid #222; }
-        .m { padding: 12px; border-radius: 8px; font-size: 13px; max-width: 85%; }
+        .chat-area { padding: 15px; height: 180px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; border-bottom: 1px solid #222; }
+        .m { padding: 12px; border-radius: 8px; font-size: 14px; max-width: 85%; }
         .m.ai { background: rgba(0, 209, 255, 0.05); color: var(--blue); align-self: flex-start; border: 1px solid rgba(0, 209, 255, 0.2); }
         .m.me { background: #222; color: #fff; align-self: flex-end; }
-        .btn-group { display: flex; gap: 10px; padding: 12px; background: #000; }
-        .cmd-btn { flex: 1; padding: 15px; border: none; border-radius: 4px; cursor: pointer; font-weight: 900; text-transform: uppercase; font-size: 14px; }
+        
+        .btn-group { display: flex; gap: 10px; padding: 15px; background: #000; }
+        .cmd-btn { flex: 1; padding: 15px; border: none; border-radius: 4px; cursor: pointer; font-weight: 900; text-transform: uppercase; }
         .btn-yes { background: var(--accent); color: #000; }
         .btn-no { background: var(--red); color: #fff; }
     </style>
@@ -30,25 +49,36 @@
 <body>
 
 <div class="header">
-    <div>🔱 S.A. SUPREMACIA | V94 MEMÓRIA LINEAR</div>
-    <div>06/02/2026 | 16:05</div>
+    <div>🔱 S.A. SUPREMACIA | V97 ACUMULATIVA</div>
+    <div>06/02/2026 | 16:45</div>
 </div>
 
 <div class="container">
-    <div class="card" style="border-left-color: var(--accent);">
-        <span class="label" style="color: var(--accent);">STATUS: MEMÓRIA DE EXPANSÃO ATIVA</span>
-        <p style="font-size: 9px; color: #ccc;">Avançando para novos produtos. Loops eliminados.</p>
+    <div class="quantum-box">
+        <div class="label-q" style="color:var(--accent); font-size: 8px;">PERFIL DO INVESTIDOR</div>
+        <div id="p-label" class="profile-tag">ANALISANDO...</div>
     </div>
 
-    <div class="dash">
-        <div class="box" style="border-top:3px solid var(--accent);"><span class="label">Lucro Líquido</span><div class="val" style="color:var(--accent)">R$ 408,00</div></div>
-        <div class="box" style="border-top:3px solid var(--red);"><span class="label">Imposto (IR)</span><div class="val" style="color:var(--red);">R$ 61,20</div></div>
+    <div class="dash-main">
+        <div class="card"><span class="label">Inicial</span><input type="number" id="ini" value="1000"></div>
+        <div class="card"><span class="label">Mensal</span><input type="number" id="mes" value="200"></div>
+    </div>
+
+    <div class="product-grid" id="product-list">
+        <div class="p-card" id="card-1"><span class="p-name">CDB PÓS</span><span class="p-tax" id="tax-1">105% CDI</span></div>
+        <div class="p-card" id="card-2"><span class="p-name">TESOURO</span><span class="p-tax" id="tax-2">SELIC</span></div>
+        <div class="p-card" id="card-3"><span class="p-name">LCI / LCA</span><span class="p-tax" id="tax-3">92% CDI</span></div>
+    </div>
+
+    <div class="res-grid">
+        <div class="res-box" style="border-top:3px solid var(--accent);"><span class="label">Lucro Líquido</span><div class="val" style="color:var(--accent)">R$ 190.035</div></div>
+        <div class="res-box" style="border-top:3px solid var(--red);"><span class="label">Imposto (IR)</span><div class="val" style="color:var(--red);">R$ 33.536</div></div>
     </div>
 
     <div class="chat-wrap">
-        <div class="chat-head">Angela V94 | Inteligência Avançada</div>
+        <div class="chat-head">Angela V97 | Fluxo de Onboarding</div>
         <div id="chat-box" class="chat-area">
-            <div class="m ai">Comandante S.A., entendi que você deseja explorar novos produtos. Já processei sua isenção de IR e o aporte extraordinário. Quer que eu apresente agora opções de Tesouro Direto com IPCA+ para proteger seu capital contra a inflação?</div>
+            <div class="m ai">Comandante S.A., mantive toda a interface ativa. Para eu marcar seu perfil e ajustar as taxas, vamos começar: <br><br><b>1. Você possui reserva para 6 meses?</b></div>
         </div>
         <div class="btn-group">
             <button class="cmd-btn btn-yes" onclick="exec('Sim')">Sim</button>
@@ -58,51 +88,54 @@
 </div>
 
 <script>
-    let currentPath = "EXPOSICAO"; // Controla em qual "assunto" estamos
     let step = 0;
+    let score = 0;
+    const questions = [
+        "1. Você possui reserva para 6 meses?",
+        "2. Aceitaria oscilação de -5% para ganhar mais?",
+        "3. Seu foco é para mais de 3 anos?",
+        "4. Conhece Renda Variável (Ações)?",
+        "5. Fará aportes mensais?",
+        "6. Segurança é o mais importante?"
+    ];
 
     function exec(opt) {
         addMsg(opt, 'me');
-        
+        if(opt === 'Sim') score++;
+        step++;
+
         setTimeout(() => {
-            let resp = "";
+            if(step < questions.length) {
+                addMsg(questions[step], 'ai');
+            } else {
+                updateUI();
+            }
+        }, 400);
+    }
 
-            if(currentPath === "EXPOSICAO") {
-                if(opt === 'Sim') {
-                    resp = "Excelente. O Tesouro IPCA+ garante seu poder de compra. Além dele, identifiquei CDBs de Bancos Médios com 120% do CDI. Deseja comparar as taxas agora?";
-                    currentPath = "COMPARACAO";
-                } else {
-                    resp = "Entendido. Prefere focar em produtos de Liquidez Diária para manter o capital sempre à mão?";
-                    currentPath = "LIQUIDEZ";
-                }
-            } 
-            else if(currentPath === "COMPARACAO") {
-                if(opt === 'Sim') {
-                    resp = "Análise técnica: O CDB 120% rende 14% a mais que o seu atual, mantendo a proteção do FGC. Podemos aplicar a Regra de Ouro (-50%) nesta projeção?";
-                    currentPath = "REGRA_OURO";
-                } else {
-                    resp = "Foco mantido no Tesouro. Quer que eu gere o gráfico de crescimento para os próximos 5 anos?";
-                    currentPath = "GRAFICO";
-                }
-            }
-            else if(currentPath === "LIQUIDEZ" || currentPath === "REGRA_OURO" || currentPath === "GRAFICO") {
-                resp = "Sincronia Quântica atingida. Todos os dados foram salvos no seu Padrão Ouro. Deseja que eu monitore o mercado e te avise sobre novas oportunidades amanhã?";
-                currentPath = "FINALIZADO";
-            }
-            else {
-                resp = "Comandante, todos os módulos de hoje foram auditados. Sistema em modo Sentinela. Deseja revisar algum ponto específico ou encerrar por agora?";
-            }
-
-            addMsg(resp, 'ai');
-            const v = new SpeechSynthesisUtterance(resp); v.lang = 'pt-BR'; window.speechSynthesis.speak(v);
-        }, 600);
+    function updateUI() {
+        let label = document.getElementById('p-label');
+        if(score <= 2) {
+            label.innerText = "CONSERVADOR";
+            document.getElementById('card-1').classList.add('highlight');
+        } else if (score <= 4) {
+            label.innerText = "MODERADO";
+            document.getElementById('tax-1').innerText = "110% CDI";
+            document.getElementById('card-2').classList.add('highlight');
+        } else {
+            label.innerText = "AGRESSIVO";
+            document.getElementById('tax-1').innerText = "120% CDI";
+            document.getElementById('tax-3').innerText = "105% CDI";
+            document.getElementById('card-3').classList.add('highlight');
+        }
+        addMsg("Perfil traçado! Ajustei as taxas e marquei o produto ideal para você. Deseja iniciar o aporte?", 'ai');
     }
 
     function addMsg(t, type) {
         const b = document.getElementById('chat-box');
         const div = document.createElement('div');
         div.className = `m ${type}`;
-        div.innerText = t;
+        div.innerHTML = t;
         b.appendChild(div);
         b.scrollTop = b.scrollHeight;
     }
