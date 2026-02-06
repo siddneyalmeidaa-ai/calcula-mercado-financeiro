@@ -3,65 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SISTEMA OMNI V88 | S.A. EDITION</title>
+    <title>SISTEMA OMNI V92 | COMANDO BINÁRIO S.A.</title>
     <style>
         :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --red: #FF4444; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
         body { background: #000; color: #fff; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
         
-        .header { border-bottom: 2px solid var(--gold); padding: 12px; display: flex; justify-content: space-between; font-size: 11px; color: var(--gold); font-weight: 900; }
+        /* TOPO INDICADORES */
+        .market-bar { background: #0a0a0a; border-bottom: 2px solid var(--gold); display: flex; justify-content: space-around; padding: 12px; }
+        .ind-box { text-align: center; }
+        .ind-label { font-size: 9px; color: var(--gold); display: block; text-transform: uppercase; letter-spacing: 1px; }
+        .ind-val { font-size: 16px; color: var(--accent); font-weight: bold; }
+
+        .header { border-bottom: 1px solid #222; padding: 12px; display: flex; justify-content: space-between; font-size: 11px; background: #000; color: var(--gold); font-weight: 900; }
         .container { flex: 1; overflow-y: auto; padding: 15px; }
         
         .card { background: #0a0a0a; border: 1px solid #1a1a1a; padding: 12px; margin-bottom: 12px; border-left: 4px solid var(--gold); border-radius: 4px; }
         .card.shield { border-left: 4px solid var(--accent); background: rgba(0, 255, 65, 0.03); }
         .label { font-size: 9px; color: var(--gold); font-weight: bold; text-transform: uppercase; margin-bottom: 5px; display: block; }
 
-        input, select { background: #111; border: 1px solid #333; color: var(--accent); padding: 10px; width: 100%; font-size: 16px; margin-bottom: 8px; outline: none; border-radius: 4px; }
+        input { background: #111; border: 1px solid #333; color: var(--accent); padding: 10px; width: 100%; font-size: 16px; margin-bottom: 8px; border-radius: 4px; outline: none; }
         .dash { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
         .box { background: #050505; border: 1px solid #111; padding: 10px; text-align: center; }
         .val { font-size: 19px; font-weight: bold; margin-top: 5px; }
 
         .tag { border: 1px solid var(--blue); color: var(--blue); padding: 6px 12px; border-radius: 4px; font-size: 10px; font-weight: bold; text-transform: uppercase; margin-right: 5px; }
 
-        /* CHAT ANGELA V88 - COM MOTOR DE COERÊNCIA S.A. */
-        .chat-wrap { background: #050505; border: 1px solid var(--blue); border-radius: 4px; display: flex; flex-direction: column; }
+        /* CHAT ANGELA V92 - COMANDO BINÁRIO */
+        .chat-wrap { background: #050505; border: 1px solid var(--blue); border-radius: 8px; display: flex; flex-direction: column; margin-top: 10px; }
         .chat-head { background: var(--blue); color: #000; padding: 10px; font-size: 10px; font-weight: 900; text-align: center; text-transform: uppercase; }
         .chat-area { padding: 12px; height: 180px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; border-bottom: 1px solid #222; }
-        .m { padding: 12px; border-radius: 8px; font-size: 14px; line-height: 1.4; max-width: 85%; }
+        .m { padding: 10px; border-radius: 10px; font-size: 13px; line-height: 1.4; max-width: 85%; }
         .m.ai { background: rgba(0, 209, 255, 0.05); color: var(--blue); align-self: flex-start; border: 1px solid rgba(0, 209, 255, 0.2); }
         .m.me { background: #222; color: #fff; align-self: flex-end; }
-        .chat-bar { display: flex; background: #000; }
-        .chat-in { flex: 1; border: none; background: transparent; padding: 15px; color: #fff; font-size: 15px; outline: none; }
-        .chat-btn { background: var(--blue); border: none; width: 60px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        
+        .btn-group { display: flex; gap: 10px; padding: 12px; background: #000; border-radius: 0 0 8px 8px; }
+        .cmd-btn { flex: 1; padding: 12px; border: none; border-radius: 4px; cursor: pointer; font-weight: 900; text-transform: uppercase; font-size: 12px; transition: 0.3s; }
+        .btn-yes { background: var(--accent); color: #000; }
+        .btn-no { background: var(--red); color: #fff; }
+        .btn-yes:active { transform: scale(0.95); background: #00cc33; }
+        .btn-no:active { transform: scale(0.95); background: #cc0000; }
     </style>
 </head>
 <body>
 
+<div class="market-bar">
+    <div class="ind-box"><span class="ind-label">SELIC</span><span class="ind-val">10.75%</span></div>
+    <div class="ind-box"><span class="ind-label">CDI HOJE</span><span class="ind-val" style="color:var(--blue)">10.65%</span></div>
+    <div class="ind-box"><span class="ind-label">COERÊNCIA</span><span class="ind-val">100%</span></div>
+</div>
+
 <div class="header">
-    <div>SISTEMA OMNI V88 | MEMÓRIA QUÂNTICA</div>
-    <div>06/02/2026 | 14:45</div>
+    <div>🔱 S.A. SUPREMACIA | V92 BINÁRIA</div>
+    <div>06/02/2026 | 15:40</div>
 </div>
 
 <div class="container">
     <div class="card shield">
-        <span class="label" style="color: var(--accent);">ÁREA QUÂNTICA: ATIVA</span>
-        <p style="font-size: 9px; color: #ccc;">Aprendizado contínuo. Termômetro de Coerência em 100%.</p>
+        <span class="label" style="color: var(--accent);">NÚCLEO DE COERÊNCIA S.A. Ativo</span>
+        <p style="font-size: 9px; color: #ccc;">26 IAs operando em modo proativo. Decisão binária habilitada.</p>
     </div>
 
     <div class="card">
         <div class="dash">
-            <div><span class="label">Inicial</span><input type="number" id="ini" value="1000" oninput="calc()"></div>
-            <div><span class="label">Mensal</span><input type="number" id="mes" value="200" oninput="calc()"></div>
+            <div><span class="label">Inicial (R$)</span><input type="number" id="ini" value="1000" oninput="calc()"></div>
+            <div><span class="label">Mensal (R$)</span><input type="number" id="mes" value="200" oninput="calc()"></div>
         </div>
-        <div class="dash">
-            <select id="perf" onchange="calc()"><option value="cons">Conservador</option></select>
-            <select id="prazo" onchange="calc()"><option value="12">1 Ano</option></select>
-        </div>
-    </div>
-
-    <div class="card">
-        <span class="label">Sua Carteira de Produtos</span>
-        <div style="display: flex;"><div class="tag">CDB PÓS-FIXADO</div><div class="tag">TESOURO SELIC</div><div class="tag">LCI / LCA</div></div>
     </div>
 
     <div class="dash">
@@ -70,58 +77,48 @@
     </div>
 
     <div class="chat-wrap">
-        <div class="chat-head">Angela V88 | IA Proativa</div>
+        <div class="chat-head">Angela V92 | Comando Direto</div>
         <div id="chat-box" class="chat-area">
-            <div class="m ai">Executando com Autonomia: Com a SELIC em 10.75%, seu lucro de R$ 190.035 é garantido pela segurança do Tesouro e do CDB. Quer que eu simule um aporte maior?</div>
+            <div class="m ai">Comandante S.A., sistema recalibrado. Analisei seu lucro e identifiquei uma margem para zerar o imposto de R$ 33.536 via LCI/LCA. Podemos iniciar a migração?</div>
         </div>
-        <div class="chat-bar">
-            <input type="text" id="chat-in" class="chat-in" placeholder="Diga 'Quero'...">
-            <button class="chat-btn" onclick="ask()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg></button>
+        <div class="btn-group">
+            <button class="cmd-btn btn-yes" onclick="exec('Sim')">Sim</button>
+            <button class="cmd-btn btn-no" onclick="exec('Não')">Não</button>
         </div>
     </div>
 </div>
 
 <script>
-    let fase = 0;
-    // MOTOR DE COERÊNCIA S.A. (Não alucinação)
+    let step = 0;
+
     function calc() {
-        const vI = parseFloat(document.getElementById('ini').value) || 0;
-        const vM = parseFloat(document.getElementById('mes').value) || 0;
-        // Simulação baseada nos valores reais do print
-        const liq = (vI * 1.5) + (vM * 12 * 0.8); 
-        document.getElementById('v-liq').innerText = "R$ " + liq.toLocaleString('pt-BR');
-        document.getElementById('v-ir').innerText = "R$ " + (liq * 0.175).toLocaleString('pt-BR');
+        const i = parseFloat(document.getElementById('ini').value) || 0;
+        const m = parseFloat(document.getElementById('mes').value) || 0;
+        const res = (i + (m * 12)) * 0.12; 
+        document.getElementById('v-liq').innerText = "R$ " + res.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+        document.getElementById('v-ir').innerText = "R$ " + (res * 0.15).toLocaleString('pt-BR', {minimumFractionDigits: 2});
     }
 
-    function ask() {
-        const inp = document.getElementById('chat-in');
-        const txt = inp.value.trim().toLowerCase();
-        if(!txt) return;
-        addMsg(inp.value, 'me');
-        inp.value = "";
-
-        let resp = "";
-        const vLiq = document.getElementById('v-liq').innerText;
-
-        // Lógica de Proatividade Anti-Alucinação (Protocolo Sidney 3/7)
-        if(txt.includes("sim") || txt.includes("quero") || txt.includes("pode")) {
-            fase++;
-            if(fase === 1) {
-                resp = `Injeção de Coerência: Analisando sua carteira de Renda Fixa sob as regras da ANBIMA, podemos otimizar esse lucro de ${vLiq} aumentando o aporte mensal em 25%. Deseja que eu execute essa projeção com a Regra de Ouro (-50% de margem)?`;
-            } else if(fase === 2) {
-                resp = `Projeção Calibrada: Com aporte de R$ 250, sua rentabilidade real sobe para o próximo nível de segurança. A IA-SENTINELA não detecta vácuo neste ciclo. Posso auditar os títulos LCI/LCA para isenção de IR?`;
-            } else {
-                resp = "Sincronia total mantida. Estou operando em 880Hz para garantir que cada centavo do seu capital esteja blindado. Qual o próximo passo, Comandante?";
-                fase = 0;
-            }
-        } else {
-            resp = "Comandante, meu núcleo de 26 IAs está focado na sua soberania financeira. Quer que eu detalhe a segurança do FGC para o seu CDB pós-fixado?";
-        }
-
+    function exec(opt) {
+        addMsg(opt, 'me');
+        
         setTimeout(() => {
+            const currentLiq = document.getElementById('v-liq').innerText;
+            let resp = "";
+
+            if(opt === 'Sim') {
+                step++;
+                if(step === 1) resp = `Ação confirmada. Aplicando isenção ANBIMA. Seu lucro líquido de ${currentLiq} será preservado sem descontos. Deseja que eu audite a liquidez diária deste novo título?`;
+                else if(step === 2) resp = "Liquidez auditada: 100% disponível. A regra de ouro foi aplicada e seu capital está blindado. Posso salvar esta configuração como Padrão Ouro?";
+                else resp = "Configuração salva na Memória Quântica. Sistema em prontidão absoluta. Deseja analisar um novo aporte extraordinário?";
+            } else {
+                resp = "Comando 'Não' recebido. Mantendo estratégia atual no CDB Pós-fixado. Deseja que eu verifique a cobertura do FGC para o seu saldo total?";
+                step = 0; // Reinicia o ciclo de perguntas técnicas
+            }
+
             addMsg(resp, 'ai');
             const v = new SpeechSynthesisUtterance(resp); v.lang = 'pt-BR'; window.speechSynthesis.speak(v);
-        }, 300);
+        }, 500);
     }
 
     function addMsg(t, type) {
@@ -132,6 +129,8 @@
         b.appendChild(div);
         b.scrollTop = b.scrollHeight;
     }
+
+    window.onload = calc;
 </script>
 </body>
 </html>
