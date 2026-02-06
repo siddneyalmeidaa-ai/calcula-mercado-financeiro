@@ -3,42 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>OMNI V38 | VOICE INTEGRATED</title>
+    <title>OMNI V39 | EXECUTIVE GOVERNANCE</title>
     <style>
-        :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --card: #0a0a0a; }
+        :root { --gold: #D4AF37; --bg: #050505; --accent: #00FF41; --blue: #00D1FF; --card: #111111; --border: #222222; }
         
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body, html { 
             margin: 0; padding: 0; width: 100%; height: 100%; 
-            background-color: #000 !important; color: #fff; 
-            font-family: 'Segoe UI', sans-serif; overflow-x: hidden;
+            background-color: var(--bg) !important; color: #fff; 
+            font-family: 'Times New Roman', serif; /* Toque mais diplomático/sério */
+            overflow-x: hidden;
         }
 
-        .container { width: 100%; min-height: 100vh; display: flex; flex-direction: column; }
-        .page { display: none; width: 100%; flex: 1; padding: 20px; flex-direction: column; }
+        .container { width: 100%; min-height: 100vh; display: flex; flex-direction: column; background: radial-gradient(circle at center, #0a1111 0%, #000 100%); }
+        .page { display: none; width: 100%; flex: 1; padding: 25px; flex-direction: column; max-width: 500px; margin: 0 auto; }
         .active { display: flex; }
 
-        /* CAPA */
-        #p1 { background: radial-gradient(circle at top, #002b2b 0%, #000 70%); justify-content: center; align-items: center; text-align: center; }
-        .logo-omni { font-size: 55px; font-weight: 900; letter-spacing: 12px; color: var(--gold); text-shadow: 0 0 25px rgba(212, 175, 55, 0.6); margin: 0; }
+        /* HEADER INSTITUCIONAL */
+        .header-brand { text-align: center; margin-bottom: 40px; }
+        .logo-omni { font-size: 48px; font-weight: 900; letter-spacing: 18px; color: var(--gold); text-shadow: 0 0 30px rgba(212, 175, 55, 0.4); margin: 0; }
+        .tagline { color: var(--blue); font-size: 9px; letter-spacing: 6px; font-family: sans-serif; opacity: 0.7; margin-top: 10px; }
 
-        /* BOTÕES */
-        .btn-main { width: 100%; max-width: 300px; padding: 18px; background: var(--gold); color: #000; border: none; border-radius: 12px; font-weight: 900; text-transform: uppercase; cursor: pointer; margin-top: 40px; }
-        .btn-outline { width: 100%; padding: 15px; background: #111; border: 1px solid #333; color: #fff; border-radius: 12px; margin-bottom: 10px; cursor: pointer; font-size: 14px; text-align: left; transition: 0.2s; }
-        .btn-outline:active { background: var(--blue); color: #000; }
+        /* CARDS GERENCIAIS */
+        .card-exec { 
+            background: var(--card); border: 1px solid var(--border); border-radius: 4px; 
+            padding: 20px; margin-bottom: 15px; position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .card-exec::before { content: ""; position: absolute; left: 0; top: 10%; height: 80%; width: 3px; background: var(--gold); }
+        .title-sm { font-size: 10px; color: var(--gold); font-weight: bold; letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 8px; font-family: sans-serif; }
 
-        /* HUD */
-        .hud-top { display: flex; gap: 10px; margin-bottom: 20px; padding: 15px; background: var(--card); border-radius: 15px; border: 1px solid #1a1a1a; }
-        .hud-box { flex: 1; text-align: center; }
-        .hud-label { font-size: 8px; color: var(--gold); font-weight: 900; }
-        .hud-val { font-size: 14px; font-weight: bold; }
+        /* INPUTS E BOTÕES */
+        .btn-gold { 
+            width: 100%; padding: 20px; background: var(--gold); color: #000; border: none; 
+            font-weight: 900; text-transform: uppercase; cursor: pointer; letter-spacing: 2px;
+            font-size: 14px; margin-top: 30px; transition: 0.3s;
+        }
+        .btn-outline { 
+            width: 100%; padding: 15px; background: transparent; border: 1px solid var(--border); 
+            color: #ccc; margin-bottom: 10px; text-align: left; cursor: pointer; font-size: 13px;
+        }
+        .btn-outline:hover { border-color: var(--blue); color: #fff; }
 
-        /* RESULTADOS */
-        .card-res { background: var(--card); padding: 20px; border-radius: 20px; border: 1px solid #1a1a1a; text-align: center; margin-bottom: 20px; position: relative; }
-        .asset-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #050505; border: 1px solid #111; border-radius: 10px; margin-bottom: 8px; }
+        /* INDICADORES */
+        .hud-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 25px; }
+        .hud-item { background: #0a0a0a; border: 1px solid #1a1a1a; padding: 10px; text-align: center; border-radius: 2px; }
 
-        /* VOICE VISUAL */
-        .wave-box { display: none; justify-content: center; gap: 3px; height: 12px; margin-top: 10px; }
-        .bar { width: 2px; height: 100%; background: var(--blue); animation: wave 0.5s infinite alternate; }
-        @keyframes wave { from { height: 3px; } to
-                         
+        /* GRÁFICO TÁTICO */
+        .chart-box { display: flex; align-items: flex-end; justify-content: space-around; height: 120px; margin-top: 20px; border-bottom: 1px solid #333; padding-bottom: 5px; }
+        .bar { width: 30px; background: var(--blue); position: relative; transition: 0.8s; border-radius: 2px 2px 0 0; }
+        .bar-val { position: absolute; top: -15px; width: 100%; text-align: center; font-size: 9px; color: var(--gold); font-family: sans-serif; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .fade { animation: fadeIn 0.6s ease-out; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="p1" class="page active fade">
+        <div class="header-brand" style="margin-top: 20vh;">
+            <h1 class="logo-omni">ØMNI</h1>
+            <div class="tagline">SYSTEM OF FINANCIAL SOVEREIGNTY</div>
+            <div style="font-size: 7px; color: #444; margin-top: 50px; letter-spacing: 2px;">V39 | C-LEVEL INTERFACE</div>
+        </div>
+        <button class="btn-gold" onclick="goTo('p2')">AUTORIZAR ACESSO</button>
+    </div>
+
+    <div id="p2" class="page fade">
+        <span class="title-sm" style="text-align: center; margin-bottom: 30px;">Diretrizes de Conselho</span>
+        <div class="card-exec">
+            <span class="title-sm">Missão Institucional</span>
+            <div style="font-size: 14px; color: #eee; line-height: 1.6;">Assegurar a incolumidade do patrimônio sob gestão, mitigando as erosões causadas pela volatilidade inflacionária através de algoritmos de precisão.</div>
+        </div>
+        <div class="card-exec">
+            <span class="title-sm">Visão Estratégica</span>
+            <div style="font-size: 14px; color: #eee; line-height: 1.6;">Consolidar-se como a autoridade máxima em inteligência financeira descentralizada, operando sob o rigor do Padrão Ouro.</div>
+        </div>
+        <button class="btn-gold" onclick="goTo('p3')">PROSSEGUIR PARA ANÁLISE</button>
+    </div>
+
+    <div id="p3" class="page fade">
+        <span class="title-sm" style="text-align: center; margin-bottom: 30px;">Seleção de Política de Alocação</span>
+        <button class="btn-outline" onclick="setPerfil('cons')"><b>PRESERVAÇÃO DE CAPITAL</b><br><small>Foco em liquidez imediata e volatilidade zero.</small></button>
+        <button class="btn-outline" onclick="setPerfil('mod')"><b>CRESCIMENTO EQUILIBRADO</b><br><small>Exposição moderada com proteção contra inflação.</small></button>
+        <button class="btn-outline" onclick="setPerfil('arr')"><b>EXPANSÃO PATRIMONIAL</b><br><small>Maximização de alfa através de ativos de risco.</small></button>
+    </div>
+
+    <div id="p4" class="page fade">
+        <div class="hud-grid">
+            <div class="hud-item"><div class="title-sm" style="font-size:7px;">SELIC</div><div style="color:var(--accent); font-weight:bold;">10.75%</div></div>
+            <div class="hud-item"><div class="title-sm" style="font-size:7px;">IPCA</div><div style="color:#ff3333; font-weight:bold;">4.50%</div></div>
+            <div class="hud-item"><div class="title-sm" style="font-size:7px;">JURO REAL</div><div style="color:var(--blue); font-weight:bold;">6.25%</div></div>
+        </div>
+
+        <div class="card-exec" style="text-align:center;">
+            <span class="title-sm">Capital para Alocação (R$)</span>
+            <input type="number" id="val" value="10000" oninput="calc()" style="background:transparent; border:none; color:#fff; font-size:36px; font-weight:bold; text-align:center; width:100%; outline:none; font-family:serif;">
+            <div id="total-proj" style="color:var(--accent); font-size:20px; margin-top:10px; letter-spacing:2px;">R$ 0,00</div>
+            <div style="font-size:8px; color:#555; text-transform:uppercase; margin-top:5px;">Performance Líquida Estimada (Anual)</div>
+        </div>
+
+        <div id="fracionamento"></div>
+
+        <div class="card-exec" id="chart-container" style="display:none;">
+            <span class="title-sm">Matriz de Distribuição</span>
+            <div class="chart-box" id="chart"></div>
+        </div>
+
+        <div style="margin-top:20px;">
+            <span class="title-sm">Relatórios de Voz (Audio Insight)</span>
+            <div id="botoes-voz"></div>
+            <button class="btn-outline" style="text-align:center; color:var(--danger); border-color:#411;" onclick="window.speechSynthesis.cancel()">INTERROMPER TRANSMISSÃO</button>
+        </div>
+
+        <button class="btn-gold" style="background:#111; color:var(--gold); border:1px solid var(--gold);" onclick="location.reload()">REINICIAR GOVERNANÇA</button>
+    </div>
+</div>
+
+<script>
+    let p = "";
+    const insights = {
+        'Tesouro Selic': 'Aporte estratégico em títulos soberanos. Risco de crédito nulo, garantindo a reserva de oportunidade da organização.',
+        'CDB Pós': 'Exposição bancária com proteção do fundo garantidor. Eficiência tributária para prazos de curto curso.',
+        'LCI/LCA': 'Isenção fiscal absoluta. Esta alocação otimiza o fluxo de caixa através do setor imobiliário e agro.',
+        'IPCA+': 'Blindagem contra variação de preços. Garante o poder de compra institucional acima da inflação oficial.',
+        'FIIs': 'Geração de renda passiva recorrente. Exposição ao mercado imobiliário com alta liquidez.',
+        'Ações': 'Participação societária em players dominantes. Foco em equity e proventos extraordinários.',
+        'BDR/Dólar': 'Hedge cambial em moeda forte. Proteção do portfólio contra instabilidades macroeconômicas locais.'
+    };
+
+    function goTo(id) {
+        document.querySelectorAll('.page').forEach(el => el.style.display = 'none');
+        document.getElementById(id).style.display = 'flex';
+        window.speechSynthesis.cancel();
+        window.scrollTo(0,0);
+    }
+
+    function setPerfil(per) { p = per; goTo('p4'); calc(); }
+
+    function calc() {
+        let v = parseFloat(document.getElementById('val').value) || 0;
+        let r = p === 'cons' ? 1.1075 : (p === 'mod' ? 1.145 : 1.185);
+        document.getElementById('total-proj').innerText = "R$ " + (v * r).toLocaleString('pt-BR',{minimumFractionDigits:2});
+
+        let data = p === 'cons' ? [['Tesouro Selic', 0.7], ['CDB Pós', 0.3]] :
+                 (p === 'mod' ? [['LCI/LCA', 0.4], ['IPCA+', 0.3], ['FIIs', 0.3]] :
+                 [['Ações', 0.5], ['BDR/Dólar', 0.5]]);
+
+        let html = ""; let voiceBtns = ""; let chartHtml = "";
+        document.getElementById('chart-container').style.display = 'block';
+
+        data.forEach(item => {
+            let part = v * item[1];
+            html += `<div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #1a1a1a; font-size:13px;">
+                <span>${item[0]}</span><span style="color:var(--accent); font-weight:bold;">R$ ${part.toLocaleString('pt-BR',{minimumFractionDigits:2})}</span>
+            </div>`;
+            voiceBtns += `<button class="btn-outline" style="font-size:11px;" onclick="falar('${item[0]}')">Briefing: ${item[0]}</button>`;
+            chartHtml += `<div class="bar" style="height:${item[1]*100}px"><div class="bar-val">${item[1]*100}%</div></div>`;
+        });
+        document.getElementById('fracionamento').innerHTML = html;
+        document.getElementById('botoes-voz').innerHTML = voiceBtns;
+        document.getElementById('chart').innerHTML = chartHtml;
+    }
+
+    function falar(id) {
+        window.speechSynthesis.cancel();
+        const msg = new SpeechSynthesisUtterance(insights[id]);
+        msg.lang = 'pt-BR';
+        msg.rate = 0.9; // Voz mais pausada e diplomática
+        window.speechSynthesis.speak(msg);
+    }
+</script>
+</body>
+</html>
