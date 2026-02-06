@@ -3,31 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SISTEMA OMNI V93 | S.A. SUPREMACIA</title>
+    <title>SISTEMA OMNI V94 | S.A. SUPREMACIA</title>
     <style>
         :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --red: #FF4444; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
         body { background: #000; color: #fff; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
-        
         .header { border-bottom: 2px solid var(--gold); padding: 12px; display: flex; justify-content: space-between; font-size: 11px; color: var(--gold); font-weight: 900; }
         .container { flex: 1; overflow-y: auto; padding: 15px; }
-        
         .card { background: #0a0a0a; border: 1px solid #1a1a1a; padding: 12px; margin-bottom: 12px; border-left: 4px solid var(--gold); border-radius: 4px; }
         .label { font-size: 9px; color: var(--gold); font-weight: bold; text-transform: uppercase; margin-bottom: 5px; display: block; }
-
-        input { background: #111; border: 1px solid #333; color: var(--accent); padding: 10px; width: 100%; font-size: 16px; margin-bottom: 8px; outline: none; border-radius: 4px; }
         .dash { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
         .box { background: #050505; border: 1px solid #111; padding: 10px; text-align: center; }
         .val { font-size: 19px; font-weight: bold; margin-top: 5px; }
-
-        /* CHAT ANGELA V93 - CORREÇÃO DE PROGRESSÃO */
         .chat-wrap { background: #050505; border: 1px solid var(--blue); border-radius: 8px; display: flex; flex-direction: column; }
         .chat-head { background: var(--blue); color: #000; padding: 10px; font-size: 10px; font-weight: 900; text-align: center; text-transform: uppercase; }
-        .chat-area { padding: 12px; height: 220px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; border-bottom: 1px solid #222; }
-        .m { padding: 12px; border-radius: 8px; font-size: 14px; line-height: 1.4; max-width: 85%; }
+        .chat-area { padding: 12px; height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; border-bottom: 1px solid #222; }
+        .m { padding: 12px; border-radius: 8px; font-size: 13px; max-width: 85%; }
         .m.ai { background: rgba(0, 209, 255, 0.05); color: var(--blue); align-self: flex-start; border: 1px solid rgba(0, 209, 255, 0.2); }
         .m.me { background: #222; color: #fff; align-self: flex-end; }
-        
         .btn-group { display: flex; gap: 10px; padding: 12px; background: #000; }
         .cmd-btn { flex: 1; padding: 15px; border: none; border-radius: 4px; cursor: pointer; font-weight: 900; text-transform: uppercase; font-size: 14px; }
         .btn-yes { background: var(--accent); color: #000; }
@@ -37,25 +30,25 @@
 <body>
 
 <div class="header">
-    <div>🔱 S.A. SUPREMACIA | V93 PROGRESSIVA</div>
-    <div>06/02/2026 | 15:55</div>
+    <div>🔱 S.A. SUPREMACIA | V94 MEMÓRIA LINEAR</div>
+    <div>06/02/2026 | 16:05</div>
 </div>
 
 <div class="container">
     <div class="card" style="border-left-color: var(--accent);">
-        <span class="label" style="color: var(--accent);">ÁREA QUÂNTICA: MEMÓRIA DE ESTADO ATIVA</span>
-        <p style="font-size: 9px; color: #ccc;">Sistema de progressão linear. Sem loops de repetição.</p>
+        <span class="label" style="color: var(--accent);">STATUS: MEMÓRIA DE EXPANSÃO ATIVA</span>
+        <p style="font-size: 9px; color: #ccc;">Avançando para novos produtos. Loops eliminados.</p>
     </div>
 
     <div class="dash">
-        <div class="box" style="border-top:3px solid var(--accent);"><span class="label">Lucro Líquido</span><div class="val" id="v-liq" style="color:var(--accent)">R$ 408,00</div></div>
+        <div class="box" style="border-top:3px solid var(--accent);"><span class="label">Lucro Líquido</span><div class="val" style="color:var(--accent)">R$ 408,00</div></div>
         <div class="box" style="border-top:3px solid var(--red);"><span class="label">Imposto (IR)</span><div class="val" style="color:var(--red);">R$ 61,20</div></div>
     </div>
 
     <div class="chat-wrap">
-        <div class="chat-head">Angela V93 | Fluxo de Decisão</div>
+        <div class="chat-head">Angela V94 | Inteligência Avançada</div>
         <div id="chat-box" class="chat-area">
-            <div class="m ai">Comandante S.A., detectei um loop no sistema anterior e já apliquei a correção. Vamos avançar? Deseja que eu analise a isenção de IR para esse lucro de R$ 408,00?</div>
+            <div class="m ai">Comandante S.A., entendi que você deseja explorar novos produtos. Já processei sua isenção de IR e o aporte extraordinário. Quer que eu apresente agora opções de Tesouro Direto com IPCA+ para proteger seu capital contra a inflação?</div>
         </div>
         <div class="btn-group">
             <button class="cmd-btn btn-yes" onclick="exec('Sim')">Sim</button>
@@ -65,6 +58,7 @@
 </div>
 
 <script>
+    let currentPath = "EXPOSICAO"; // Controla em qual "assunto" estamos
     let step = 0;
 
     function exec(opt) {
@@ -73,22 +67,30 @@
         setTimeout(() => {
             let resp = "";
 
-            if(opt === 'Sim') {
-                step++; 
-                // PROGRESSÃO LINEAR: Cada clique em SIM leva a um assunto NOVO
-                if(step === 1) {
-                    resp = "Protocolo de Isenção ativado via LCI/LCA. Isso protegeria R$ 61,20 do seu capital. Quer simular um aporte mensal maior para acelerar sua meta?";
-                } else if(step === 2) {
-                    resp = "Ação calibrada. Com aporte extra de R$ 100, sua projeção sobe 22%. Deseja verificar a proteção do FGC para esse novo montante?";
-                } else if(step === 3) {
-                    resp = "Segurança confirmada: 100% coberto pelo Fundo Garantidor. Blindagem total. Deseja que eu gere o relatório final para sua auditoria?";
+            if(currentPath === "EXPOSICAO") {
+                if(opt === 'Sim') {
+                    resp = "Excelente. O Tesouro IPCA+ garante seu poder de compra. Além dele, identifiquei CDBs de Bancos Médios com 120% do CDI. Deseja comparar as taxas agora?";
+                    currentPath = "COMPARACAO";
                 } else {
-                    resp = "Ciclo de análise concluído com sucesso. Memória Quântica atualizada. Reiniciar auditoria de novos ativos?";
-                    step = 0; 
+                    resp = "Entendido. Prefere focar em produtos de Liquidez Diária para manter o capital sempre à mão?";
+                    currentPath = "LIQUIDEZ";
                 }
-            } else {
-                resp = "Entendido. Abortando sequência atual e mantendo a estratégia conservadora. Deseja abrir a lista de outros produtos financeiros?";
-                step = 0; 
+            } 
+            else if(currentPath === "COMPARACAO") {
+                if(opt === 'Sim') {
+                    resp = "Análise técnica: O CDB 120% rende 14% a mais que o seu atual, mantendo a proteção do FGC. Podemos aplicar a Regra de Ouro (-50%) nesta projeção?";
+                    currentPath = "REGRA_OURO";
+                } else {
+                    resp = "Foco mantido no Tesouro. Quer que eu gere o gráfico de crescimento para os próximos 5 anos?";
+                    currentPath = "GRAFICO";
+                }
+            }
+            else if(currentPath === "LIQUIDEZ" || currentPath === "REGRA_OURO" || currentPath === "GRAFICO") {
+                resp = "Sincronia Quântica atingida. Todos os dados foram salvos no seu Padrão Ouro. Deseja que eu monitore o mercado e te avise sobre novas oportunidades amanhã?";
+                currentPath = "FINALIZADO";
+            }
+            else {
+                resp = "Comandante, todos os módulos de hoje foram auditados. Sistema em modo Sentinela. Deseja revisar algum ponto específico ou encerrar por agora?";
             }
 
             addMsg(resp, 'ai');
