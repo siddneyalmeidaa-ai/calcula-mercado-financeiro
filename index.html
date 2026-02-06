@@ -3,73 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OMNI V30 | VOICE CORE</title>
+    <title>OMNI V34 | SUPREME COMMAND</title>
     <style>
-        :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; }
-        body { background: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; justify-content: center; padding: 15px; }
-        .box { width: 100%; max-width: 400px; text-align: center; }
-        .card { background: #080808; padding: 25px; border-radius: 30px; border: 1px solid #1a1a1a; margin-bottom: 15px; }
-        h2 { font-size: 10px; color: var(--gold); letter-spacing: 3px; text-transform: uppercase; }
-        .btn { width: 100%; padding: 18px; margin-bottom: 12px; background: #111; border: 1px solid #333; color: #fff; border-radius: 15px; cursor: pointer; font-size: 14px; font-weight: bold; transition: 0.2s; }
-        .btn:active { background: var(--blue); color: #000; }
-        .ia-status { color: var(--blue); font-size: 9px; font-weight: 900; letter-spacing: 2px; margin-bottom: 10px; display: block; }
-        .wave { height: 20px; display: flex; justify-content: center; gap: 3px; margin-top: 10px; display: none; }
-        .bar { width: 3px; height: 100%; background: var(--blue); animation: sound 0.5s infinite alternate; }
-        @keyframes sound { from { height: 5px; } to { height: 20px; } }
+        :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --card: #080808; --danger: #FF3333; }
+        body { background: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
+        
+        /* TELAS */
+        .page { display: none; min-height: 100vh; width: 100%; animation: fadeIn 0.5s ease-in-out; }
+        .active { display: flex; flex-direction: column; }
+
+        /* CAPA */
+        #splash { justify-content: center; align-items: center; background: radial-gradient(circle, #001a1a 0%, #000 70%); }
+        .logo-main { font-size: 50px; font-weight: 900; letter-spacing: 15px; color: var(--gold); text-shadow: 0 0 20px rgba(212,175,55,0.5); }
+
+        /* MVO & PERGUNTAS */
+        .content-box { padding: 25px; max-width: 400px; margin: auto; }
+        .mvo-card { background: var(--card); border: 1px solid #1a1a1a; padding: 15px; border-radius: 20px; margin-bottom: 12px; border-left: 4px solid var(--gold); }
+        .mvo-title { color: var(--gold); font-size: 10px; font-weight: 900; letter-spacing: 2px; display: block; }
+        
+        /* BOTÕES */
+        .btn-gold { width: 100%; padding: 18px; background: var(--gold); color: #000; border: none; border-radius: 15px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
+        .btn-outline { width: 100%; padding: 16px; margin-bottom: 10px; background: #111; border: 1px solid #333; color: #fff; border-radius: 15px; cursor: pointer; font-size: 13px; text-align: left; }
+        .btn-outline:hover { border-color: var(--blue); }
+
+        /* HUD & RESULTADO */
+        .hud { display: flex; justify-content: space-around; background: var(--card); padding: 15px; border-radius: 20px; border: 1px solid #1a1a1a; margin-bottom: 20px; width: 90%; margin: 20px auto; }
+        .input-box { background: #000; padding: 12px; border-radius: 15px; border: 1px solid #222; margin-bottom: 15px; }
+        .input-box label { color: var(--gold); font-size: 8px; font-weight: 900; display: block; }
+        .input-box input { background: transparent; border: none; color: #fff; font-size: 20px; width: 100%; outline: none; font-weight: bold; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
-<div class="box">
-    <div class="card">
-        <h2>OMNI-CORE VOICE</h2>
-        <span class="ia-status" id="status">SISTEMA ONLINE</span>
-        <div class="wave" id="wave">
-            <div class="bar"></div><div class="bar" style="animation-delay: 0.2s"></div><div class="bar" style="animation-delay: 0.4s"></div>
+    <div id="p1" class="page active">
+        <div class="logo-main">ØMNI</div>
+        <div style="color: var(--blue); letter-spacing: 5px; font-size: 10px; margin-bottom: 40px;">V34 | SUPREME COMMAND</div>
+        <button class="btn-gold" style="width: auto; padding: 15px 40px;" onclick="goTo('p2')">INICIAR PROTOCOLO</button>
+    </div>
+
+    <div id="p2" class="page">
+        <div class="content-box">
+            <h2 style="color: var(--blue); font-size: 10px; letter-spacing: 3px; text-align: center;">DIRETRIZES</h2>
+            <div class="mvo-card"><span class="mvo-title">MISSÃO</span><span style="font-size:13px; color:#ccc;">Blindar patrimônios contra o vácuo inflacionário.</span></div>
+            <div class="mvo-card"><span class="mvo-title">VISÃO</span><span style="font-size:13px; color:#ccc;">Ser a inteligência financeira definitiva sob o Padrão Ouro.</span></div>
+            <div class="mvo-card"><span class="mvo-title">OBJETIVO</span><span style="font-size:13px; color:#ccc;">Educar e simular alocações com precisão técnica.</span></div>
+            <button class="btn-gold" onclick="goTo('p3')">CONTINUAR PARA EXAME</button>
         </div>
     </div>
 
-    <div id="ativos">
-        <button class="btn" onclick="falar('Tesouro Selic')">O QUE É O TESOURO SELIC?</button>
-        <button class="btn" onclick="falar('CDB')">O QUE É UM C.D.B?</button>
-        <button class="btn" onclick="falar('LCI')">POR QUE L.C.I É MELHOR?</button>
-        <button class="btn" onclick="falar('FII')">COMO FUNCIONAM OS F.I.I.s?</button>
+    <div id="p3" class="page">
+        <div class="content-box">
+            <h2 style="color: var(--gold); font-size: 10px; text-align: center;">ANBIMA CPA-10</h2>
+            <div style="text-align: center; margin-bottom: 25px; font-weight: bold;">Qual o seu horizonte de investimento?</div>
+            <button class="btn-outline" onclick="setPerfil('cons')">Curto Prazo (Reserva de Emergência)</button>
+            <button class="btn-outline" onclick="setPerfil('mod')">Médio Prazo (Construção de Bens)</button>
+            <button class="btn-outline" onclick="setPerfil('arr')">Longo Prazo (Aposentadoria / Renda)</button>
+        </div>
     </div>
 
-    <button class="btn" style="color:var(--gold); border-color:var(--gold); margin-top:20px;" onclick="window.speechSynthesis.cancel()">PARAR VOZ</button>
-</div>
+    <div id="p4" class="page">
+        <div class="hud">
+            <div style="text-align:center"><div style="font-size:8px; color:var(--gold)">SELIC</div><div style="font-size:14px; font-weight:bold; color:var(--accent)">10.75%</div></div>
+            <div style="text-align:center"><div style="font-size:8px; color:var(--gold)">IPCA</div><div style="font-size:14px; font-weight:bold; color:var(--danger)">4.50%</div></div>
+            <div style="text-align:center"><div style="font-size:8px; color:var(--gold)">JURO REAL</div><div style="font-size:14px; font-weight:bold; color:var(--blue)">6.25%</div></div>
+        </div>
+        <div class="content-box">
+            <div class="input-box"><label>INVESTIMENTO (R$)</label><input type="number" id="cap" value="10000" oninput="calc()"></div>
+            <div id="total" style="font-size: 32px; color: var(--accent); font-weight: 900; text-align: center; font-family: monospace; margin: 15px 0;">R$ 0,00</div>
+            <div id="perfil-tag" style="text-align:center; color:var(--gold); font-size:10px; font-weight:900; margin-bottom:20px;"></div>
+            <div id="ativos" style="background: #111; padding: 15px; border-radius: 15px; font-size: 12px; color: #aaa;"></div>
+            <button class="btn-gold" style="background: transparent; border: 1px solid #333; color: #fff; margin-top: 30px;" onclick="location.reload()">REINICIAR</button>
+        </div>
+    </div>
 
 <script>
-    const biblioVoz = {
-        'Tesouro Selic': 'Comandante, o Tesouro Selic é o porto seguro. Ele rende a taxa básica de juros e é ideal para sua reserva de emergência. O risco aqui é praticamente zero.',
-        'CDB': 'O C.D.B é quando você empresta dinheiro para o banco. Ele te devolve com juros. É protegido pelo F.G.C em até duzentos e cinquenta mil reais.',
-        'LCI': 'A L.C.I é a estratégia de elite. Ela é isenta de imposto de renda. O lucro que você vê é o lucro que cai no seu bolso, sem sabotagem do governo.',
-        'FII': 'Os fundos imobiliários permitem que você receba aluguéis todos os meses sem precisar ter um imóvel. É renda passiva direto na conta.'
-    };
+    let pSelected = "";
+    function goTo(id) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    }
 
-    function falar(item) {
-        // Cancela vozes anteriores
-        window.speechSynthesis.cancel();
+    function setPerfil(perfil) {
+        pSelected = perfil;
+        goTo('p4');
+        calc();
+    }
 
-        const texto = biblioVoz[item];
-        const msg = new SpeechSynthesisUtterance(texto);
-        msg.lang = 'pt-BR';
-        msg.rate = 1.1; // Velocidade levemente rápida para parecer eficiente
-        msg.pitch = 1.0;
-
-        // Visual da onda sonora
-        msg.onstart = () => { 
-            document.getElementById('wave').style.display = 'flex'; 
-            document.getElementById('status').innerText = 'OMNI-CORE FALANDO...';
-        };
-        msg.onend = () => { 
-            document.getElementById('wave').style.display = 'none'; 
-            document.getElementById('status').innerText = 'SISTEMA ONLINE';
-        };
-
-        window.speechSynthesis.speak(msg);
+    function calc() {
+        let v = parseFloat(document.getElementById('cap').value) || 0;
+        let r = pSelected === 'cons' ? 1.1075 : (pSelected === 'mod' ? 1.145 : 1.185);
+        document.getElementById('total').innerText = "R$ " + (v * r).toLocaleString('pt-BR',{minimumFractionDigits:2});
+        document.getElementById('perfil-tag').innerText = "ESTRATÉGIA: " + pSelected.toUpperCase();
+        
+        let atv = pSelected === 'cons' ? "• Tesouro Selic (70%)<br>• CDB Pós (30%)" : 
+                 (pSelected === 'mod' ? "• LCI/LCA (40%)<br>• IPCA+ (30%)<br>• FIIs (30%)" : "• Ações (50%)<br>• BDRs (50%)");
+        document.getElementById('ativos').innerHTML = "<b>ALOCAÇÃO RECOMENDADA:</b><br>" + atv;
     }
 </script>
-
 </body>
 </html>
