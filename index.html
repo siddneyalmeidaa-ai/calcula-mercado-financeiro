@@ -3,44 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OMNI V21 | COMANDO</title>
+    <title>OMNI V22 | SUPREME</title>
     <style>
-        :root { --gold: #D4AF37; --bg: #000; --blue: #00D1FF; --accent: #00FF41; }
-        body { background: var(--bg); color: #fff; font-family: sans-serif; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .box { width: 90%; max-width: 400px; padding: 25px; border: 1px solid #222; border-radius: 25px; background: #050505; }
-        .step { display: none; text-align: center; }
+        :root { --gold: #D4AF37; --bg: #000; --blue: #00D1FF; --accent: #00FF41; --card: #080808; }
+        body { background: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; justify-content: center; min-height: 100vh; }
+        .box { width: 92%; max-width: 420px; padding: 20px; margin-top: 20px; }
+        .step { display: none; text-align: center; background: var(--card); padding: 25px; border-radius: 30px; border: 1px solid #1a1a1a; animation: fadeIn 0.4s; }
         .step.active { display: block; }
+        
         h2 { font-size: 10px; color: var(--gold); letter-spacing: 3px; margin-bottom: 20px; }
         .msg { font-size: 18px; font-weight: bold; margin-bottom: 25px; }
         .btn { width: 100%; padding: 18px; margin-bottom: 12px; background: #111; border: 1px solid #333; color: #fff; border-radius: 15px; cursor: pointer; font-size: 14px; font-weight: bold; }
-        .btn:active { background: var(--blue); color: #000; }
-        .asset { display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid #111; font-size: 13px; }
+        
+        /* Dashboard */
+        .input-box { background: #000; padding: 15px; border-radius: 20px; border: 1px solid #222; margin-bottom: 15px; text-align: left; }
+        .input-box label { color: var(--gold); font-size: 9px; font-weight: 900; display: block; margin-bottom: 5px; }
+        .input-box input { background: transparent; border: none; color: #fff; font-size: 22px; font-weight: bold; width: 100%; outline: none; }
+        
+        .resgate-box { background: linear-gradient(180deg, #0a0a0a, #000); border: 1px solid var(--accent); border-radius: 25px; padding: 25px; margin: 20px 0; }
+        .val-total { font-size: 32px; color: var(--accent); font-weight: 900; font-family: monospace; }
+        .asset-item { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #111; font-size: 12px; color: #aaa; }
+        
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
 <div class="box">
     <div id="q1" class="step active">
-        <h2>RECONHECIMENTO 01/03</h2>
-        <div class="msg">Qual sua necessidade de liquidez?</div>
-        <button class="btn" onclick="go(1,2,'safe')">IMEDIATA (24h)</button>
-        <button class="btn" onclick="go(1,2,'mod')">MÉDIO PRAZO</button>
-        <button class="btn" onclick="go(1,2,'ag')">LONGO PRAZO</button>
+        <h2>MAPEAMENTO 01/02</h2>
+        <div class="msg">Qual seu nível de urgência?</div>
+        <button class="btn" onclick="go(1,2,'safe')">PRECISO PRA ONTEM</button>
+        <button class="btn" onclick="go(1,2,'ag')">POSSO ESPERAR</button>
     </div>
 
     <div id="q2" class="step">
-        <h2>RECONHECIMENTO 02/03</h2>
-        <div class="msg">Qual seu objetivo principal?</div>
-        <button class="btn" onclick="go(2,3,'renda')">Gerar Renda (Dividendos)</button>
-        <button class="btn" onclick="go(2,3,'protecao')">Blindar Inflação</button>
-        <button class="btn" onclick="go(2,3,'crescer')">Crescer Patrimônio</button>
+        <h2>MAPEAMENTO 02/02</h2>
+        <div class="msg">Seu foco é renda ou acúmulo?</div>
+        <button class="btn" onclick="go(2,3,'renda')">DIVIDENDOS TODO MÊS</button>
+        <button class="btn" onclick="go(2,3,'crescer')">BATER A INFLAÇÃO</button>
     </div>
 
     <div id="q3" class="step">
-        <h2 id="titulo">PORTFÓLIO OMNI</h2>
-        <div id="resumo" style="font-size: 24px; color: var(--accent); margin-bottom: 20px;"></div>
-        <div id="lista"></div>
-        <button class="btn" style="margin-top:20px; color:var(--gold)" onclick="location.reload()">RECALIBRAR</button>
+        <h2>OMNI SUPREME V22</h2>
+        
+        <div class="input-box">
+            <label>QUANTO DESEJA APORTAR (R$)</label>
+            <input type="number" id="cap" value="5000" oninput="calc()">
+        </div>
+
+        <div class="input-box">
+            <label>TEMPO DE BLINDAGEM (MESES)</label>
+            <input type="number" id="tempo" value="12" oninput="calc()">
+        </div>
+
+        <div class="resgate-box">
+            <div style="font-size: 9px; color: #666; margin-bottom: 10px;">PROJEÇÃO LÍQUIDA (SEM IR)</div>
+            <div class="val-total" id="v-total">R$ 0,00</div>
+            <div id="v-mensal" style="font-size: 12px; color: var(--blue); margin-top: 10px;">Renda Mensal: R$ 0,00</div>
+        </div>
+
+        <div id="lista-ativos"></div>
+        
+        <button class="btn" style="margin-top:20px; color:var(--gold); font-size: 10px;" onclick="location.reload()">REINICIAR PROTOCOLO</button>
     </div>
 </div>
 
@@ -50,36 +75,30 @@
     function go(c, n, val) {
         if(c === 1) dna.p = val;
         if(c === 2) dna.o = val;
-        
         document.getElementById('q'+c).classList.remove('active');
         document.getElementById('q'+n).classList.add('active');
-        
-        if(n === 3) show();
+        if(n === 3) calc();
     }
 
-    function show() {
-        let l = document.getElementById('lista');
-        let res = document.getElementById('resumo');
+    function calc() {
+        let capital = parseFloat(document.getElementById('cap').value) || 0;
+        let meses = parseInt(document.getElementById('tempo').value) || 1;
         
-        if(dna.p === 'safe') {
-            res.innerText = "ALOCAÇÃO DEFENSIVA";
-            l.innerHTML = `
-                <div class="asset"><span>Tesouro Selic</span><span>50%</span></div>
-                <div class="asset"><span>CDB Pós 110%</span><span>30%</span></div>
-                <div class="asset"><span>LCI Isenta</span><span>20%</span></div>`;
-        } else if(dna.o === 'renda') {
-            res.innerText = "FOCO EM DIVIDENDOS";
-            l.innerHTML = `
-                <div class="asset"><span>FIIs (Renda Mensal)</span><span>40%</span></div>
-                <div class="asset"><span>Ações Dividendos</span><span>40%</span></div>
-                <div class="asset"><span>CRI Isento</span><span>20%</span></div>`;
-        } else {
-            res.innerText = "ESCALA ESTRUTURAL";
-            l.innerHTML = `
-                <div class="asset"><span>Ações Growth</span><span>40%</span></div>
-                <div class="asset"><span>S&P 500 (EUA)</span><span>40%</span></div>
-                <div class="asset"><span>Debêntures</span><span>20%</span></div>`;
-        }
+        // Definição de Ativos por Perfil (Sem Bitcoins)
+        let tx = dna.p === 'safe' ? 11.2 : (dna.o === 'renda' ? 13.8 : 16.5);
+        let rend = capital * (Math.pow(1 + (tx/100), meses/12)) - capital;
+        let liq = capital + (rend * 0.85); // Simulação de IR médio
+        
+        document.getElementById('v-total').innerText = "R$ " + liq.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+        document.getElementById('v-mensal').innerText = "Renda Estimada: R$ " + (rend / meses).toLocaleString('pt-BR', {minimumFractionDigits: 2}) + " /mês";
+
+        let ativos = dna.o === 'renda' ? 
+            [['FIIs Imobiliários', '40%'], ['Ações Dividendos', '40%'], ['CRI Isento', '20%']] :
+            [['Tesouro IPCA+', '40%'], ['CDB Pré 14%', '30%'], ['Ações Growth', '30%']];
+
+        document.getElementById('lista-ativos').innerHTML = ativos.map(a => `
+            <div class="asset-item"><span>${a[0]}</span><span style="color:var(--gold)">${a[1]}</span></div>
+        `).join('');
     }
 </script>
 </body>
