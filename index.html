@@ -2,110 +2,25 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OMNI V20 | SUPREME COMMAND</title>
+    <title>OMNI V21 | SISTEMA DE MAPEAMENTO</title>
     <style>
-        :root { --bg: #020202; --gold: #D4AF37; --accent: #00FF41; --blue: #00D1FF; --card: #0a0a0a; --danger: #FF3333; }
-        body { background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; margin: 0; padding: 15px; }
-        .dashboard { max-width: 480px; margin: auto; border: 1px solid #1a1a1a; border-radius: 35px; padding: 25px; box-shadow: 0 0 40px rgba(0,209,255,0.1); }
+        :root { --gold: #D4AF37; --bg: #020202; --accent: #00FF41; --blue: #00D1FF; }
+        body { background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .box { width: 100%; max-width: 400px; padding: 30px; border: 1px solid #1a1a1a; border-radius: 30px; background: #050505; box-shadow: 0 0 50px rgba(0,209,255,0.05); }
+        .step { display: none; }
+        .step.active { display: block; animation: fadeIn 0.5s forwards; }
+        h2 { font-size: 10px; color: var(--gold); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 20px; text-align: center; }
+        p { font-size: 14px; text-align: center; margin-bottom: 25px; color: #ccc; }
+        .btn-opt { width: 100%; padding: 15px; margin-bottom: 10px; background: #111; border: 1px solid #333; color: #fff; border-radius: 12px; cursor: pointer; font-size: 12px; transition: 0.3s; text-align: left; }
+        .btn-opt:hover { border-color: var(--blue); background: #001a20; }
         
-        .header { text-align: center; border-bottom: 1px solid #222; padding-bottom: 15px; }
-        .header h1 { font-size: 10px; letter-spacing: 5px; color: var(--gold); margin: 0; }
-        .clock { font-size: 28px; font-weight: 900; color: #fff; text-shadow: 0 0 15px var(--blue); }
-
-        .tab-nav { display: flex; gap: 10px; margin: 20px 0; overflow-x: auto; padding-bottom: 5px; }
-        .tab-btn { background: #111; border: 1px solid #333; color: #666; padding: 10px 15px; border-radius: 12px; font-size: 10px; cursor: pointer; white-space: nowrap; }
-        .tab-btn.active { border-color: var(--gold); color: var(--gold); }
-
-        .ia-sentinela { background: rgba(0,255,65,0.05); border: 1px solid var(--accent); padding: 15px; border-radius: 20px; font-size: 12px; margin-bottom: 20px; border-left: 5px solid var(--accent); }
-        
-        .input-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .input-box { background: #000; padding: 12px; border-radius: 15px; border: 1px solid #222; }
-        .input-box label { display: block; font-size: 8px; color: var(--gold); margin-bottom: 5px; font-weight: 900; }
-        .input-box input, .input-box select { width: 100%; background: transparent; border: none; color: #fff; font-size: 16px; font-weight: bold; outline: none; }
-
-        .result-box { background: linear-gradient(180deg, #0a0a0a 0%, #000 100%); border: 1px solid #222; border-radius: 25px; padding: 20px; text-align: center; }
-        .total-val { font-size: 36px; font-weight: 900; color: var(--accent); font-family: 'Courier New', monospace; }
-        .sabotagem-radar { font-size: 10px; color: #555; margin-top: 10px; border-top: 1px solid #111; padding-top: 10px; }
-        
-        .ipi { text-align: center; font-size: 8px; color: #333; margin-top: 20px; letter-spacing: 3px; }
+        /* Dashboard Final */
+        #dashboard { display: none; text-align: center; }
+        .asset-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #111; font-size: 12px; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-<div class="dashboard">
-    <div class="header">
-        <h1>OMNI V20 SUPREME</h1>
-        <div class="clock" id="timer">00:00:00</div>
-    </div>
-
-    <div class="tab-nav">
-        <button class="tab-btn active">TERMINAL</button>
-        <button class="tab-btn" onclick="alert('MISSÃO: Blindar o patrimônio contra a sabotagem inflacionária.\nVISÃO: Ser o padrão ouro de análise global.')">DIRETRIZES</button>
-        <button class="tab-btn">HISTÓRICO</button>
-    </div>
-
-    <div class="ia-sentinela" id="feedback">
-        SISTEMA ONLINE: Comandante, aguardando aporte para análise de vácuo.
-    </div>
-
-    <div class="input-group">
-        <div class="input-box"><label>INVESTIMENTO</label><input type="number" id="capital" value="10000" oninput="run()"></div>
-        <div class="input-box">
-            <label>ESTRATÉGIA</label>
-            <select id="perfil" onchange="run()">
-                <option value="safe">SEGURANÇA TOTAL</option>
-                <option value="balanced" selected>EQUILÍBRIO OMNI</option>
-                <option value="aggressive">MÁXIMA ESCALA</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="input-box" style="margin-bottom:20px;">
-        <label>HORIZONTE (MESES)</label>
-        <input type="range" id="meses" min="1" max="60" value="12" style="width:100%" oninput="run()">
-        <div id="meses-val" style="text-align:center; font-size:12px; margin-top:5px;">12 Meses</div>
-    </div>
-
-    <div class="result-box">
-        <div style="font-size:10px; color:#666; margin-bottom:5px;">RESGATE LÍQUIDO PROJETADO</div>
-        <div class="total-val" id="total">R$ 0,00</div>
-        <div class="sabotagem-radar" id="radar">Comparativo Poupança: Calculando...</div>
-    </div>
-
-    <div class="ipi">IPI: 2026-CS-SUPREME-V20</div>
-</div>
-
-<script>
-    function run() {
-        const cap = parseFloat(document.getElementById('capital').value) || 0;
-        const t = parseInt(document.getElementById('meses').value);
-        const p = document.getElementById('perfil').value;
-        document.getElementById('meses-val').innerText = t + " Meses";
-
-        // Taxas do Mercado Real (Simulado 2026)
-        let rendimentoAnual = p === 'safe' ? 11.5 : (p === 'balanced' ? 14.8 : 19.5);
-        let taxaIR = t > 24 ? 0.15 : (t > 12 ? 0.175 : 0.20);
-        
-        let bruto = cap * (Math.pow(1 + (rendimentoAnual/100), t/12)) - cap;
-        let imposto = p === 'safe' ? bruto * taxaIR * 0.5 : bruto * taxaIR; // Isenção parcial em Safe
-        let liq = cap + bruto - imposto;
-
-        document.getElementById('total').innerText = "R$ " + liq.toLocaleString('pt-BR', {minimumFractionDigits: 2});
-        
-        // Radar de Sabotagem (Comparativo Poupança)
-        let poup = cap * (Math.pow(1.06, t/12));
-        let perda = liq - poup;
-        document.getElementById('radar').innerText = "VOCÊ GANHA R$ " + perda.toFixed(2) + " A MAIS QUE NA POUPANÇA";
-        
-        // IA Sentinela
-        document.getElementById('feedback').innerText = `Comandante, para ${t} meses, a estratégia ${p} supera o IPCA em R$ ${(bruto*0.6).toFixed(2)}. Blindagem ativa.`;
-    }
-
-    setInterval(() => {
-        document.getElementById('timer').innerText = new Date().toLocaleTimeString('pt-BR');
-    }, 1000);
-    window.onload = run;
-</script>
-</body>
-</html>
+<div class="box
+    
