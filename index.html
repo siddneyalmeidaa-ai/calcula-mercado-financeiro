@@ -2,134 +2,43 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OMNI V36 | SUPREME COMMAND</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>OMNI V38 | VOICE INTEGRATED</title>
     <style>
-        :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --card: #080808; --danger: #FF3333; }
+        :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --card: #0a0a0a; }
         
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; overflow-x: hidden; }
-
-        /* --- TELA 1: CAPA FUTURISTA (REAL NEON) --- */
-        .page { display: none; min-height: 100vh; width: 100%; animation: fadeIn 0.6s ease; }
-        .active { display: flex; flex-direction: column; }
-
-        #p1 { 
-            background: radial-gradient(circle at center, #001f1f 0%, #000 85%); 
-            justify-content: center; align-items: center; position: relative;
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body, html { 
+            margin: 0; padding: 0; width: 100%; height: 100%; 
+            background-color: #000 !important; color: #fff; 
+            font-family: 'Segoe UI', sans-serif; overflow-x: hidden;
         }
 
-        .logo-neon { 
-            font-size: 65px; font-weight: 900; letter-spacing: 15px; color: var(--gold);
-            text-shadow: 0 0 20px rgba(212, 175, 55, 0.8), 0 0 40px rgba(212, 175, 55, 0.3);
-            margin-bottom: 5px; animation: glow 2s infinite alternate;
-        }
+        .container { width: 100%; min-height: 100vh; display: flex; flex-direction: column; }
+        .page { display: none; width: 100%; flex: 1; padding: 20px; flex-direction: column; }
+        .active { display: flex; }
 
-        @keyframes glow { from { opacity: 0.8; } to { opacity: 1; text-shadow: 0 0 30px var(--gold); } }
+        /* CAPA */
+        #p1 { background: radial-gradient(circle at top, #002b2b 0%, #000 70%); justify-content: center; align-items: center; text-align: center; }
+        .logo-omni { font-size: 55px; font-weight: 900; letter-spacing: 12px; color: var(--gold); text-shadow: 0 0 25px rgba(212, 175, 55, 0.6); margin: 0; }
 
-        .btn-supreme {
-            background: transparent; border: 2px solid var(--blue); color: var(--blue);
-            padding: 15px 50px; border-radius: 5px; font-weight: 900; cursor: pointer;
-            box-shadow: 0 0 15px rgba(0, 209, 255, 0.4); transition: 0.3s; margin-top: 30px;
-        }
+        /* BOTÕES */
+        .btn-main { width: 100%; max-width: 300px; padding: 18px; background: var(--gold); color: #000; border: none; border-radius: 12px; font-weight: 900; text-transform: uppercase; cursor: pointer; margin-top: 40px; }
+        .btn-outline { width: 100%; padding: 15px; background: #111; border: 1px solid #333; color: #fff; border-radius: 12px; margin-bottom: 10px; cursor: pointer; font-size: 14px; text-align: left; transition: 0.2s; }
+        .btn-outline:active { background: var(--blue); color: #000; }
 
-        .btn-supreme:hover { background: var(--blue); color: #000; box-shadow: 0 0 40px var(--blue); }
+        /* HUD */
+        .hud-top { display: flex; gap: 10px; margin-bottom: 20px; padding: 15px; background: var(--card); border-radius: 15px; border: 1px solid #1a1a1a; }
+        .hud-box { flex: 1; text-align: center; }
+        .hud-label { font-size: 8px; color: var(--gold); font-weight: 900; }
+        .hud-val { font-size: 14px; font-weight: bold; }
 
-        /* --- TERMINAL E HUD --- */
-        .hud { display: flex; justify-content: space-around; background: rgba(255,255,255,0.03); padding: 15px; border-radius: 20px; border: 1px solid #1a1a1a; margin: 15px; backdrop-filter: blur(10px); }
-        .hud-val { font-size: 14px; font-weight: bold; font-family: monospace; }
+        /* RESULTADOS */
+        .card-res { background: var(--card); padding: 20px; border-radius: 20px; border: 1px solid #1a1a1a; text-align: center; margin-bottom: 20px; position: relative; }
+        .asset-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #050505; border: 1px solid #111; border-radius: 10px; margin-bottom: 8px; }
 
-        .content { padding: 20px; max-width: 420px; margin: 0 auto; width: 90%; }
-        .mvo-card { background: var(--card); border: 1px solid #222; padding: 15px; border-radius: 15px; margin-bottom: 10px; border-left: 4px solid var(--gold); }
-
-        .input-glass { background: rgba(255,255,255,0.05); border: 1px solid #333; padding: 15px; border-radius: 15px; margin-bottom: 20px; }
-        .input-glass input { background: transparent; border: none; color: var(--accent); font-size: 26px; font-weight: bold; width: 100%; outline: none; }
-
-        /* --- FRACIONAMENTO --- */
-        .asset-row { background: #0a0a0a; border: 1px solid #1a1a1a; padding: 15px; border-radius: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
-        
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    </style>
-</head>
-<body>
-
-    <div id="p1" class="page active">
-        <div class="logo-neon">ØMNI</div>
-        <div style="color: var(--blue); font-size: 10px; letter-spacing: 5px;">V36 | SUPREME COMMAND</div>
-        <button class="btn-supreme" onclick="goTo('p2')">INICIAR PROTOCOLO</button>
-    </div>
-
-    <div id="p2" class="page">
-        <div class="content">
-            <h2 style="color: var(--gold); font-size: 11px; text-align: center; letter-spacing: 3px;">DIRETRIZES TÁTICAS</h2>
-            <div class="mvo-card"><b style="color:var(--gold); font-size:10px;">MISSÃO</b><p style="font-size:13px; color:#aaa; margin:5px 0 0 0;">Blindagem contra o vácuo inflacionário.</p></div>
-            <div class="mvo-card"><b style="color:var(--gold); font-size:10px;">VISÃO</b><p style="font-size:13px; color:#aaa; margin:5px 0 0 0;">Liderança absoluta no Padrão Ouro.</p></div>
-            <button class="btn-supreme" style="width:100%" onclick="goTo('p3')">CONTINUAR PARA EXAME</button>
-        </div>
-    </div>
-
-    <div id="p3" class="page">
-        <div class="content">
-            <h2 style="color: var(--blue); font-size: 11px; text-align: center;">MAREAMENTO CPA-10</h2>
-            <button class="btn-supreme" style="width:100%; margin-bottom:10px; border-color:#333; color:#fff;" onclick="setPerfil('cons')">CONSERVADOR</button>
-            <button class="btn-supreme" style="width:100%; margin-bottom:10px; border-color:#333; color:#fff;" onclick="setPerfil('mod')">MODERADO</button>
-            <button class="btn-supreme" style="width:100%; border-color:#333; color:#fff;" onclick="setPerfil('arr')">ARROJADO</button>
-        </div>
-    </div>
-
-    <div id="p4" class="page">
-        <div class="hud">
-            <div style="text-align:center"><div style="font-size:7px; color:var(--gold)">SELIC</div><div class="hud-val" style="color:var(--accent)">10.75%</div></div>
-            <div style="text-align:center"><div style="font-size:7px; color:var(--gold)">IPCA</div><div class="hud-val" style="color:var(--danger)">4.50%</div></div>
-            <div style="text-align:center"><div style="font-size:7px; color:var(--gold)">GANHO REAL</div><div class="hud-val" style="color:var(--blue)">6.25%</div></div>
-        </div>
-
-        <div class="content">
-            <div class="input-glass">
-                <label style="font-size:8px; color:var(--gold); display:block; margin-bottom:5px;">VALOR DO APORTE (R$)</label>
-                <input type="number" id="val" value="1000" oninput="calc()">
-            </div>
-            
-            <div style="text-align:center; margin-bottom:20px;">
-                <div id="total-proj" style="font-size:36px; color:var(--accent); font-weight:900; font-family:monospace;">R$ 0,00</div>
-                <div style="font-size:9px; color:#555; letter-spacing:1px;">RESGATE LÍQUIDO PROJETADO (12M)</div>
-            </div>
-
-            <div id="ativos-fracionados"></div>
-            
-            <button class="btn-supreme" style="width:100%; margin-top:30px; border-color:var(--gold); color:var(--gold);" onclick="location.reload()">REINICIAR</button>
-        </div>
-    </div>
-
-<script>
-    let p = "";
-    function goTo(id) {
-        document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-    }
-
-    function setPerfil(per) { p = per; goTo('p4'); calc(); }
-
-    function calc() {
-        let v = parseFloat(document.getElementById('val').value) || 0;
-        let r = p === 'cons' ? 1.1075 : (p === 'mod' ? 1.145 : 1.185);
-        document.getElementById('total-proj').innerText = "R$ " + (v * r).toLocaleString('pt-BR',{minimumFractionDigits:2});
-
-        let data = p === 'cons' ? 
-            [['Tesouro Selic', 0.7, 'Segurança'], ['CDB Pós', 0.3, 'Liquidez']] :
-            (p === 'mod' ? [['LCI/LCA', 0.4, 'Isento'], ['IPCA+', 0.3, 'Real'], ['FIIs', 0.3, 'Renda']] :
-            [['Ações', 0.5, 'Crescimento'], ['BDRs', 0.5, 'Dólar']]);
-
-        let html = "";
-        data.forEach(item => {
-            let part = v * item[1];
-            html += `<div class="asset-row">
-                <div style="font-size:12px;"><b>${item[0]}</b><br><small style="color:#555">${item[2]}</small></div>
-                <div style="color:var(--accent); font-weight:bold;">R$ ${part.toLocaleString('pt-BR',{minimumFractionDigits:2})}</div>
-            </div>`;
-        });
-        document.getElementById('ativos-fracionados').innerHTML = html;
-    }
-</script>
-</body>
-    </html>
-    
+        /* VOICE VISUAL */
+        .wave-box { display: none; justify-content: center; gap: 3px; height: 12px; margin-top: 10px; }
+        .bar { width: 2px; height: 100%; background: var(--blue); animation: wave 0.5s infinite alternate; }
+        @keyframes wave { from { height: 3px; } to
+                         
