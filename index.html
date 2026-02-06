@@ -3,52 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>OMNI V61 | CONSOLIDADO ANBIMA</title>
+    <title>OMNI V62 | RECOVERY SERVER</title>
     <style>
-        :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --card: #0a0a0a; --border: #1a1a1a; --tax-red: #ff4444; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Courier New', Courier, monospace; }
-        body, html { background: #000; color: #fff; height: 100vh; overflow: hidden; }
+        /* CSS INLINE PARA EVITAR QUEBRA VISUAL */
+        :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --tax: #ff4444; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+        body { background: #000; color: #fff; height: 100vh; overflow-x: hidden; }
         
-        .app { width: 100%; height: 100%; display: flex; flex-direction: column; }
-        .page { display: none; width: 100%; height: 100%; padding: 15px; flex-direction: column; overflow-y: auto; background: #000; }
+        .app-container { width: 100%; max-width: 500px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; border: 1px solid #111; }
+        .page { display: none; padding: 20px; flex-direction: column; }
         .active { display: flex !important; }
 
-        .status-bar { display: flex; justify-content: space-between; font-size: 10px; color: var(--blue); padding: 12px; border-bottom: 2px solid var(--gold); position: sticky; top: 0; z-index: 100; background: #000; }
-        .live-tag { color: var(--accent); font-weight: bold; animation: blink 2s infinite; }
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+        /* HEADER */
+        .header { display: flex; justify-content: space-between; font-size: 10px; color: var(--blue); padding: 15px; border-bottom: 2px solid var(--gold); letter-spacing: 1px; }
+        .live { color: var(--accent); font-weight: bold; }
 
-        .brand { text-align: center; margin: 10px 0; }
-        .logo { font-size: 28px; font-weight: 900; letter-spacing: 5px; color: var(--gold); }
-        
-        .card-exec { background: var(--card); border: 1px solid var(--border); padding: 12px; margin-bottom: 10px; border-left: 3px solid var(--gold); }
-        .label-gold { font-size: 9px; color: var(--gold); font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 5px; display: block; }
+        /* CARDS */
+        .card { background: #0a0a0a; border: 1px solid #1a1a1a; padding: 15px; margin-bottom: 15px; border-left: 4px solid var(--gold); }
+        .label { font-size: 10px; color: var(--gold); font-weight: bold; text-transform: uppercase; margin-bottom: 8px; display: block; }
 
-        .btn-gold { width: 100%; padding: 15px; background: var(--gold); color: #000; border: none; font-weight: 900; font-size: 13px; letter-spacing: 2px; cursor: pointer; }
-        .btn-option { width: 100%; padding: 12px; background: transparent; border: 1px solid var(--border); color: #fff; margin-bottom: 6px; text-align: left; cursor: pointer; }
+        /* INPUTS */
+        .grid-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+        input, select { background: #151515; border: 1px solid #222; color: var(--accent); padding: 12px; width: 100%; border-radius: 4px; font-weight: bold; font-size: 16px; outline: none; }
 
-        .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
-        input, select { background: #111; border: 1px solid var(--border); color: var(--accent); padding: 10px; width: 100%; font-size: 15px; text-align: center; outline: none; }
+        /* DASHBOARD */
+        .dash-dual { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .box { padding: 15px; border-radius: 5px; text-align: center; border: 1px solid #111; background: #050505; }
+        .val { font-size: 18px; font-weight: 800; margin-top: 5px; }
 
-        /* DASHBOARD DUAL */
-        .dual-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
-        .view-box { padding: 10px; border-radius: 4px; text-align: center; border: 1px solid #111; }
-        .val-display { font-size: 18px; font-weight: bold; margin-top: 5px; }
-
-        /* IA BIBLIOTECÁRIA */
-        .lib-chat { background: #050505; border: 1px solid var(--blue); border-radius: 8px; margin-top: 10px; display: flex; flex-direction: column; }
-        .chat-header { background: var(--blue); color: #000; padding: 6px 12px; font-size: 10px; font-weight: 900; }
-        .chat-content { padding: 12px; font-size: 11px; min-height: 60px; color: #00D1FF; border-bottom: 1px solid #111; }
-        .chat-input-area { display: flex; }
-        .chat-input { flex: 1; background: transparent; border: none; color: #fff; padding: 10px; font-size: 12px; outline: none; }
-        .chat-send { background: var(--blue); color: #000; border: none; width: 45px; cursor: pointer; font-weight: bold; }
-
-        .audit-item { padding: 10px 0; border-bottom: 1px solid #151515; font-size: 12px; }
-    </style>
-</head>
-<body>
-
-<div class="app">
-    <div id="p1" class="page active">
-        <div class="status-bar"><div><span class="live-tag">●</span> SISTEMA OPERACIONAL</div><div>06/02/2026</div></div>
-        <div class="brand"><h1 class="logo">ØMNI</h1><p style="font-size:7px
-                                                         
+        /* IA CHAT */
+        .chat-box { border: 1px solid var(--blue); border-radius: 8px; overflow: hidden; margin-top: 10px; }
+        .chat-head { background: var(--blue); color: #000; padding: 8px;
+                    
