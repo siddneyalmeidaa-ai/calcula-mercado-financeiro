@@ -3,172 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.A. SUPREMACIA | V101 BLINDADA</title>
+    <title>S.A. SUPREMACIA | V104 DUPLA PROJEÇÃO</title>
     <style>
         :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --red: #FF4444; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
         body { background: #000; color: #fff; height: 100vh; overflow-y: auto; display: flex; flex-direction: column; }
         
-        .header { border-bottom: 2px solid var(--gold); padding: 12px; display: flex; justify-content: space-between; font-size: 11px; color: var(--gold); font-weight: 900; }
-        .container { padding: 15px; flex: 1; display: flex; flex-direction: column; gap: 12px; }
+        .header { border-bottom: 2px solid var(--gold); padding: 10px; display: flex; justify-content: space-between; font-size: 11px; color: var(--gold); font-weight: 900; }
+        .container { padding: 15px; flex: 1; display: flex; flex-direction: column; gap: 10px; }
 
-        /* MONITOR DE TAXAS AO VIVO */
-        .live-monitor { background: rgba(0, 255, 65, 0.05); border: 1px solid var(--accent); padding: 10px; border-radius: 4px; display: flex; justify-content: space-between; font-size: 10px; color: var(--accent); font-weight: bold; }
+        .top-monitor { background: #050505; border: 1px solid var(--accent); padding: 8px; border-radius: 4px; display: flex; justify-content: space-around; font-size: 10px; color: var(--accent); font-weight: bold; }
 
-        .profile-display { background: #0a0a0a; border: 1px solid var(--gold); padding: 10px; border-radius: 4px; text-align: center; }
-        .profile-badge { background: var(--gold); color: #000; padding: 3px 15px; border-radius: 20px; font-size: 10px; font-weight: 900; text-transform: uppercase; margin-top: 5px; display: inline-block; }
+        .dash-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+        .input-card { background: #0a0a0a; border-left: 3px solid var(--gold); padding: 8px; border-radius: 4px; }
+        .label { font-size: 8px; color: var(--gold); font-weight: bold; text-transform: uppercase; display: block; margin-bottom: 3px; }
+        input { background: #111; border: 1px solid #333; color: var(--accent); padding: 6px; width: 100%; font-size: 14px; border-radius: 4px; outline: none; }
 
-        .dash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .input-card { background: #0a0a0a; border: 1px solid #1a1a1a; padding: 10px; border-left: 4px solid var(--gold); border-radius: 4px; }
-        .label { font-size: 9px; color: var(--gold); font-weight: bold; text-transform: uppercase; margin-bottom: 4px; display: block; }
-        input { background: #111; border: 1px solid #333; color: var(--accent); padding: 8px; width: 100%; font-size: 16px; border-radius: 4px; outline: none; }
+        .btn-calc { background: var(--gold); color: #000; border: none; padding: 12px; border-radius: 4px; font-weight: 900; cursor: pointer; text-transform: uppercase; width: 100%; margin: 5px 0; }
 
-        .btn-recalc { background: var(--gold); color: #000; border: none; padding: 15px; border-radius: 4px; font-weight: 900; cursor: pointer; text-transform: uppercase; width: 100%; transition: 0.3s; }
-        .btn-recalc:hover { background: #fff; }
-
-        /* CARTEIRA DINÂMICA */
+        /* DISTRIBUIÇÃO DO PORTFÓLIO */
         .product-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-        .p-card { background: #0a0a0a; border: 1px solid var(--blue); padding: 10px; border-radius: 4px; text-align: center; transition: 0.5s; }
-        .p-card.selected { border-color: var(--accent); box-shadow: 0 0 15px var(--accent); transform: scale(1.02); }
+        .p-card { background: #0a0a0a; border: 1px solid var(--blue); padding: 10px; border-radius: 4px; text-align: center; }
         .p-name { font-size: 8px; color: var(--blue); font-weight: bold; display: block; text-transform: uppercase; }
-        .p-tax { font-size: 12px; font-weight: bold; color: #fff; }
+        .p-percent { font-size: 14px; color: var(--accent); font-weight: 900; margin: 4px 0; }
+        .p-val { font-size: 10px; color: #fff; }
 
-        /* RESULTADOS COM REGRA -50% */
-        .res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .res-box { background: #050505; border: 1px solid #111; padding: 12px; text-align: center; border-radius: 4px; border-top: 3px solid var(--accent); }
-        .val { font-size: 18px; font-weight: bold; margin-top: 5px; color: var(--accent); }
+        /* RESULTADOS COM PROJEÇÃO DE TEMPO */
+        .res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .res-box { background: #050505; border-top: 3px solid var(--accent); padding: 10px; text-align: center; border-radius: 4px; }
+        .val { font-size: 16px; font-weight: bold; color: var(--accent); }
+        .sub-val { font-size: 9px; color: #888; margin-top: 2px; }
 
-        /* CHAT ANGELA V101 */
         .chat-wrap { background: #050505; border: 2px solid var(--blue); border-radius: 8px; display: flex; flex-direction: column; margin-top: auto; }
-        .chat-head { background: var(--blue); color: #000; padding: 10px; font-size: 11px; font-weight: 900; text-align: center; text-transform: uppercase; }
-        .chat-area { padding: 15px; height: 180px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-        .m { padding: 12px; border-radius: 8px; font-size: 14px; line-height: 1.4; max-width: 85%; }
-        .m.ai { background: rgba(0, 209, 255, 0.05); color: var(--blue); align-self: flex-start; border: 1px solid rgba(0, 209, 255, 0.2); }
+        .chat-head { background: var(--blue); color: #000; padding: 8px; font-size: 10px; font-weight: 900; text-align: center; }
+        .chat-area { padding: 12px; height: 100px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+        .m { padding: 8px; border-radius: 8px; font-size: 13px; }
+        .m.ai { background: rgba(0, 209, 255, 0.1); color: var(--blue); align-self: flex-start; }
         .m.me { background: #222; color: #fff; align-self: flex-end; }
         
-        .btn-group { display: flex; gap: 10px; padding: 15px; background: #000; }
-        .cmd-btn { flex: 1; padding: 15px; border: none; border-radius: 4px; cursor: pointer; font-weight: 900; text-transform: uppercase; }
-        .btn-yes { background: var(--accent); color: #000; }
-        .btn-no { background: var(--red); color: #fff; }
+        .btn-group { display: flex; gap: 8px; padding: 10px; }
+        .cmd-btn { flex: 1; padding: 12px; border: none; border-radius: 4px; cursor: pointer; font-weight: 900; text-transform: uppercase; font-size: 10px; }
     </style>
 </head>
 <body>
 
 <div class="header">
-    <div>🔱 S.A. SUPREMACIA | V101 INTEGRAL</div>
-    <div>06/02/2026 | 17:45</div>
+    <div>🔱 S.A. SUPREMACIA | V104</div>
+    <div>06/02/2026 | 18:15</div>
 </div>
 
 <div class="container">
-    <div class="live-monitor">
+    <div class="top-monitor">
         <span>SELIC: 10.75%</span>
-        <span style="color:var(--gold)">|</span>
         <span>IPCA: 4.52%</span>
-        <span style="color:var(--gold)">|</span>
-        <span id="live-clock">17:45:00</span>
-    </div>
-
-    <div class="profile-display">
-        <span class="label">Identidade do Investidor</span>
-        <div id="p-tag" class="profile-badge">Mapeamento Pendente</div>
+        <span id="ir-tag" style="color:var(--red)">IR: 22.5%</span>
     </div>
 
     <div class="dash-grid">
-        <div class="input-card"><span class="label">Aporte Inicial</span><input type="number" id="ini" value="1000"></div>
-        <div class="input-card"><span class="label">Aporte Mensal</span><input type="number" id="mes" value="200"></div>
+        <div class="input-card"><span class="label">Inicial (R$)</span><input type="number" id="ini" value="1000"></div>
+        <div class="input-card"><span class="label">Mensal (R$)</span><input type="number" id="mes" value="200"></div>
+        <div class="input-card"><span class="label">Tempo (Meses)</span><input type="number" id="tempo" value="12"></div>
     </div>
-    <button class="btn-recalc" onclick="recalcular()">🔄 Recalcular Projeção</button>
+    
+    <button class="btn-calc" onclick="recalcular()">🔄 Executar Dupla Projeção</button>
 
-    <div class="product-grid" id="product-list">
-        <div class="p-card" id="c1"><span class="p-name" id="n1">CDB Pós</span><span class="p-tax" id="t1">105% CDI</span></div>
-        <div class="p-card" id="c2"><span class="p-name" id="n2">Tesouro</span><span class="p-tax" id="t2">SELIC</span></div>
-        <div class="p-card" id="c3"><span class="p-name" id="n3">LCI / LCA</span><span class="p-tax" id="t3">92% CDI</span></div>
+    <div class="product-grid" id="portfolio">
+        <div class="p-card"><span class="p-name" id="n1">CDB Pós</span><div class="p-percent" id="pc1">--</div><div class="p-val" id="v1">R$ 0</div></div>
+        <div class="p-card"><span class="p-name" id="n2">Tesouro</span><div class="p-percent" id="pc2">--</div><div class="p-val" id="v2">R$ 0</div></div>
+        <div class="p-card"><span class="p-name" id="n3">LCI/LCA</span><div class="p-percent" id="pc3">--</div><div class="p-val" id="v3">R$ 0</div></div>
     </div>
 
     <div class="res-grid">
-        <div class="res-box"><span class="label">Lucro Líquido (Regra -50%)</span><div class="val" id="res-liq">R$ 0,00</div></div>
-        <div class="res-box" style="border-top-color: var(--red);"><span class="label">IR Estimado</span><div class="val" style="color:var(--red);" id="res-ir">R$ 0,00</div></div>
+        <div class="res-box"><span class="label">Lucro Líquido Real</span><div class="val" id="res-liq">R$ 0,00</div><div class="sub-val" id="desc-pro">Com Projeção -50%</div></div>
+        <div class="res-box" style="border-top-color: var(--red);"><span class="label">Imposto (IR)</span><div class="val" style="color:var(--red);" id="res-ir">R$ 0,00</div><div class="sub-val" id="ir-perc">Alíquota: 22.5%</div></div>
     </div>
 
     <div class="chat-wrap">
-        <div class="chat-head">Angela V101 | Consultoria Proativa</div>
+        <div class="chat-head">Angela V104 | Analista de Prazo</div>
         <div id="chat-box" class="chat-area">
-            <div class="m ai" id="at">Comandante S.A., sistema online. Para liberar sua carteira personalizada e recalcular o lucro real, responda: <br><br><b>1. Você já possui reserva de emergência (6 meses)?</b></div>
+            <div class="m ai">Comandante S.A., pronto para projetar. <br><br><b>O tempo inserido acima definirá o rendimento e o seu imposto.</b></div>
         </div>
-        <div class="btn-group" id="btn-container">
-            <button class="cmd-btn btn-yes" onclick="exec('Sim')">Sim</button>
-            <button class="cmd-btn btn-no" onclick="exec('Não')">Não</button>
+        <div class="btn-group" id="actions">
+            <button class="cmd-btn" style="background:var(--accent); color:#000" onclick="recalcular()">Projetar Agora</button>
         </div>
     </div>
 </div>
 
 <script>
-    let step = 0; let score = 0;
-    const questions = [
-        "1. Possui reserva de emergência?", "2. Aceita oscilações para ganhar mais?",
-        "3. Seu foco é para mais de 5 anos?", "4. Conhece Ações ou Criptomoedas?",
-        "5. Pretende fazer aportes mensais?", "6. Segurança é sua maior prioridade?"
-    ];
-
-    // ATUALIZAÇÃO DO RELÓGIO
-    setInterval(() => { document.getElementById('live-clock').innerText = new Date().toLocaleTimeString(); }, 1000);
-
     function recalcular() {
-        const i = parseFloat(document.getElementById('ini').value);
-        const m = parseFloat(document.getElementById('mes').value);
-        // Regra de lucro simplificada + Redução de 50% (Sua regra salva)
-        let lucroBruto = (i + (m * 12)) * 0.1075; 
-        let lucroSeguro = lucroBruto * 0.5;
-        document.getElementById('res-liq').innerText = "R$ " + lucroSeguro.toFixed(2);
-        document.getElementById('res-ir').innerText = "R$ " + (lucroSeguro * 0.15).toFixed(2);
-    }
-
-    function exec(opt) {
-        addMsg(opt, 'me');
-        if(opt === 'Sim') score++;
-        step++;
-        setTimeout(() => {
-            if(step < questions.length) {
-                addMsg(questions[step], 'ai');
-            } else {
-                finalizarOnboarding();
-            }
-        }, 400);
-    }
-
-    function finalizarOnboarding() {
-        let perfil = "Conservador";
-        if(score >= 5) {
-            perfil = "Agressivo";
-            document.getElementById('n1').innerText = "Ações (DIV)";
-            document.getElementById('n3').innerText = "Cripto/ETF";
-            document.getElementById('c3').classList.add('selected');
-        } else if(score >= 3) {
-            perfil = "Moderado";
-            document.getElementById('t1').innerText = "115% CDI";
-            document.getElementById('c1').classList.add('selected');
-        } else {
-            document.getElementById('c2').classList.add('selected');
-        }
+        const p = parseFloat(document.getElementById('ini').value);
+        const pm = parseFloat(document.getElementById('mes').value);
+        const t = parseInt(document.getElementById('tempo').value);
         
-        document.getElementById('p-tag').innerText = perfil;
-        addMsg(`Perfil **${perfil}** traçado com sucesso. Carteira calibrada. O que deseja fazer a seguir?`, "ai");
+        // 1. DEFINIR IR POR TEMPO
+        let irTaxa = 0.225;
+        if(t > 24) irTaxa = 0.15;
+        else if(t > 12) irTaxa = 0.175;
+        else if(t > 6) irTaxa = 0.20;
         
-        // DESTRUIÇÃO DOS BOTÕES SIM/NÃO PARA MATAR O LOOP
-        document.getElementById('btn-container').innerHTML = `
-            <button class="cmd-btn" style="background:var(--blue); color:#000" onclick="addMsg('Simulando Aporte no Ativo Principal...', 'ai')">🚀 Simular Aporte</button>
-            <button class="cmd-btn" style="background:var(--gold); color:#000" onclick="addMsg('Auditando Taxas SELIC/IPCA ao vivo...', 'ai')">⚖️ Auditar Taxas</button>
-        `;
-        recalcular();
+        document.getElementById('ir-tag').innerText = `IR: ${(irTaxa*100).toFixed(1)}%`;
+        document.getElementById('ir-perc').innerText = `Alíquota: ${(irTaxa*100).toFixed(1)}%`;
+
+        // 2. CÁLCULO DE RENDIMENTO (SIMULADO C/ REGRA -50%)
+        const selicAnual = 0.1075;
+        const selicMensal = Math.pow(1 + selicAnual, 1/12) - 1;
+        
+        // M = P(1+i)^n + PM[((1+i)^n - 1) / i]
+        let montanteInic = p * Math.pow(1 + selicMensal, t);
+        let montanteMens = pm * ((Math.pow(1 + selicMensal, t) - 1) / selicMensal);
+        let totalFinal = montanteInic + montanteMens;
+        let totalInvestido = p + (pm * t);
+        let lucroBruto = totalFinal - totalInvestido;
+        
+        // Aplicando sua regra de -50% na projeção
+        let lucroProjetado = lucroBruto * 0.5;
+        let valorIR = lucroProjetado * irTaxa;
+        let lucroLiquido = lucroProjetado - valorIR;
+
+        document.getElementById('res-liq').innerText = "R$ " + lucroLiquido.toFixed(2);
+        document.getElementById('res-ir').innerText = "R$ " + valorIR.toFixed(2);
+
+        // 3. DISTRIBUIÇÃO PADRÃO (CONSERVADORA ATÉ O PERFIL MUDAR)
+        setDist(20, 70, 10, p);
     }
 
-    function addMsg(t, type) {
-        const b = document.getElementById('chat-box');
-        const div = document.createElement('div');
-        div.className = `m ${type}`; div.innerHTML = t;
-        b.appendChild(div); b.scrollTop = b.scrollHeight;
+    function setDist(a, b, c, total) {
+        document.getElementById('pc1').innerText = a+"%"; document.getElementById('v1').innerText = "R$ "+(total*a/100).toFixed(0);
+        document.getElementById('pc2').innerText = b+"%"; document.getElementById('v2').innerText = "R$ "+(total*b/100).toFixed(0);
+        document.getElementById('pc3').innerText = c+"%"; document.getElementById('v3').innerText = "R$ "+(total*c/100).toFixed(0);
     }
-    recalcular();
 </script>
 </body>
 </html>
