@@ -3,143 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.A. SUPREMACIA | V104 RECOVERY</title>
+    <title>S.A. SUPREMACIA | V112 PROTECT</title>
     <style>
         :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --red: #FF4444; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
-        body { background: #000; color: #fff; min-height: 100vh; display: flex; flex-direction: column; }
+        body { background: #000; color: #fff; height: 100vh; overflow: hidden; }
+
+        /* CORTINA POWERPOINT */
+        #splash {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, #1a1a1a 0%, #000 100%);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 999; transition: transform 0.9s cubic-bezier(0.7, 0, 0.3, 1);
+        }
+
+        .main-app { display: none; height: 100vh; flex-direction: column; opacity: 0; transition: 0.5s; }
+        .container { padding: 15px; flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .page { display: none; }
+        .page.active { display: flex; flex-direction: column; gap: 10px; }
+
+        /* CARDS E INPUTS */
+        .q-card { background: #0a0a0a; border-left: 3px solid var(--blue); padding: 10px; border-radius: 4px; }
+        select, input { width: 100%; background: #111; border: 1px solid #333; color: #fff; padding: 10px; border-radius: 4px; font-weight: bold; }
         
-        .header { border-bottom: 2px solid var(--gold); padding: 10px; display: flex; justify-content: space-between; font-size: 11px; color: var(--gold); font-weight: 900; }
-        .container { padding: 15px; flex: 1; display: flex; flex-direction: column; gap: 12px; }
-        
-        /* MONTANTE TOTAL ACUMULADO */
-        .total-box { background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%); border: 2px solid var(--gold); padding: 15px; border-radius: 8px; text-align: center; box-shadow: 0 0 15px rgba(212, 175, 55, 0.2); }
-        .total-val { font-size: 28px; font-weight: 900; color: var(--gold); }
-        .label { font-size: 9px; color: var(--gold); font-weight: bold; text-transform: uppercase; display: block; margin-bottom: 4px; }
+        .total-box { background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%); border: 2px solid var(--gold); padding: 20px; border-radius: 8px; text-align: center; position: relative; }
+        .blindagem-badge { position: absolute; top: -10px; right: 10px; background: var(--accent); color: #000; font-size: 8px; padding: 4px 8px; border-radius: 10px; font-weight: 900; box-shadow: 0 0 10px var(--accent); }
 
-        /* INDICADORES DE SERVIDOR (SELIC/IPCA/IR) */
-        .top-monitor { background: #050505; border: 1px solid var(--accent); padding: 10px; border-radius: 4px; display: flex; justify-content: space-around; font-size: 11px; font-weight: bold; transition: 0.5s; }
+        .product-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+        .p-card { background: #050505; border: 1px solid var(--blue); padding: 10px; border-radius: 4px; text-align: center; }
+        .p-name { font-size: 7px; color: var(--blue); font-weight: bold; text-transform: uppercase; }
 
-        .dash-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-        .input-card { background: #0a0a0a; border-left: 3px solid var(--gold); padding: 10px; border-radius: 4px; }
-        input { background: #111; border: 1px solid #333; color: var(--accent); padding: 8px; width: 100%; font-size: 16px; border-radius: 4px; outline: none; font-weight: bold; }
+        .btn-acao { background: var(--gold); color: #000; padding: 15px; border: none; font-weight: 900; border-radius: 4px; cursor: pointer; text-transform: uppercase; width: 100%; }
 
-        /* PRODUTOS MOLDADOS */
-        .product-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-        .p-card { background: #050505; border: 1px solid var(--blue); padding: 12px; border-radius: 4px; text-align: center; }
-        .p-name { font-size: 9px; color: var(--blue); font-weight: bold; display: block; text-transform: uppercase; margin-bottom: 5px; }
-        .p-val { font-size: 12px; color: #fff; font-weight: bold; }
-
-        /* RESULTADOS LÍQUIDOS */
-        .res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .res-box { background: #050505; border-top: 3px solid var(--accent); padding: 12px; text-align: center; border-radius: 4px; }
-        .val { font-size: 18px; font-weight: bold; color: var(--accent); }
-
-        /* RODAPÉ ESTRATÉGICO (SULTA BILHETE) */
-        .chat-wrap { background: #050505; border: 2px solid var(--blue); border-radius: 8px; margin-top: 15px; overflow: hidden; }
-        .chat-head { background: var(--blue); color: #000; padding: 10px; font-size: 11px; font-weight: 900; text-align: center; text-transform: uppercase; }
-        .chat-area { padding: 15px; min-height: 130px; font-size: 13px; color: #fff; line-height: 1.5; }
-        .resumo-item { margin-bottom: 10px; border-left: 3px solid var(--blue); padding-left: 10px; }
-        .resumo-title { color: var(--blue); font-weight: bold; font-size: 11px; text-transform: uppercase; display: block; margin-bottom: 3px; }
+        .slide-up { transform: translateY(-100%); }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <div>🔱 S.A. SUPREMACIA | V104</div>
-    <div>06/02/2026 | 20:20</div>
-</div>
-
-<div class="container">
-    <div class="total-box">
-        <span class="label">Montante Total Acumulado</span>
-        <div class="total-val" id="total-geral">R$ 0,00</div>
-    </div>
-    
-    <div class="top-monitor" id="monitor-cor">
-        <span id="txt-selic" style="color:var(--accent)">SELIC: 10.75%</span>
-        <span id="txt-ipca" style="color:var(--accent)">IPCA: 4.52%</span>
-        <span id="txt-ir">IR: 22.5%</span>
+    <div id="splash">
+        <div style="font-size: 50px; margin-bottom: 10px;">🔱</div>
+        <h2 style="color:var(--gold); letter-spacing:5px; font-size:12px; margin-bottom:40px;">S.A. SUPREMACIA | ANTI-LESÃO</h2>
+        <button class="btn-acao" style="width:250px; border-radius:30px;" onclick="ativarSistema()">INICIAR BLINDAGEM</button>
     </div>
 
-    <div class="dash-grid">
-        <div class="input-card"><span class="label">Inicial (R$)</span><input type="number" id="ini" value="1000" oninput="recalcular()"></div>
-        <div class="input-card"><span class="label">Mensal (R$)</span><input type="number" id="mes" value="200" oninput="recalcular()"></div>
-        <div class="input-card"><span class="label">Meses</span><input type="number" id="tempo" value="12" oninput="recalcular()"></div>
-    </div>
+    <div class="main-app" id="app">
+        <div class="header" style="padding:10px; border-bottom:1px solid var(--gold); display:flex; justify-content:space-between; font-size:9px; color:var(--gold); font-weight:bold;">
+            <span>S.A. PROTECT SYSTEM</span>
+            <span id="live-clock">06/02/2026 | 21:30</span>
+        </div>
 
-    <div class="product-grid">
-        <div class="p-card"><span class="p-name">CDB Pós (20%)</span><div class="p-val" id="v1">R$ 0</div></div>
-        <div class="p-card"><span class="p-name">Tesouro (70%)</span><div class="p-val" id="v2">R$ 0</div></div>
-        <div class="p-card"><span class="p-name">LCI/LCA (10%)</span><div class="p-val" id="v3">R$ 0</div></div>
-    </div>
+        <div class="container">
+            <div id="tab-perguntas" class="page active">
+                <h3 style="color:var(--gold); text-align:center; font-size:11px;">TRIAGEM ANTI-LESÃO PATRIMONIAL</h3>
+                <div class="q-card"><span>1. Objetivo de Proteção?</span><select id="p_risco">
+                    <option value="conservador">Conservador (Risco Zero)</option>
+                    <option value="moderado">Moderado (Risco Controlado)</option>
+                    <option value="agressivo">Agressivo (Risco Estratégico)</option>
+                </select></div>
+                <div class="q-card"><span>2. Qual seu aporte inicial?</span><input type="number" id="ini" value="1000"></div>
+                <div class="q-card"><span>3. Aporte mensal previsto?</span><input type="number" id="mes" value="200"></div>
+                <div class="q-card"><span>4. Tempo de permanência?</span><select id="p_tempo"><option value="12">12 Meses</option><option value="60">60 Meses</option></select></div>
+                
+                <button class="btn-acao" onclick="irParaCoracao()">GERAR MOLDAGEM SEGURA</button>
+            </div>
 
-    <div class="res-grid">
-        <div class="res-box"><span class="label">Lucro Líquido Real (-50%)</span><div class="val" id="res-liq">R$ 0,00</div></div>
-        <div class="res-box" style="border-top-color: #fff;"><span class="label">Total Investido</span><div class="val" id="total-inv" style="color:#fff">R$ 0,00</div></div>
-    </div>
+            <div id="tab-coracao" class="page">
+                <div class="total-box">
+                    <div class="blindagem-badge">✓ BLINDAGEM ATIVA</div>
+                    <span style="font-size:8px; color:var(--gold);">MONTANTE FINAL PROTEGIDO</span>
+                    <div id="total-geral" style="font-size:28px; font-weight:900; color:var(--gold);">R$ 0,00</div>
+                </div>
 
-    <div class="chat-wrap">
-        <div class="chat-head">Angela V104 | Analisador de Perfil (Sulta Bilhete)</div>
-        <div class="chat-area" id="resumo-total">Moldando estratégia com dados do servidor...</div>
+                <div style="background: #050505; border: 1px solid var(--accent); padding: 8px; border-radius: 4px; display: flex; justify-content: space-around; font-size: 9px; font-weight: bold;">
+                    <span>● SELIC: <span id="l-selic" style="color:var(--accent)">10.75</span>%</span>
+                    <span>● IPCA: <span id="l-ipca" style="color:var(--accent)">4.52</span>%</span>
+                </div>
+
+                <div class="product-grid" id="grid-produtos"></div>
+
+                <div style="background:#050505; border:2px solid var(--blue); border-radius:4px; padding:12px; margin-top:auto;">
+                    <b style="color:var(--blue); font-size:9px; text-transform:uppercase;">IA-SENTINELA | RELATÓRIO DE SEGURANÇA</b>
+                    <p id="msg-sentinela" style="font-size:11px; line-height:1.4; margin-top:5px;"></p>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 
 <script>
-    function recalcular() {
+    function ativarSistema() {
+        document.getElementById('splash').classList.add('slide-up');
+        setTimeout(() => {
+            document.getElementById('app').style.display = 'flex';
+            document.getElementById('app').style.opacity = '1';
+        }, 900);
+    }
+
+    function irParaCoracao() {
+        document.getElementById('tab-perguntas').classList.remove('active');
+        document.getElementById('tab-coracao').classList.add('active');
+        processarBlindagem();
+        setInterval(() => {
+            document.getElementById('l-selic').innerText = (10.75 + (Math.random()*0.02 - 0.01)).toFixed(2);
+        }, 3000);
+    }
+
+    function processarBlindagem() {
         const p = parseFloat(document.getElementById('ini').value) || 0;
         const pm = parseFloat(document.getElementById('mes').value) || 0;
-        const t = parseInt(document.getElementById('tempo').value) || 1;
-        
-        // 1. Lógica do IR Dinâmico
-        let ir = 0.225;
-        let cor = "#FF4444"; 
-        if(t > 24) { ir = 0.15; cor = "#00FF41"; }
-        else if(t > 12) { ir = 0.175; cor = "#00D1FF"; }
-        else if(t > 6) { ir = 0.20; cor = "#D4AF37"; }
-        
-        document.getElementById('monitor-cor').style.borderColor = cor;
-        document.getElementById('txt-ir').innerText = "IR: " + (ir*100).toFixed(1) + "%";
-        document.getElementById('txt-ir').style.color = cor;
+        const t = parseInt(document.getElementById('p_tempo').value) || 1;
+        const perfil = document.getElementById('p_risco').value;
 
-        // 2. Motor Financeiro (SELIC 10.75%)
-        const selicAnual = 0.1075;
-        const sM = Math.pow(1 + selicAnual, 1/12) - 1;
-        
+        const sM = Math.pow(1.1075, 1/12) - 1;
         let mBruto = (p * Math.pow(1 + sM, t)) + (pm * ((Math.pow(1 + sM, t) - 1) / sM));
         let tInv = p + (pm * t);
-        
-        // Regra de Projeção -50%
-        let lProjetado = (mBruto - tInv) * 0.5;
-        let lLiq = lProjetado * (1 - ir);
+        let lLiq = (mBruto - tInv) * 0.5 * 0.85; 
         let mFinal = tInv + lLiq;
 
-        // 3. Atualização da Interface
         document.getElementById('total-geral').innerText = "R$ " + mFinal.toLocaleString('pt-BR', {minimumFractionDigits: 2});
-        document.getElementById('res-liq').innerText = "R$ " + lLiq.toLocaleString('pt-BR', {minimumFractionDigits: 2});
-        document.getElementById('total-inv').innerText = "R$ " + tInv.toLocaleString('pt-BR', {minimumFractionDigits: 2});
-        
-        document.getElementById('v1').innerText = "R$ " + (mFinal * 0.2).toFixed(0);
-        document.getElementById('v2').innerText = "R$ " + (mFinal * 0.7).toFixed(0);
-        document.getElementById('v3').innerText = "R$ " + (mFinal * 0.1).toFixed(0);
 
-        // 4. Sulta Bilhete (Resumo Estratégico)
-        let perfil = (t > 24) ? "Investidor de Elite" : (t > 12) ? "Moderado Estratégico" : "Perfil Conservador";
-        
-        document.getElementById('resumo-total').innerHTML = `
-            <div class="resumo-item">
-                <span class="resumo-title">Perfil Moldado: ${perfil}</span>
-                Com o prazo de ${t} meses, o sistema projetou um lucro real de <b>R$ ${lLiq.toFixed(2)}</b> (já descontando o IR de ${(ir*100).toFixed(1)}%).
-            </div>
-            <div class="resumo-item">
-                <span class="resumo-title">Por que investir aqui?</span>
-                O <b>Tesouro (70%)</b> protege seu patrimônio contra o IPCA (4.52%), enquanto o <b>LCI/LCA (10%)</b> garante lucro sem mordida do governo, elevando seu rendimento médio acima da poupança.
-            </div>
-        `;
+        let prods = ""; let msg = "";
+        if(perfil === 'conservador') {
+            prods = `<div class="p-card"><span class="p-name">Tesouro Selic</span><div>R$ ${(mFinal*0.8).toFixed(0)}</div></div>
+                     <div class="p-card"><span class="p-name">CDB 100%</span><div>R$ ${(mFinal*0.15).toFixed(0)}</div></div>
+                     <div class="p-card"><span class="p-name">LCI Isenta</span><div>R$ ${(mFinal*0.05).toFixed(0)}</div></div>`;
+            msg = "Mecanismo Anti-Lesão ativado. Alocação em ativos de soberania nacional para garantir que seu patrimônio não sofra com o vácuo bancário.";
+        } else if(perfil === 'moderado') {
+            prods = `<div class="p-card"><span class="p-name">Tesouro IPCA</span><div>R$ ${(mFinal*0.5).toFixed(0)}</div></div>
+                     <div class="p-card"><span class="p-name">LCI/LCA</span><div>R$ ${(mFinal*0.3).toFixed(0)}</div></div>
+                     <div class="p-card"><span class="p-name">CDB 110%</span><div>R$ ${(mFinal*0.2).toFixed(0)}</div></div>`;
+            msg = "Equilíbrio Sincronizado. A IA-SENTINELA detectou proteção contra inflação via Tesouro IPCA+, mantendo o poder de compra intacto.";
+        } else {
+            prods = `<div class="p-card"><span class="p-name">CDB 130%</span><div>R$ ${(mFinal*0.6).toFixed(0)}</div></div>
+                     <div class="p-card"><span class="p-name">LCA Isenta</span><div>R$ ${(mFinal*0.3).toFixed(0)}</div></div>
+                     <div class="p-card"><span class="p-name">Ações S.A.</span><div>R$ ${(mFinal*0.1).toFixed(0)}</div></div>`;
+            msg = "Aceleração Blindada. Mesmo no modo agressivo, o sistema mantém 30% em letras isentas para garantir liquidez em caso de emergência.";
+        }
+        document.getElementById('grid-produtos').innerHTML = prods;
+        document.getElementById('msg-sentinela').innerText = msg;
     }
-    
-    // Inicia o sistema
-    window.onload = recalcular;
 </script>
 </body>
 </html>
