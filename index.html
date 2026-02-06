@@ -3,106 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OMNI V25 | CPA-10 FULL</title>
+    <title>OMNI V30 | VOICE CORE</title>
     <style>
         :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; }
         body { background: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; justify-content: center; padding: 15px; }
-        .box { width: 100%; max-width: 400px; padding-top: 20px; }
-        .step { display: none; background: #080808; padding: 25px; border-radius: 25px; border: 1px solid #1a1a1a; animation: fadeIn 0.3s; }
-        .step.active { display: block; }
-        h2 { font-size: 9px; color: var(--gold); letter-spacing: 3px; margin-bottom: 20px; text-align: center; }
-        .msg { font-size: 15px; font-weight: bold; margin-bottom: 20px; text-align: center; line-height: 1.4; }
-        .btn { width: 100%; padding: 15px; margin-bottom: 10px; background: #111; border: 1px solid #333; color: #fff; border-radius: 12px; cursor: pointer; font-size: 13px; text-align: left; }
-        .btn:hover { border-color: var(--blue); background: #00151a; }
-        .input-box { background: #000; padding: 12px; border-radius: 15px; border: 1px solid #222; margin-bottom: 15px; }
-        .input-box label { color: var(--gold); font-size: 8px; font-weight: 900; display: block; }
-        .input-box input { background: transparent; border: none; color: #fff; font-size: 20px; width: 100%; outline: none; font-weight: bold; }
-        .res-total { font-size: 32px; color: var(--accent); font-weight: 900; text-align: center; margin: 20px 0; font-family: monospace; }
-        .progress { width: 100%; height: 4px; background: #111; margin-bottom: 20px; border-radius: 2px; }
-        .bar { height: 100%; background: var(--gold); width: 0%; transition: 0.4s; }
+        .box { width: 100%; max-width: 400px; text-align: center; }
+        .card { background: #080808; padding: 25px; border-radius: 30px; border: 1px solid #1a1a1a; margin-bottom: 15px; }
+        h2 { font-size: 10px; color: var(--gold); letter-spacing: 3px; text-transform: uppercase; }
+        .btn { width: 100%; padding: 18px; margin-bottom: 12px; background: #111; border: 1px solid #333; color: #fff; border-radius: 15px; cursor: pointer; font-size: 14px; font-weight: bold; transition: 0.2s; }
+        .btn:active { background: var(--blue); color: #000; }
+        .ia-status { color: var(--blue); font-size: 9px; font-weight: 900; letter-spacing: 2px; margin-bottom: 10px; display: block; }
+        .wave { height: 20px; display: flex; justify-content: center; gap: 3px; margin-top: 10px; display: none; }
+        .bar { width: 3px; height: 100%; background: var(--blue); animation: sound 0.5s infinite alternate; }
+        @keyframes sound { from { height: 5px; } to { height: 20px; } }
     </style>
 </head>
 <body>
+
 <div class="box">
-    <div class="progress"><div class="bar" id="bar"></div></div>
-    
-    <div id="q1" class="step active">
-        <h2>CPA-10 | HORIZONTE</h2>
-        <div class="msg">Por quanto tempo pretende manter os recursos investidos?</div>
-        <button class="btn" onclick="nxt(1,2,1)">Até 1 ano (Curto Prazo)</button>
-        <button class="btn" onclick="nxt(1,2,2)">De 1 a 5 anos (Médio Prazo)</button>
-        <button class="btn" onclick="nxt(1,2,3)">Acima de 5 anos (Longo Prazo)</button>
-    </div>
-
-    <div id="q2" class="step">
-        <h2>CPA-10 | EXPERIÊNCIA</h2>
-        <div class="msg">Qual sua experiência com produtos de risco (Ações, FIIs)?</div>
-        <button class="btn" onclick="nxt(2,3,1)">Nenhuma: Só conheço Poupança/CDB.</button>
-        <button class="btn" onclick="nxt(2,3,2)">Moderada: Já investi em Fundos/LCI.</button>
-        <button class="btn" onclick="nxt(2,3,3)">Alta: Opero no mercado de capitais.</button>
-    </div>
-
-    <div id="q3" class="step">
-        <h2>CPA-10 | RISCO</h2>
-        <div class="msg">Se seu investimento caísse 10%, o que você faria?</div>
-        <button class="btn" onclick="nxt(3,4,1)">Resgataria imediatamente (Pânico).</button>
-        <button class="btn" onclick="nxt(3,4,2)">Mantería e esperaria recuperar.</button>
-        <button class="btn" onclick="nxt(3,4,3)">Aproveitaria para comprar mais.</button>
-    </div>
-
-    <div id="q4" class="step">
-        <h2>CPA-10 | PATRIMÔNIO</h2>
-        <div class="msg">Este aporte representa quanto do seu patrimônio total?</div>
-        <button class="btn" onclick="nxt(4,5,1)">Mais de 50% (Minha maior reserva).</button>
-        <button class="btn" onclick="nxt(4,5,2)">Entre 10% e 50%.</button>
-        <button class="btn" onclick="nxt(4,5,3)">Menos de 10% (Capital excedente).</button>
-    </div>
-
-    <div id="q5" class="step">
-        <h2>TERMINAL OMNI SUPREME</h2>
-        <div class="input-box">
-            <label>VALOR DO APORTE (R$)</label>
-            <input type="number" id="cap" value="5000" oninput="calc()">
+    <div class="card">
+        <h2>OMNI-CORE VOICE</h2>
+        <span class="ia-status" id="status">SISTEMA ONLINE</span>
+        <div class="wave" id="wave">
+            <div class="bar"></div><div class="bar" style="animation-delay: 0.2s"></div><div class="bar" style="animation-delay: 0.4s"></div>
         </div>
-        <div class="res-total" id="total">R$ 0,00</div>
-        <div id="perfil-info" style="color: var(--blue); font-size: 10px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;"></div>
-        <div id="ativos" style="font-size: 11px; color: #aaa; border-top: 1px solid #222; padding-top: 15px; text-align: left;"></div>
-        <button class="btn" style="margin-top:20px; text-align:center; color:var(--gold); font-size: 11px;" onclick="location.reload()">REINICIAR ANALISE</button>
     </div>
+
+    <div id="ativos">
+        <button class="btn" onclick="falar('Tesouro Selic')">O QUE É O TESOURO SELIC?</button>
+        <button class="btn" onclick="falar('CDB')">O QUE É UM C.D.B?</button>
+        <button class="btn" onclick="falar('LCI')">POR QUE L.C.I É MELHOR?</button>
+        <button class="btn" onclick="falar('FII')">COMO FUNCIONAM OS F.I.I.s?</button>
+    </div>
+
+    <button class="btn" style="color:var(--gold); border-color:var(--gold); margin-top:20px;" onclick="window.speechSynthesis.cancel()">PARAR VOZ</button>
 </div>
 
 <script>
-    let score = 0;
-    function nxt(c, n, s) {
-        score += s;
-        document.getElementById('q'+c).classList.remove('active');
-        document.getElementById('q'+n).classList.add('active');
-        document.getElementById('bar').style.width = (c * 25) + "%";
-        if(n === 5) calc();
-    }
+    const biblioVoz = {
+        'Tesouro Selic': 'Comandante, o Tesouro Selic é o porto seguro. Ele rende a taxa básica de juros e é ideal para sua reserva de emergência. O risco aqui é praticamente zero.',
+        'CDB': 'O C.D.B é quando você empresta dinheiro para o banco. Ele te devolve com juros. É protegido pelo F.G.C em até duzentos e cinquenta mil reais.',
+        'LCI': 'A L.C.I é a estratégia de elite. Ela é isenta de imposto de renda. O lucro que você vê é o lucro que cai no seu bolso, sem sabotagem do governo.',
+        'FII': 'Os fundos imobiliários permitem que você receba aluguéis todos os meses sem precisar ter um imóvel. É renda passiva direto na conta.'
+    };
 
-    function calc() {
-        let v = parseFloat(document.getElementById('cap').value) || 0;
-        let p = ""; let a = ""; let r = 1.10;
+    function falar(item) {
+        // Cancela vozes anteriores
+        window.speechSynthesis.cancel();
 
-        if(score <= 5) {
-            p = "PERFIL CONSERVADOR";
-            r = 1.1075; // Selic
-            a = "• Tesouro Selic (70%)<br>• CDB Pós 110% (30%)";
-        } else if(score <= 9) {
-            p = "PERFIL MODERADO";
-            r = 1.145; // Mix
-            a = "• LCI/LCA (40%)<br>• Tesouro IPCA+ (30%)<br>• FIIs de Papel (30%)";
-        } else {
-            p = "PERFIL ARROJADO";
-            r = 1.185; // Bolsa
-            a = "• Ações Dividendos (40%)<br>• FIIs Tijolo (30%)<br>• BDRs EUA (30%)";
-        }
+        const texto = biblioVoz[item];
+        const msg = new SpeechSynthesisUtterance(texto);
+        msg.lang = 'pt-BR';
+        msg.rate = 1.1; // Velocidade levemente rápida para parecer eficiente
+        msg.pitch = 1.0;
 
-        document.getElementById('perfil-info').innerText = p;
-        document.getElementById('total').innerText = "R$ " + (v * r).toLocaleString('pt-BR',{minimumFractionDigits:2});
-        document.getElementById('ativos').innerHTML = "<b>CARTEIRA ESTRUTURADA:</b><br>" + a;
+        // Visual da onda sonora
+        msg.onstart = () => { 
+            document.getElementById('wave').style.display = 'flex'; 
+            document.getElementById('status').innerText = 'OMNI-CORE FALANDO...';
+        };
+        msg.onend = () => { 
+            document.getElementById('wave').style.display = 'none'; 
+            document.getElementById('status').innerText = 'SISTEMA ONLINE';
+        };
+
+        window.speechSynthesis.speak(msg);
     }
 </script>
+
 </body>
 </html>
