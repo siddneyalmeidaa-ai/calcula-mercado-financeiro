@@ -41,4 +41,126 @@
         .chat-wrap { background: #050505; border: 2px solid var(--blue); border-radius: 8px; display: flex; flex-direction: column; margin-top: auto; }
         .chat-head { background: var(--blue); color: #000; padding: 8px; font-size: 10px; font-weight: 900; text-align: center; }
         .chat-area { padding: 15px; height: 160px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .m { padding: 10px; border-radius: 8px; font-size: 13px; max-width: 85%; }
+        .m.ai { background: rgba(0, 209, 255, 0.1); color: var(--blue); align-self: flex-start; border: 1px solid rgba(0, 209, 255, 0.2); }
+        .m.me { background: #222; color: #fff; align-self: flex-end; }
         
+        .btn-group { display: flex; gap: 10px; padding: 12px; background: #000; }
+        .cmd-btn { flex: 1; padding: 15px; border: none; border-radius: 4px; cursor: pointer; font-weight: 900; text-transform: uppercase; }
+        .btn-yes { background: var(--accent); color: #000; }
+        .btn-no { background: var(--red); color: #fff; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div>🔱 S.A. SUPREMACIA | V100 FINAL</div>
+    <div>06/02/2026 | 17:25</div>
+</div>
+
+<div class="container">
+    <div class="tax-bar">
+        <span>SELIC: 10.75% (ATUAL)</span>
+        <span>IPCA: 4.52% (ATUAL)</span>
+    </div>
+
+    <div class="profile-box">
+        <span class="label">Status de Identidade</span>
+        <div id="p-tag" class="profile-tag">Mapeando Investidor...</div>
+    </div>
+
+    <div class="dash-main">
+        <div class="card"><span class="label">Inicial (R$)</span><input type="number" id="ini" value="1000"></div>
+        <div class="card"><span class="label">Mensal (R$)</span><input type="number" id="mes" value="200"></div>
+    </div>
+    <button class="btn-calc" onclick="recalcular()">🔄 Recalcular com Taxas Atuais</button>
+
+    <div class="product-grid" id="product-list">
+        <div class="p-card" id="c1"><span class="p-name" id="n1">CDB Pós</span><span class="p-tax" id="t1">105% CDI</span></div>
+        <div class="p-card" id="c2"><span class="p-name" id="n2">Tesouro</span><span class="p-tax" id="t2">SELIC</span></div>
+        <div class="p-card" id="c3"><span class="p-name" id="n3">LCI / LCA</span><span class="p-tax" id="t3">92% CDI</span></div>
+    </div>
+
+    <div class="res-grid">
+        <div class="res-box"><span class="label">Lucro (c/ Projeção -50%)</span><div class="val" id="res-liq">R$ 0,00</div></div>
+        <div class="res-box" style="border-top-color: var(--red);"><span class="label">IR Estimado</span><div class="val" style="color:var(--red);" id="res-ir">R$ 0,00</div></div>
+    </div>
+
+    <div class="chat-wrap">
+        <div class="chat-head">Angela V100 | Inteligência Proativa</div>
+        <div id="chat-box" class="chat-area">
+            <div class="m ai" id="at">Comandante S.A., pronto para o mapeamento. <br><br><b>1. Você já possui reserva para 6 meses?</b></div>
+        </div>
+        <div class="btn-group" id="actions">
+            <button class="cmd-btn btn-yes" onclick="exec('Sim')">Sim</button>
+            <button class="cmd-btn btn-no" onclick="exec('Não')">Não</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let step = 0; let score = 0;
+    const questions = [
+        "1. Possui reserva de emergência?", "2. Aceita oscilação para ganhar mais?",
+        "3. Foco em mais de 5 anos?", "4. Conhece Ações/Cripto?",
+        "5. Fará aportes mensais?", "6. Segurança é prioridade?"
+    ];
+
+    function recalcular() {
+        const i = parseFloat(document.getElementById('ini').value);
+        const m = parseFloat(document.getElementById('mes').value);
+        let bruto = (i + (m * 12)) * 1.1075;
+        let lucroReal = (bruto - (i + (m * 12))) * 0.5; // Regra dos -50%
+        document.getElementById('res-liq').innerText = "R$ " + lucroReal.toFixed(2);
+        document.getElementById('res-ir').innerText = "R$ " + (lucroReal * 0.15).toFixed(2);
+    }
+
+    function exec(opt) {
+        addMsg(opt, 'me');
+        if(opt === 'Sim') score++;
+        step++;
+        setTimeout(() => {
+            if(step < questions.length) {
+                addMsg(questions[step], 'ai');
+            } else {
+                finalizar();
+            }
+        }, 400);
+    }
+
+    function finalizar() {
+        let p = "Conservador";
+        if(score >= 5) {
+            p = "Agressivo";
+            document.getElementById('n1').innerText = "Ações (DIV)";
+            document.getElementById('n3').innerText = "Cripto/ETF";
+            document.getElementById('c3').classList.add('active');
+        } else if(score >= 3) {
+            p = "Moderado";
+            document.getElementById('t1').innerText = "115% CDI";
+            document.getElementById('c1').classList.add('active');
+        } else {
+            document.getElementById('c2').classList.add('active');
+        }
+        
+        document.getElementById('p-tag').innerText = p;
+        addMsg(`Perfil **${p}** traçado! Taxas e produtos atualizados na carteira. O que deseja fazer agora?`, "ai");
+        
+        // MUDANÇA DE BOTÕES PARA MATAR O LOOP
+        document.getElementById('actions').innerHTML = `
+            <button class="cmd-btn btn-yes" style="background:var(--blue)" onclick="addMsg('Simulando Aporte...', 'ai')">Simular Aporte</button>
+            <button class="cmd-btn btn-no" style="background:var(--gold); color:#000" onclick="addMsg('Auditando Taxas SELIC/IPCA...', 'ai')">Auditar Taxas</button>
+        `;
+        recalcular();
+    }
+
+    function addMsg(t, type) {
+        const b = document.getElementById('chat-box');
+        const div = document.createElement('div');
+        div.className = `m ${type}`; div.innerHTML = t;
+        b.appendChild(div); b.scrollTop = b.scrollHeight;
+    }
+    recalcular();
+</script>
+</body>
+</html>
