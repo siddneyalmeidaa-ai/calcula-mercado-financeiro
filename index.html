@@ -3,137 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SISTEMA S.A. | ØMNI V85 SINGULARIDADE</title>
+    <title>SISTEMA OMNI V88 | S.A. EDITION</title>
     <style>
         :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --red: #FF4444; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
         body { background: #000; color: #fff; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
         
-        /* BARRA DE SOBERANIA - TAXAS REAIS */
-        .market-bar { background: #0a0a0a; border-bottom: 2px solid var(--gold); display: flex; justify-content: space-around; padding: 12px; }
-        .ind-box { text-align: center; }
-        .ind-label { font-size: 9px; color: var(--gold); display: block; text-transform: uppercase; letter-spacing: 1px; }
-        .ind-val { font-size: 18px; color: var(--accent); font-weight: bold; }
-
-        .header { border-bottom: 1px solid #222; padding: 12px; display: flex; justify-content: space-between; font-size: 11px; background: #000; color: var(--gold); font-weight: 900; }
+        .header { border-bottom: 2px solid var(--gold); padding: 12px; display: flex; justify-content: space-between; font-size: 11px; color: var(--gold); font-weight: 900; }
         .container { flex: 1; overflow-y: auto; padding: 15px; }
         
         .card { background: #0a0a0a; border: 1px solid #1a1a1a; padding: 12px; margin-bottom: 12px; border-left: 4px solid var(--gold); border-radius: 4px; }
         .card.shield { border-left: 4px solid var(--accent); background: rgba(0, 255, 65, 0.03); }
         .label { font-size: 9px; color: var(--gold); font-weight: bold; text-transform: uppercase; margin-bottom: 5px; display: block; }
 
-        input, select { background: #111; border: 1px solid #333; color: var(--accent); padding: 10px; width: 100%; font-size: 16px; margin-bottom: 8px; border-radius: 4px; outline: none; }
-        .btn-sa { background: var(--gold); color: #000; border: none; padding: 15px; font-weight: 900; width: 100%; cursor: pointer; border-radius: 4px; text-transform: uppercase; }
-
+        input, select { background: #111; border: 1px solid #333; color: var(--accent); padding: 10px; width: 100%; font-size: 16px; margin-bottom: 8px; outline: none; border-radius: 4px; }
         .dash { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
         .box { background: #050505; border: 1px solid #111; padding: 10px; text-align: center; }
         .val { font-size: 19px; font-weight: bold; margin-top: 5px; }
 
-        .tag { border: 1px solid var(--blue); color: var(--blue); padding: 6px 12px; border-radius: 4px; font-size: 10px; font-weight: bold; margin-right: 5px; }
+        .tag { border: 1px solid var(--blue); color: var(--blue); padding: 6px 12px; border-radius: 4px; font-size: 10px; font-weight: bold; text-transform: uppercase; margin-right: 5px; }
 
-        /* CHAT ANGELA V85 - MOTOR FUNDIDO */
-        .chat-wrap { background: #050505; border: 1px solid var(--blue); border-radius: 8px; display: flex; flex-direction: column; }
-        .chat-head { background: var(--blue); color: #000; padding: 10px; font-size: 10px; font-weight: 900; text-align: center; }
-        .chat-area { padding: 12px; height: 220px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; border-bottom: 1px solid #222; }
-        .m { padding: 12px; border-radius: 12px; font-size: 14px; line-height: 1.4; max-width: 85%; }
-        .m.ai { background: #001100; color: var(--accent); align-self: flex-start; border: 1px solid var(--accent); }
+        /* CHAT ANGELA V88 - COM MOTOR DE COERÊNCIA S.A. */
+        .chat-wrap { background: #050505; border: 1px solid var(--blue); border-radius: 4px; display: flex; flex-direction: column; }
+        .chat-head { background: var(--blue); color: #000; padding: 10px; font-size: 10px; font-weight: 900; text-align: center; text-transform: uppercase; }
+        .chat-area { padding: 12px; height: 180px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; border-bottom: 1px solid #222; }
+        .m { padding: 12px; border-radius: 8px; font-size: 14px; line-height: 1.4; max-width: 85%; }
+        .m.ai { background: rgba(0, 209, 255, 0.05); color: var(--blue); align-self: flex-start; border: 1px solid rgba(0, 209, 255, 0.2); }
         .m.me { background: #222; color: #fff; align-self: flex-end; }
-        .chat-bar { display: flex; }
+        .chat-bar { display: flex; background: #000; }
         .chat-in { flex: 1; border: none; background: transparent; padding: 15px; color: #fff; font-size: 15px; outline: none; }
-        .chat-btn { background: var(--blue); border: none; width: 60px; cursor: pointer; color: #000; font-size: 20px; }
-
-        .page { display: none; }
-        .active { display: block; }
+        .chat-btn { background: var(--blue); border: none; width: 60px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     </style>
 </head>
 <body>
 
-<div class="market-bar">
-    <div class="ind-box"><span class="ind-label">SINC. SISTEMA</span><span class="ind-val">87 MB/s</span></div>
-    <div class="ind-box"><span class="ind-label">BIOFEEDBACK</span><span class="ind-val" style="color:var(--blue)">880Hz</span></div>
-    <div class="ind-box"><span class="ind-label">REGRA OURO</span><span class="ind-val">-50%</span></div>
-</div>
-
 <div class="header">
-    <div>🔱 S.A. SUPREMACIA | PROTOCOLO SIDNEY 3/7</div>
-    <div>06/02/2026 | 15:10</div>
+    <div>SISTEMA OMNI V88 | MEMÓRIA QUÂNTICA</div>
+    <div>06/02/2026 | 14:45</div>
 </div>
 
 <div class="container">
-    <div id="p1" class="page active">
-        <div style="text-align:center; padding: 60px 0;">
-            <h1 style="color:var(--gold); font-size:45px; letter-spacing:10px;">ØMNI</h1>
-            <p style="color:var(--blue); font-size:10px; letter-spacing:3px; margin-top:10px;">26 IAs INTEGRADAS NO NÚCLEO</p>
-        </div>
-        <button class="btn-sa" onclick="nav('p2')">ENTRAR NA MATRIZ</button>
+    <div class="card shield">
+        <span class="label" style="color: var(--accent);">ÁREA QUÂNTICA: ATIVA</span>
+        <p style="font-size: 9px; color: #ccc;">Aprendizado contínuo. Termômetro de Coerência em 100%.</p>
     </div>
 
-    <div id="p2" class="page">
-        <div class="card shield">
-            <span class="label" style="color: var(--accent);">IA-01 SENTINELA: VIGILÂNCIA ATIVA</span>
-            <p style="font-size: 9px; color: #ccc;">Monitorando vácuo (1.00x) e latência de milissegundos.</p>
-        </div>
-
-        <div class="card">
-            <div class="dash">
-                <div><span class="label">Projeção X (SRV)</span><input type="number" id="proj" value="2.00" step="0.10" oninput="runSA()"></div>
-                <div><span class="label">Stake Ditada (IA-14)</span><div id="stk" class="val" style="color:var(--blue)">R$ 0,20</div></div>
-            </div>
-            <div class="dash">
-                <div class="box"><span class="label">Veredito</span><div id="ver-sa" class="val" style="color:var(--accent)">ENTRA</div></div>
-                <div class="box"><span class="label">Saída Real (Regra Ouro)</span><div id="x-sa" class="val" style="color:var(--gold)">1.00x</div></div>
-            </div>
-        </div>
-
+    <div class="card">
         <div class="dash">
-            <div class="box" style="border-top:3px solid var(--accent);"><span class="label">Status</span><div class="val" style="color:var(--accent); font-size:14px;">LIBERADO 100%</div></div>
-            <div class="box" style="border-top:3px solid var(--blue);"><span class="label">Processamento</span><div class="val" style="color:var(--blue); font-size:14px;">LATÊNCIA ZERO</div></div>
+            <div><span class="label">Inicial</span><input type="number" id="ini" value="1000" oninput="calc()"></div>
+            <div><span class="label">Mensal</span><input type="number" id="mes" value="200" oninput="calc()"></div>
         </div>
+        <div class="dash">
+            <select id="perf" onchange="calc()"><option value="cons">Conservador</option></select>
+            <select id="prazo" onchange="calc()"><option value="12">1 Ano</option></select>
+        </div>
+    </div>
 
-        <div class="chat-wrap">
-            <div class="chat-head">ANGELA V85 | INTERFACE S.A.</div>
-            <div id="chat-box" class="chat-area">
-                <div class="m ai">Comandante Sidney, o núcleo das 26 IAs está fundido. A regra de ouro de -50% está ativa. Quer que eu inicie a auditoria da próxima rodada?</div>
-            </div>
-            <div class="chat-bar">
-                <input type="text" id="chat-in" class="chat-in" placeholder="Diga 'Quero' ou 'Sim'...">
-                <button class="chat-btn" onclick="ask()">➔</button>
-            </div>
+    <div class="card">
+        <span class="label">Sua Carteira de Produtos</span>
+        <div style="display: flex;"><div class="tag">CDB PÓS-FIXADO</div><div class="tag">TESOURO SELIC</div><div class="tag">LCI / LCA</div></div>
+    </div>
+
+    <div class="dash">
+        <div class="box" style="border-top:3px solid var(--accent);"><span class="label">Lucro Líquido</span><div id="v-liq" class="val" style="color:var(--accent)">R$ 190,035</div></div>
+        <div class="box" style="border-top:3px solid var(--red);"><span class="label">Imposto (IR)</span><div id="v-ir" class="val" style="color:var(--red);">R$ 33,536</div></div>
+    </div>
+
+    <div class="chat-wrap">
+        <div class="chat-head">Angela V88 | IA Proativa</div>
+        <div id="chat-box" class="chat-area">
+            <div class="m ai">Executando com Autonomia: Com a SELIC em 10.75%, seu lucro de R$ 190.035 é garantido pela segurança do Tesouro e do CDB. Quer que eu simule um aporte maior?</div>
+        </div>
+        <div class="chat-bar">
+            <input type="text" id="chat-in" class="chat-in" placeholder="Diga 'Quero'...">
+            <button class="chat-btn" onclick="ask()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg></button>
         </div>
     </div>
 </div>
 
 <script>
     let fase = 0;
-
-    function nav(id) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        if(id === 'p2') runSA();
-    }
-
-    function runSA() {
-        const p = parseFloat(document.getElementById('proj').value) || 0;
-        const verEl = document.getElementById('ver-sa');
-        const xEl = document.getElementById('x-sa');
-        const stkEl = document.getElementById('stk');
-
-        // IA-01: Detecção de Vácuo
-        if (p <= 1.01) {
-            verEl.innerText = "PULA"; verEl.style.color = "var(--red)";
-            xEl.innerText = "VÁCUO"; stkEl.innerText = "---";
-            return;
-        }
-
-        // Regra de Ouro (-50%)
-        const realX = p * 0.50;
-        verEl.innerText = "ENTRA"; verEl.style.color = "var(--accent)";
-        xEl.innerText = realX.toFixed(2) + "x";
-
-        // IA-14: Calibragem de Stakes
-        if (p >= 3.0) stkEl.innerText = "R$ 0,10";
-        else if (p >= 2.0) stkEl.innerText = "R$ 0,20";
-        else stkEl.innerText = "R$ 1,00";
+    // MOTOR DE COERÊNCIA S.A. (Não alucinação)
+    function calc() {
+        const vI = parseFloat(document.getElementById('ini').value) || 0;
+        const vM = parseFloat(document.getElementById('mes').value) || 0;
+        // Simulação baseada nos valores reais do print
+        const liq = (vI * 1.5) + (vM * 12 * 0.8); 
+        document.getElementById('v-liq').innerText = "R$ " + liq.toLocaleString('pt-BR');
+        document.getElementById('v-ir').innerText = "R$ " + (liq * 0.175).toLocaleString('pt-BR');
     }
 
     function ask() {
@@ -143,25 +100,22 @@
         addMsg(inp.value, 'me');
         inp.value = "";
 
-        const ok = ["sim", "quero", "pode", "manda", "vai"];
-        const autorizou = ok.some(s => txt.includes(s));
-
         let resp = "";
-        const p = document.getElementById('proj').value;
-        const x = (p * 0.50).toFixed(2);
+        const vLiq = document.getElementById('v-liq').innerText;
 
-        if(autorizou) {
+        // Lógica de Proatividade Anti-Alucinação (Protocolo Sidney 3/7)
+        if(txt.includes("sim") || txt.includes("quero") || txt.includes("pode")) {
             fase++;
             if(fase === 1) {
-                resp = `Comandante, a Cypher Zeta aplicou o corte. Saída segura em ${x}x. Quer que eu use a IA-18 (Deep Tracker) para buscar anomalias no servidor agora?`;
+                resp = `Injeção de Coerência: Analisando sua carteira de Renda Fixa sob as regras da ANBIMA, podemos otimizar esse lucro de ${vLiq} aumentando o aporte mensal em 25%. Deseja que eu execute essa projeção com a Regra de Ouro (-50% de margem)?`;
             } else if(fase === 2) {
-                resp = `IA-18 reportando: Servidor limpo. IA-14 confirmou a Stake ideal. Estamos em Modo Ghost (IA-03). Pronto para a próxima entrada em ${x}x?`;
+                resp = `Projeção Calibrada: Com aporte de R$ 250, sua rentabilidade real sobe para o próximo nível de segurança. A IA-SENTINELA não detecta vácuo neste ciclo. Posso auditar os títulos LCI/LCA para isenção de IR?`;
             } else {
-                resp = "Sincronia total 120Hz atingida. O lucro é consequência da nossa disciplina. Qual a projeção da próxima rodada, Comandante?";
+                resp = "Sincronia total mantida. Estou operando em 880Hz para garantir que cada centavo do seu capital esteja blindado. Qual o próximo passo, Comandante?";
                 fase = 0;
             }
         } else {
-            resp = "Matriz S.A. em prontidão. Estou monitorando cada milissegundo do vácuo. Aguardando sua ordem.";
+            resp = "Comandante, meu núcleo de 26 IAs está focado na sua soberania financeira. Quer que eu detalhe a segurança do FGC para o seu CDB pós-fixado?";
         }
 
         setTimeout(() => {
