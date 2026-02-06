@@ -3,154 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.A. SUPREMACIA | V121 FIXED</title>
+    <title>S.A. SUPREMACIA | V124 BULLETPROOF</title>
     <style>
         :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --red: #FF4444; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
-        body { background: #000; color: #fff; height: 100vh; overflow: hidden; }
+        body { background: #000; color: #fff; height: 100vh; width: 100vw; overflow: hidden; position: fixed; }
 
-        /* 1. CORTINA E SCANNER */
+        /* CORTINA E SCANNER - AGORA COM DISPLAY NONE APÓS USO */
         #splash, #scanner {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 1000; transition: 0.8s;
+            z-index: 2000; transition: opacity 0.5s ease;
         }
-        #scanner { display: none; z-index: 999; color: var(--accent); font-family: monospace; }
-        .bar-bg { width: 220px; height: 2px; background: #222; margin: 20px 0; overflow: hidden; }
+        #scanner { display: none; z-index: 1500; color: var(--accent); }
+        .bar-bg { width: 220px; height: 2px; background: #222; margin: 20px 0; }
         .bar-fill { width: 0%; height: 100%; background: var(--accent); box-shadow: 0 0 15px var(--accent); }
 
-        /* 2. APP CORE */
-        .main-app { display: none; height: 100vh; flex-direction: column; opacity: 0; transition: 0.5s; }
-        .container { padding: 15px; flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
-        .page { display: none; }
-        .page.active { display: flex; flex-direction: column; gap: 8px; }
-
-        .header-status { padding: 10px; border-bottom: 1px solid var(--gold); display: flex; justify-content: space-between; font-size: 9px; color: var(--gold); font-weight: bold; background: #050505; }
+        /* APP CORE - SEMPRE PRONTO NO FUNDO */
+        #app { display: block; height: 100vh; width: 100%; opacity: 0; transition: opacity 0.5s; background: #000; overflow-y: auto; }
+        .container { padding: 15px; display: flex; flex-direction: column; gap: 10px; padding-bottom: 50px; }
         
-        .indicators-box { border: 1px solid var(--accent); border-radius: 4px; display: flex; justify-content: space-around; align-items: center; padding: 10px; font-size: 10px; background: rgba(0, 255, 65, 0.05); }
-        .sync-btn { background: transparent; border: 1px solid var(--gold); color: var(--gold); border-radius: 50%; width: 22px; height: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+        .header-status { padding: 12px; border-bottom: 1px solid var(--gold); display: flex; justify-content: space-between; font-size: 10px; color: var(--gold); font-weight: bold; }
+        .indicators-box { border: 1px solid var(--accent); border-radius: 4px; display: flex; justify-content: space-around; align-items: center; padding: 12px; font-size: 11px; background: rgba(0, 255, 65, 0.05); }
+        .sync-btn { background: transparent; border: 1px solid var(--gold); color: var(--gold); border-radius: 50%; width: 24px; height: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .spinning { animation: spin 0.6s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        .total-display { border: 2px solid var(--gold); border-radius: 8px; padding: 20px; text-align: center; position: relative; background: #050505; }
-        .val-main { font-size: 34px; font-weight: 900; color: var(--gold); }
+        .total-display { border: 2px solid var(--gold); border-radius: 8px; padding: 25px; text-align: center; background: #050505; }
+        .val-main { font-size: 38px; font-weight: 900; color: var(--gold); }
 
         .input-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-        .input-box { background: #050505; border: 1px solid #333; border-radius: 4px; padding: 8px; }
-        .input-box label { display: block; font-size: 8px; color: var(--gold); margin-bottom: 4px; font-weight: bold; }
-        input, select { width: 100%; background: transparent; border: none; color: #fff; font-weight: bold; text-align: center; font-size: 14px; outline: none; }
+        .input-box { background: #0a0a0a; border: 1px solid #333; border-radius: 4px; padding: 10px; }
+        .input-box label { display: block; font-size: 8px; color: var(--gold); margin-bottom: 5px; font-weight: bold; }
+        input, select { width: 100%; background: transparent; border: none; color: #fff; font-weight: 900; text-align: center; font-size: 16px; outline: none; }
         
         .grid-prods { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-        .prod-card { border: 1px solid var(--blue); border-radius: 4px; padding: 10px; text-align: center; background: #050505; }
-        .prod-title { font-size: 7px; color: var(--blue); font-weight: bold; display: block; margin-bottom: 5px; }
+        .prod-card { border: 1px solid var(--blue); border-radius: 4px; padding: 12px; text-align: center; background: #050505; }
+        .prod-title { font-size: 8px; color: var(--blue); font-weight: bold; }
 
-        .btn-acao { background: var(--gold); color: #000; padding: 18px; border: none; font-weight: 900; border-radius: 30px; cursor: pointer; text-transform: uppercase; width: 260px; letter-spacing: 2px; }
-        .slide-up { transform: translateY(-100%); }
+        .btn-acao { background: var(--gold); color: #000; padding: 20px; border: none; font-weight: 900; border-radius: 40px; cursor: pointer; text-transform: uppercase; width: 280px; }
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
     <div id="splash">
-        <div style="font-size: 60px; margin-bottom: 10px;">🔱</div>
-        <h2 style="color:var(--gold); letter-spacing:8px; font-size:14px; margin-bottom:40px;">S.A. SUPREMACIA</h2>
-        <button class="btn-acao" onclick="iniciarSistema()">INICIAR LICENÇA</button>
+        <div style="font-size: 70px; margin-bottom: 10px;">🔱</div>
+        <h2 style="color:var(--gold); letter-spacing:8px; font-size:16px; margin-bottom:40px;">S.A. SUPREMACIA</h2>
+        <button class="btn-acao" onclick="iniciarFluxo()">ATIVAR SISTEMA</button>
     </div>
 
     <div id="scanner">
-        <div id="status">LIMPENDO CACHE DE SINTAXE...</div>
+        <div style="font-weight: bold; letter-spacing: 2px;">RECALIBRANDO MATRIZ...</div>
         <div class="bar-bg"><div class="bar-fill" id="bar"></div></div>
-        <div id="log" style="font-size: 9px; color: #555;">Recompondo matriz de dados...</div>
     </div>
 
-    <div class="main-app" id="app">
+    <div id="app">
         <div class="header-status">
             <span>🛡️ LICENÇA PRO: VALIDADA</span>
-            <span>06/02/2026 | 22:35</span>
+            <span>06/02/2026 | 20:30</span>
         </div>
 
-        <div class="container">
-            <div id="tab-funil" class="page active">
-                <h3 style="color:var(--gold); text-align:center; font-size:11px;">TRIAGEM DE INVESTIDOR</h3>
-                <div class="input-box"><label>PERFIL</label>
-                    <select id="perfil">
-                        <option value="conservador">CONSERVADOR</option>
-                        <option value="moderado">MODERADO</option>
-                        <option value="agressivo">AGRESSIVO</option>
-                    </select>
-                </div>
-                <div class="input-box"><label>INICIAL (R$)</label><input type="number" id="ini" value="3000"></div>
-                <div class="input-box"><label>MENSAL (R$)</label><input type="number" id="mes" value="400"></div>
-                <div class="input-box"><label>TEMPO (MESES)</label><input type="number" id="tempo" value="12"></div>
-                <button class="btn-acao" style="width:100%; border-radius:4px; margin-top:10px;" onclick="executarVarredura()">VARREDURA S.A.</button>
+        <div class="container" id="tela-funil">
+            <h3 style="color:var(--gold); text-align:center; font-size:12px;">TRIAGEM DE INVESTIDOR</h3>
+            <div class="input-box"><label>PERFIL</label>
+                <select id="perfil">
+                    <option value="conservador">CONSERVADOR</option>
+                    <option value="moderado">MODERADO</option>
+                    <option value="agressivo">AGRESSIVO</option>
+                </select>
+            </div>
+            <div class="input-box"><label>INICIAL (R$)</label><input type="number" id="ini" value="1000"></div>
+            <div class="input-box"><label>MENSAL (R$)</label><input type="number" id="mes" value="200"></div>
+            <div class="input-box"><label>TEMPO (MESES)</label><input type="number" id="tempo" value="12"></div>
+            <button class="btn-acao" style="width:100%; border-radius:8px; margin-top:20px;" onclick="iniciarVarredura()">VARREDURA S.A.</button>
+        </div>
+
+        <div class="container hidden" id="tela-coracao">
+            <div class="indicators-box">
+                <span>SELIC: <span style="color:var(--accent)">10.75%</span></span>
+                <button class="sync-btn" onclick="syncLive()">⟳</button>
+                <span>IPCA: <span style="color:var(--accent)">4.52%</span></span>
+                <span style="color:var(--red)">IR: <span id="val-ir">--</span></span>
             </div>
 
-            <div id="tab-coracao" class="page">
-                <div class="indicators-box">
-                    <span>SELIC: <span id="val-selic" style="color:var(--accent)">10.75</span>%</span>
-                    <button class="sync-btn" onclick="syncLive()">⟳</button>
-                    <span>IPCA: <span id="val-ipca" style="color:var(--accent)">4.52</span>%</span>
-                    <span style="color:var(--red)">IR: <span id="val-ir">--</span></span>
-                </div>
+            <div class="total-display">
+                <span style="font-size:9px; color:var(--gold); font-weight:bold;">MOLDAGEM DE LUCRO LÍQUIDO (-50%)</span>
+                <div class="val-main" id="total-final">R$ 0,00</div>
+            </div>
 
-                <div class="total-display">
-                    <div style="position: absolute; top: -10px; right: 10px; background: var(--accent); color: #000; font-size: 8px; padding: 4px 8px; border-radius: 10px; font-weight: 900;">✓ MOLDAGEM ATIVA</div>
-                    <span style="font-size:8px; color:var(--gold); font-weight:bold;">LUCRO LÍQUIDO PROJETADO (-50%)</span>
-                    <div class="val-main" id="total-final">R$ 0,00</div>
-                </div>
+            <div class="input-row">
+                <div class="input-box"><label>INICIAL</label><input type="number" id="d-ini" oninput="recalcular()"></div>
+                <div class="input-box"><label>MENSAL</label><input type="number" id="d-mes" oninput="recalcular()"></div>
+                <div class="input-box"><label>MESES</label><input type="number" id="d-tempo" oninput="recalcular()"></div>
+            </div>
 
-                <div class="input-row">
-                    <div class="input-box"><label>INICIAL</label><input type="number" id="d-ini" oninput="recalcular()"></div>
-                    <div class="input-box"><label>MENSAL</label><input type="number" id="d-mes" oninput="recalcular()"></div>
-                    <div class="input-box"><label>MESES</label><input type="number" id="d-tempo" oninput="recalcular()"></div>
-                </div>
+            <div class="input-box"><label>ALTERAR ESTRATÉGIA</label>
+                <select id="d-perfil" onchange="recalcular()">
+                    <option value="conservador">CONSERVADOR</option>
+                    <option value="moderado">MODERADO</option>
+                    <option value="agressivo">AGRESSIVO</option>
+                </select>
+            </div>
 
-                <div class="input-box"><label>MUDAR PERFIL E PRODUTOS</label>
-                    <select id="d-perfil" onchange="recalcular()">
-                        <option value="conservador">CONSERVADOR</option>
-                        <option value="moderado">MODERADO</option>
-                        <option value="agressivo">AGRESSIVO</option>
-                    </select>
-                </div>
+            <div id="grid-produtos" class="grid-prods"></div>
 
-                <div id="grid-produtos" class="grid-prods"></div>
-
-                <div style="border: 2px solid var(--blue); border-radius: 4px; margin-top: auto;">
-                    <div style="background:var(--blue); color:#000; padding:6px; text-align:center; font-weight:900; font-size:10px;">ANGELA IA | STATUS SULTA BILHETE</div>
-                    <div id="angela-msg" style="padding:10px; font-size:10px; background:#050505; line-height:1.3;"></div>
-                </div>
+            <div style="border: 2px solid var(--blue); border-radius: 4px; padding: 10px; font-size: 11px; background: #050505;">
+                <div id="angela-msg" style="line-height:1.5;"></div>
             </div>
         </div>
     </div>
 
 <script>
-    function iniciarSistema() { document.getElementById('splash').classList.add('slide-up'); }
+    function iniciarFluxo() {
+        const splash = document.getElementById('splash');
+        splash.style.opacity = '0';
+        setTimeout(() => { 
+            splash.style.display = 'none';
+            document.getElementById('app').style.opacity = '1';
+        }, 500);
+    }
 
-    function executarVarredura() {
-        document.getElementById('scanner').style.display = 'flex';
+    function iniciarVarredura() {
+        const scanner = document.getElementById('scanner');
+        scanner.style.display = 'flex';
         let p = 0;
-        const bar = document.querySelector('.bar-fill');
+        const bar = document.getElementById('bar');
         const interval = setInterval(() => {
             p += 10; bar.style.width = p + "%";
             if(p >= 100) {
                 clearInterval(interval);
-                document.getElementById('scanner').style.display = 'none';
-                document.getElementById('d-ini').value = document.getElementById('ini').value;
-                document.getElementById('d-mes').value = document.getElementById('mes').value;
-                document.getElementById('d-tempo').value = document.getElementById('tempo').value;
-                document.getElementById('d-perfil').value = document.getElementById('perfil').value;
-                document.getElementById('tab-funil').classList.remove('active');
-                document.getElementById('tab-coracao').classList.add('active');
-                document.getElementById('app').style.display = 'flex';
-                document.getElementById('app').style.opacity = '1';
-                recalcular();
+                scanner.style.opacity = '0';
+                setTimeout(() => {
+                    scanner.style.display = 'none';
+                    irParaCoracao();
+                }, 500);
             }
-        }, 80);
+        }, 60);
+    }
+
+    function irParaCoracao() {
+        document.getElementById('tela-funil').classList.add('hidden');
+        document.getElementById('tela-coracao').classList.remove('hidden');
+        document.getElementById('d-ini').value = document.getElementById('ini').value;
+        document.getElementById('d-mes').value = document.getElementById('mes').value;
+        document.getElementById('d-tempo').value = document.getElementById('tempo').value;
+        document.getElementById('d-perfil').value = document.getElementById('perfil').value;
+        recalcular();
     }
 
     function syncLive() {
         const btn = document.querySelector('.sync-btn');
         btn.classList.add('spinning');
-        setTimeout(() => { btn.classList.remove('spinning'); recalcular(); }, 600);
+        setTimeout(() => { btn.classList.remove('spinning'); recalcular(); }, 700);
     }
 
     function recalcular() {
@@ -159,36 +164,33 @@
         const t = parseInt(document.getElementById('d-tempo').value) || 1;
         const perf = document.getElementById('d-perfil').value;
 
-        let taxaIR = t <= 6 ? 0.225 : t <= 12 ? 0.20 : t <= 24 ? 0.175 : 0.15;
-        document.getElementById('val-ir').innerText = (taxaIR*100).toFixed(1) + "%";
+        let ir = t <= 6 ? 0.225 : t <= 12 ? 0.20 : t <= 24 ? 0.175 : 0.15;
+        document.getElementById('val-ir').innerText = (ir*100).toFixed(1) + "%";
 
         const selicM = Math.pow(1.1075, 1/12) - 1;
         let bruto = (i * Math.pow(1 + selicM, t)) + (m * ((Math.pow(1 + selicM, t) - 1) / selicM));
         let investido = i + (m * t);
-        let lucroLiq = (bruto - investido) * (1 - taxaIR);
+        let lucroLiq = (bruto - investido) * (1 - ir);
         let final = investido + (lucroLiq * 0.5);
 
         document.getElementById('total-final').innerText = "R$ " + final.toLocaleString('pt-BR', {minimumFractionDigits: 2});
 
-        let html = ""; let msg = "";
+        let html = "";
         if(perf === 'conservador') {
             html = `<div class="prod-card"><span class="prod-title">TESOURO</span><b>R$ ${(final*0.7).toFixed(0)}</b></div>
-                    <div class="prod-card"><span class="prod-title">CDB PÓS</span><b>R$ ${(final*0.2).toFixed(0)}</b></div>
-                    <div class="prod-card"><span class="prod-title">LCI</span><b>R$ ${(final*0.1).toFixed(0)}</b></div>`;
-            msg = "ESTRATÉGIA CONSERVADORA ATIVA.";
+                    <div class="prod-card"><span class="prod-title">CDB 100%</span><b>R$ ${(final*0.2).toFixed(0)}</b></div>
+                    <div class="prod-card"><span class="prod-title">LCI/LCA</span><b>R$ ${(final*0.1).toFixed(0)}</b></div>`;
         } else if(perf === 'moderado') {
-            html = `<div class="prod-card"><span class="prod-title">CDB 110%</span><b>R$ ${(final*0.4).toFixed(0)}</b></div>
-                    <div class="prod-card"><span class="prod-title">TESOURO</span><b>R$ ${(final*0.4).toFixed(0)}</b></div>
-                    <div class="prod-card"><span class="prod-title">LCA</span><b>R$ ${(final*0.2).toFixed(0)}</b></div>`;
-            msg = "ESTRATÉGIA MODERADA ATIVA.";
+            html = `<div class="prod-card"><span class="prod-title">CDB 115%</span><b>R$ ${(final*0.5).toFixed(0)}</b></div>
+                    <div class="prod-card"><span class="prod-title">DEBÊNTURE</span><b>R$ ${(final*0.3).toFixed(0)}</b></div>
+                    <div class="prod-card"><span class="prod-title">FIIs</span><b>R$ ${(final*0.2).toFixed(0)}</b></div>`;
         } else {
-            html = `<div class="prod-card"><span class="prod-title">CDB 135%</span><b>R$ ${(final*0.6).toFixed(0)}</b></div>
-                    <div class="prod-card"><span class="prod-title">AÇÕES</span><b>R$ ${(final*0.3).toFixed(0)}</b></div>
-                    <div class="prod-card"><span class="prod-title">CRI/CRA</span><b>R$ ${(final*0.1).toFixed(0)}</b></div>`;
-            msg = "ESTRATÉGIA AGRESSIVA ATIVA.";
+            html = `<div class="prod-card"><span class="prod-title">AÇÕES</span><b>R$ ${(final*0.5).toFixed(0)}</b></div>
+                    <div class="prod-card"><span class="prod-title">CRIPTO</span><b>R$ ${(final*0.3).toFixed(0)}</b></div>
+                    <div class="prod-card"><span class="prod-title">OPÇÕES</span><b>R$ ${(final*0.2).toFixed(0)}</b></div>`;
         }
         document.getElementById('grid-produtos').innerHTML = html;
-        document.getElementById('angela-msg').innerHTML = "<b>VARREDURA V121:</b> " + msg + " Trava de vácuo aplicada.";
+        document.getElementById('angela-msg').innerHTML = "<b>STATUS V124:</b> Trava de segurança ativa. Lucro líquido projetado com vácuo de -50% para segurança do investidor.";
     }
 </script>
 </body>
