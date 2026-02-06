@@ -3,61 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OMNI V21 | RECONHECIMENTO</title>
+    <title>OMNI V21 | COMANDO</title>
     <style>
-        :root { --gold: #D4AF37; --bg: #050505; --accent: #00FF41; --blue: #00D1FF; }
-        body { background: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; overflow: hidden; }
-        .box { width: 90%; max-width: 400px; padding: 25px; border: 1px solid #222; border-radius: 30px; background: #000; text-align: center; box-shadow: 0 0 30px rgba(0,209,255,0.1); }
-        .step { display: none; }
-        .step.active { display: block; animation: slideUp 0.4s ease-out; }
-        h2 { font-size: 10px; color: var(--gold); letter-spacing: 4px; text-transform: uppercase; margin-bottom: 20px; }
-        .pergunta { font-size: 16px; font-weight: bold; margin-bottom: 25px; line-height: 1.4; }
-        .btn-opt { width: 100%; padding: 16px; margin-bottom: 12px; background: #0a0a0a; border: 1px solid #333; color: #fff; border-radius: 15px; cursor: pointer; font-size: 13px; font-weight: 600; transition: 0.2s; text-align: center; }
-        .btn-opt:hover { border-color: var(--blue); background: #00151a; color: var(--blue); }
-        .loading-bar { width: 0%; height: 2px; background: var(--blue); position: fixed; top: 0; left: 0; transition: 0.5s; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        :root { --gold: #D4AF37; --bg: #000; --blue: #00D1FF; --accent: #00FF41; }
+        body { background: var(--bg); color: #fff; font-family: sans-serif; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .box { width: 90%; max-width: 400px; padding: 25px; border: 1px solid #222; border-radius: 25px; background: #050505; }
+        .step { display: none; text-align: center; }
+        .step.active { display: block; }
+        h2 { font-size: 10px; color: var(--gold); letter-spacing: 3px; margin-bottom: 20px; }
+        .msg { font-size: 18px; font-weight: bold; margin-bottom: 25px; }
+        .btn { width: 100%; padding: 18px; margin-bottom: 12px; background: #111; border: 1px solid #333; color: #fff; border-radius: 15px; cursor: pointer; font-size: 14px; font-weight: bold; }
+        .btn:active { background: var(--blue); color: #000; }
+        .asset { display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid #111; font-size: 13px; }
     </style>
 </head>
 <body>
-<div class="loading-bar" id="bar"></div>
+
 <div class="box">
     <div id="q1" class="step active">
-        <h2>RECONHECIMENTO 01/04</h2>
-        <div class="pergunta">Qual sua necessidade de liquidez (dinheiro na mão)?</div>
-        <button class="btn-opt" onclick="next(1,2,'safe')">IMEDIATA (24h)</button>
-        <button class="btn-opt" onclick="next(1,2,'mod')">MÉDIO PRAZO (Meses)</button>
-        <button class="btn-opt" onclick="next(1,2,'ag')">LONGO PRAZO (Anos)</button>
+        <h2>RECONHECIMENTO 01/03</h2>
+        <div class="msg">Qual sua necessidade de liquidez?</div>
+        <button class="btn" onclick="go(1,2,'safe')">IMEDIATA (24h)</button>
+        <button class="btn" onclick="go(1,2,'mod')">MÉDIO PRAZO</button>
+        <button class="btn" onclick="go(1,2,'ag')">LONGO PRAZO</button>
     </div>
 
     <div id="q2" class="step">
-        <h2>RECONHECIMENTO 02/04</h2>
-        <div class="pergunta">Como você reage se o saldo cair 5% para ganhar 20% depois?</div>
-        <button class="btn-opt" onclick="next(2,3)">RESGATO TUDO (Pânico)</button>
-        <button class="btn-opt" onclick="next(2,3)">AGUARDO (Resiliência)</button>
-        <button class="btn-opt" onclick="next(2,3)">INVESTO MAIS (Oportunidade)</button>
+        <h2>RECONHECIMENTO 02/03</h2>
+        <div class="msg">Qual seu objetivo principal?</div>
+        <button class="btn" onclick="go(2,3,'renda')">Gerar Renda (Dividendos)</button>
+        <button class="btn" onclick="go(2,3,'protecao')">Blindar Inflação</button>
+        <button class="btn" onclick="go(2,3,'crescer')">Crescer Patrimônio</button>
     </div>
 
     <div id="q3" class="step">
-        <h2>RECONHECIMENTO 03/04</h2>
-        <div class="pergunta">Qual o foco principal da sua missão?</div>
-        <button class="btn-opt" onclick="next(3,4)">Viver de Renda (Dividendos)</button>
-        <button class="btn-opt" onclick="next(3,4)">Proteção Total (Inflação)</button>
-        <button class="btn-opt" onclick="next(3,4)">Multiplicação (Bolsa)</button>
-    </div>
-
-    <div id="q4" class="step">
-        <h2>RECONHECIMENTO 04/04</h2>
-        <div class="pergunta">Investimento inicial planejado?</div>
-        <button class="btn-opt" onclick="finish()">Finalizar Mapeamento</button>
-    </div>
-
-    <div id="loading" class="step">
-        <h2 style="color:var(--accent)">PROCESSANDO IA</h2>
-        <div class="pergunta" id="status-msg">Cruzando dados de mercado...</div>
+        <h2 id="titulo">PORTFÓLIO OMNI</h2>
+        <div id="resumo" style="font-size: 24px; color: var(--accent); margin-bottom: 20px;"></div>
+        <div id="lista"></div>
+        <button class="btn" style="margin-top:20px; color:var(--gold)" onclick="location.reload()">RECALIBRAR</button>
     </div>
 </div>
 
 <script>
-    let profile = "";
-    function next
-    
+    let dna = { p: '', o: '' };
+
+    function go(c, n, val) {
+        if(c === 1) dna.p = val;
+        if(c === 2) dna.o = val;
+        
+        document.getElementById('q'+c).classList.remove('active');
+        document.getElementById('q'+n).classList.add('active');
+        
+        if(n === 3) show();
+    }
+
+    function show() {
+        let l = document.getElementById('lista');
+        let res = document.getElementById('resumo');
+        
+        if(dna.p === 'safe') {
+            res.innerText = "ALOCAÇÃO DEFENSIVA";
+            l.innerHTML = `
+                <div class="asset"><span>Tesouro Selic</span><span>50%</span></div>
+                <div class="asset"><span>CDB Pós 110%</span><span>30%</span></div>
+                <div class="asset"><span>LCI Isenta</span><span>20%</span></div>`;
+        } else if(dna.o === 'renda') {
+            res.innerText = "FOCO EM DIVIDENDOS";
+            l.innerHTML = `
+                <div class="asset"><span>FIIs (Renda Mensal)</span><span>40%</span></div>
+                <div class="asset"><span>Ações Dividendos</span><span>40%</span></div>
+                <div class="asset"><span>CRI Isento</span><span>20%</span></div>`;
+        } else {
+            res.innerText = "ESCALA ESTRUTURAL";
+            l.innerHTML = `
+                <div class="asset"><span>Ações Growth</span><span>40%</span></div>
+                <div class="asset"><span>S&P 500 (EUA)</span><span>40%</span></div>
+                <div class="asset"><span>Debêntures</span><span>20%</span></div>`;
+        }
+    }
+</script>
+</body>
+</html>
