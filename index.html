@@ -3,168 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>OMNI V44 | EXECUTIVE TERMINAL</title>
+    <title>OMNI V45 | FISCAL SHIELD</title>
     <style>
-        :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --card: #080808; --border: #1a1a1a; }
+        :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --card: #080808; --border: #1a1a1a; --tax-red: #ff4444; }
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         body, html { background: #000; color: #fff; font-family: 'Times New Roman', serif; height: 100vh; overflow: hidden; }
         
-        .app { width: 100%; height: 100%; position: relative; display: flex; flex-direction: column; }
+        .app { width: 100%; height: 100%; display: flex; flex-direction: column; }
         .page { display: none; width: 100%; height: 100%; padding: 25px; flex-direction: column; overflow-y: auto; background: #000; }
         .active { display: flex !important; }
 
-        /* INDICADOR ONLINE */
-        .status-bar { display: flex; justify-content: space-between; font-size: 8px; color: var(--blue); letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase; }
+        /* STATUS BAR REAL-TIME */
+        .status-bar { display: flex; justify-content: space-between; font-size: 8px; color: var(--blue); letter-spacing: 2px; margin-bottom: 20px; border-bottom: 1px solid #111; padding-bottom: 10px; }
         .dot { height: 6px; width: 6px; background: var(--accent); border-radius: 50%; display: inline-block; margin-right: 5px; box-shadow: 0 0 10px var(--accent); }
 
-        /* DESIGN EXECUTIVO */
-        .brand { text-align: center; margin: 40px 0; }
-        .logo { font-size: 40px; font-weight: 900; letter-spacing: 15px; color: var(--gold); text-shadow: 0 0 20px rgba(212,175,55,0.3); }
+        .brand { text-align: center; margin: 30px 0; }
+        .logo { font-size: 40px; font-weight: 900; letter-spacing: 15px; color: var(--gold); }
         
-        .card-exec { 
-            background: var(--card); border: 1px solid var(--border); padding: 20px; 
-            margin-bottom: 15px; border-left: 3px solid var(--gold); position: relative;
-        }
+        .card-exec { background: var(--card); border: 1px solid var(--border); padding: 20px; margin-bottom: 15px; border-left: 3px solid var(--gold); }
         .label-gold { font-size: 10px; color: var(--gold); font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; display: block; }
 
-        /* INPUTS E BOTÕES */
-        .btn-gold { 
-            width: 100%; padding: 20px; background: var(--gold); color: #000; border: none; 
-            font-weight: 900; font-size: 13px; letter-spacing: 2px; cursor: pointer; margin-top: 20px;
-        }
-        .btn-option { 
-            width: 100%; padding: 18px; background: transparent; border: 1px solid var(--border); 
-            color: #fff; margin-bottom: 10px; text-align: left; cursor: pointer; transition: 0.3s;
-        }
-        .btn-option:active { border-color: var(--blue); background: #111; }
+        .btn-gold { width: 100%; padding: 20px; background: var(--gold); color: #000; border: none; font-weight: 900; font-size: 13px; letter-spacing: 2px; cursor: pointer; margin-top: 10px; }
+        .btn-option { width: 100%; padding: 18px; background: transparent; border: 1px solid var(--border); color: #fff; margin-bottom: 10px; text-align: left; cursor: pointer; }
 
-        /* TERMINAL DE CÁLCULO */
-        .term-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        /* CALCULATOR GRID */
+        .term-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
         .term-box { background: #050505; border: 1px solid #111; padding: 12px; }
-        .val-display { font-size: 24px; color: var(--accent); font-weight: bold; margin-top: 5px; }
+        .val-display { font-size: 20px; font-weight: bold; margin-top: 5px; }
         
-        select, input { 
-            background: #111; border: 1px solid var(--border); color: #fff; padding: 10px; 
-            width: 100%; font-size: 16px; outline: none; margin-top: 5px;
-        }
+        select, input { background: #111; border: 1px solid var(--border); color: #fff; padding: 12px; width: 100%; font-size: 18px; outline: none; margin-top: 5px; border-radius: 4px; }
+        
+        /* TAX TAG */
+        .tax-tag { font-size: 9px; color: var(--tax-red); margin-top: 4px; display: block; }
     </style>
 </head>
 <body>
 
 <div class="app">
     <div id="p1" class="page active">
-        <div class="status-bar"><div><span class="dot"></span>SISTEMA ONLINE</div><div>V44 | SECURE</div></div>
-        <div class="brand">
-            <h1 class="logo">ØMNI</h1>
-            <p style="font-size: 8px; color: var(--blue); letter-spacing: 5px; margin-top: 10px;">GOVERNANCE TERMINAL</p>
-        </div>
-        <button class="btn-gold" onclick="nav('p2')">AUTORIZAR PROTOCOLO</button>
+        <div class="status-bar"><div><span class="dot"></span>SISTEMA ONLINE</div><div>V45 | FISCAL</div></div>
+        <div class="brand"><h1 class="logo">ØMNI</h1></div>
+        <button class="btn-gold" onclick="nav('p2')">INICIAR PROTOCOLO</button>
     </div>
 
     <div id="p2" class="page">
-        <span class="label-gold">Diligência Prévia: Perfil de Exposição</span>
-        <div class="card-exec">
-            <p style="font-size: 14px; line-height: 1.5;">Para liberar o terminal de alocação, defina sua tolerância à volatilidade de mercado:</p>
-        </div>
-        <button class="btn-option" onclick="setPerfil('cons', 'Conservador')"><b>01. PRESERVAÇÃO</b><br><small>Risco soberano e liquidez imediata.</small></button>
-        <button class="btn-option" onclick="setPerfil('mod', 'Moderado')"><b>02. ESTRUTURA HÍBRIDA</b><br><small>Proteção contra inflação + Dividendos.</small></button>
-        <button class="btn-option" onclick="setPerfil('arr', 'Arrojado')"><b>03. EXPANSÃO PATRIMONIAL</b><br><small>Alta exposição em Equity e Moeda Forte.</small></button>
+        <span class="label-gold">Avaliação de Risco Institucional</span>
+        <button class="btn-option" onclick="setPerfil('cons', 'Conservador')"><b>01. PRESERVAÇÃO</b><br><small>Risco soberano e liquidez Selic.</small></button>
+        <button class="btn-option" onclick="setPerfil('mod', 'Moderado')"><b>02. ESTRUTURA HÍBRIDA</b><br><small>Hedge inflacionário e dividendos.</small></button>
+        <button class="btn-option" onclick="setPerfil('arr', 'Arrojado')"><b>03. EXPANSÃO</b><br><small>Maximização de Alfa em Equity.</small></button>
     </div>
 
     <div id="p3" class="page">
-        <div class="status-bar"><div>PERFIL: <span id="display-perfil" style="color:var(--gold)">-</span></div><div>IPCA: 4.50%</div></div>
+        <div class="status-bar">
+            <div>SELIC: <span style="color:#fff">10.75%</span></div>
+            <div>IPCA: <span style="color:#fff">4.50%</span></div>
+            <div>STATUS: <span style="color:var(--accent)">ONLINE</span></div>
+        </div>
         
-        <div class="card-exec" style="border-left:none; border-top:3px solid var(--gold); text-align:center;">
-            <span class="label-gold">Capital Principal (R$)</span>
-            <input type="number" id="val" value="10000" oninput="calc()" style="font-size:30px; text-align:center; font-family:serif;">
+        <div class="card-exec">
+            <span class="label-gold">Aporte Principal (R$)</span>
+            <input type="number" id="val" value="10000" oninput="calc()">
         </div>
 
         <div class="term-grid">
             <div class="term-box">
-                <span class="label-gold" style="font-size:8px;">Horizonte (Meses)</span>
+                <span class="label-gold" style="font-size:8px;">Horizonte</span>
                 <select id="meses" onchange="calc()">
-                    <option value="12">12 Meses</option>
-                    <option value="24">24 Meses</option>
-                    <option value="36">36 Meses</option>
-                    <option value="48">48 Meses</option>
-                    <option value="60">60 Meses</option>
+                    <option value="6">06 Meses (22.5% IR)</option>
+                    <option value="12">12 Meses (20.0% IR)</option>
+                    <option value="24">24 Meses (17.5% IR)</option>
+                    <option value="36">36 Meses (15.0% IR)</option>
                 </select>
             </div>
             <div class="term-box">
-                <span class="label-gold" style="font-size:8px;">Projeção Final</span>
-                <div id="res-final" class="val-display">R$ 0,00</div>
+                <span class="label-gold" style="font-size:8px;">Lucro Líquido (Real)</span>
+                <div id="res-final" class="val-display" style="color:var(--accent);">R$ 0,00</div>
+                <span id="tax-info" class="tax-tag">Desconto IR: R$ 0,00</span>
             </div>
         </div>
 
-        <span class="label-gold">Distribuição do Portfólio de Elite</span>
-        <div id="dist-list"></div>
-
-        <div style="margin-top:20px;">
-            <span class="label-gold">Protocolo de Voz (Audio Insight)</span>
-            <div id="voice-btns"></div>
-            <button class="btn-option" style="text-align:center; color:red; margin-top:10px;" onclick="window.speechSynthesis.cancel()">PARAR VOZ</button>
+        <div class="card-exec">
+            <span class="label-gold">Composição Detalhada (Pós-Impostos)</span>
+            <div id="dist-list"></div>
         </div>
 
-        <button class="btn-gold" style="background:#111; color:var(--gold); border:1px solid var(--gold)" onclick="location.reload()">REINICIAR GOVERNANÇA</button>
+        <div style="margin-top:10px;">
+            <span class="label-gold">Briefings de Voz</span>
+            <div id="voice-btns"></div>
+            <button class="btn-option" style="text-align:center; color:var(--tax-red); border-color:#311; margin-top:5px;" onclick="window.speechSynthesis.cancel()">SILENCIAR</button>
+        </div>
+
+        <button class="btn-gold" style="background:#111; color:var(--gold); border:1px solid var(--gold)" onclick="location.reload()">REINICIAR</button>
     </div>
 </div>
 
 <script>
     let perfil = "";
     const briefings = {
-        'Tesouro Selic': 'Segurança soberana. O capital é alocado em títulos de dívida pública com risco zero.',
-        'CDB Pós': 'Eficiência bancária. Rentabilidade atrelada ao CDI com proteção do fundo garantidor.',
-        'LCI/LCA': 'Isenção tributária absoluta. Máxima performance líquida em setores essenciais.',
-        'IPCA+': 'Proteção de poder de compra. Rendimento real garantido acima da inflação anual.',
-        'FIIs': 'Renda passiva mensal. Dividendos imobiliários isentos de tributação.',
-        'Ações': 'Participação em equity. Exposição ao crescimento das maiores corporações do país.',
-        'BDR/Dólar': 'Hedge internacional. Blindagem do patrimônio em moeda forte contra riscos locais.'
+        'Tesouro Selic': 'Capital alocado em títulos soberanos. Cálculo já considera a alíquota regressiva de IR para o período.',
+        'CDB Pós': 'Exposição bancária com proteção FGC. Rendimento líquido projetado após impostos.',
+        'LCI/LCA': 'Ativo isento de imposto de renda. 100% do rendimento revertido ao investidor.',
+        'IPCA+': 'Proteção real de compra. O rendimento acima da inflação sofre tributação padrão.',
+        'FIIs': 'Dividendos mensais isentos. Ideal para fluxo de caixa sem mordida fiscal.',
+        'Ações': 'Equity de longo prazo. Isenção em vendas até 20k mensais ou tributação sobre ganho.',
+        'BDR/Dólar': 'Blindagem cambial. Tributação sobre ganho de capital na liquidação.'
     };
 
     function nav(id) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById(id).classList.add('active');
-        window.scrollTo(0,0);
     }
 
-    function setPerfil(p, label) {
-        perfil = p;
-        document.getElementById('display-perfil').innerText = label;
-        nav('p3');
-        calc();
+    function setPerfil(p, label) { perfil = p; nav('p3'); calc(); }
+
+    function getIR(m) {
+        if (m <= 6) return 0.225;
+        if (m <= 12) return 0.20;
+        if (m <= 24) return 0.175;
+        return 0.15;
     }
 
     function calc() {
-        let v = parseFloat(document.getElementById('val').value) || 0;
-        let m = parseInt(document.getElementById('meses').value);
-        let taxaAnual = perfil === 'cons' ? 0.1075 : (perfil === 'mod' ? 0.145 : 0.185);
+        const v = parseFloat(document.getElementById('val').value) || 0;
+        const m = parseInt(document.getElementById('meses').value);
+        const ir = getIR(m);
+        const taxaAnual = perfil === 'cons' ? 0.1075 : (perfil === 'mod' ? 0.145 : 0.185);
         
-        // Juros compostos simples para o período
-        let total = v * Math.pow((1 + taxaAnual), (m/12));
-        document.getElementById('res-final').innerText = "R$ " + total.toLocaleString('pt-BR',{minimumFractionDigits:2});
+        // Rendimento Bruto
+        let bruto = v * Math.pow((1 + taxaAnual), (m/12));
+        let lucroBruto = bruto - v;
+        
+        // Simulação: Algumas classes são isentas (LCI/LCA/FII), outras não. 
+        // Para simplificar no total do Dashboard:
+        let lucroLiquido = lucroBruto * (1 - ir);
+        let impostoPago = lucroBruto * ir;
+        
+        document.getElementById('res-final').innerText = "R$ " + (v + lucroLiquido).toLocaleString('pt-BR',{minimumFractionDigits:2});
+        document.getElementById('tax-info').innerText = "Retenção IR ("+(ir*100)+"%): R$ " + impostoPago.toLocaleString('pt-BR',{minimumFractionDigits:2});
 
-        let data = perfil === 'cons' ? [['Tesouro Selic', 0.7], ['CDB Pós', 0.3]] :
-                 (perfil === 'mod' ? [['LCI/LCA', 0.4], ['IPCA+', 0.3], ['FIIs', 0.3]] :
-                 [['Ações', 0.5], ['BDR/Dólar', 0.5]]);
+        let data = perfil === 'cons' ? [['Tesouro Selic', 0.7, false], ['CDB Pós', 0.3, false]] :
+                 (perfil === 'mod' ? [['LCI/LCA', 0.4, true], ['IPCA+', 0.3, false], ['FIIs', 0.3, true]] :
+                 [['Ações', 0.5, false], ['BDR/Dólar', 0.5, false]]);
 
-        let html = ""; let vb = "";
+        let h = ""; let vb = "";
         data.forEach(item => {
-            let part = v * item[1];
-            html += `<div style="display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid #111; font-size:14px;">
-                <span>${item[0]}</span><span style="color:var(--accent); font-weight:bold;">R$ ${part.toLocaleString('pt-BR',{minimumFractionDigits:2})}</span>
+            let partV = v * item[1];
+            let rendItem = (partV * Math.pow((1+taxaAnual), (m/12))) - partV;
+            let liqItem = item[2] ? rendItem : rendItem * (1 - ir); // Se isento (item[2]), não tira IR
+            
+            h += `<div style="display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid #111; font-size:13px;">
+                <span>${item[0]} ${item[2] ? '<small style="color:var(--blue)">[ISENTO]</small>':''}</span>
+                <span style="color:var(--accent); font-weight:bold;">R$ ${(partV + liqItem).toLocaleString('pt-BR',{minimumFractionDigits:2})}</span>
             </div>`;
-            vb += `<button class="btn-option" style="font-size:11px;" onclick="falar('${item[0]}')">Briefing: ${item[0]}</button>`;
+            vb += `<button class="btn-option" style="font-size:11px;" onclick="falar('${item[0]}')">Relatório: ${item[0]}</button>`;
         });
-        document.getElementById('dist-list').innerHTML = html;
+        document.getElementById('dist-list').innerHTML = h;
         document.getElementById('voice-btns').innerHTML = vb;
     }
 
     function falar(t) {
         window.speechSynthesis.cancel();
         const msg = new SpeechSynthesisUtterance(briefings[t]);
-        msg.lang = 'pt-BR';
-        msg.pitch = 1.1; // Voz mais clara e profissional
-        msg.rate = 0.95; // Velocidade ideal para compreensão
+        msg.lang = 'pt-BR'; msg.pitch = 1.1; msg.rate = 0.95;
         window.speechSynthesis.speak(msg);
     }
 </script>
