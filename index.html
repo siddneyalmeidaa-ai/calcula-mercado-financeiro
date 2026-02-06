@@ -3,194 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>OMNI V46 | LIVE SOVEREIGN TERMINAL</title>
+    <title>OMNI V48 | EXPLICIT PROFIT</title>
     <style>
-        :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --card: #080808; --border: #1a1a1a; --tax-red: #ff4444; }
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        body, html { background: #000; color: #fff; font-family: 'Times New Roman', serif; height: 100vh; overflow: hidden; }
+        :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --card: #0a0a0a; --border: #1a1a1a; --tax-red: #ff4444; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Times New Roman', serif; }
+        body, html { background: #000; color: #fff; height: 100vh; overflow: hidden; }
         
         .app { width: 100%; height: 100%; display: flex; flex-direction: column; }
-        .page { display: none; width: 100%; height: 100%; padding: 25px; flex-direction: column; overflow-y: auto; background: #000; }
+        .page { display: none; width: 100%; height: 100%; padding: 20px; flex-direction: column; overflow-y: auto; background: #000; }
         .active { display: flex !important; }
 
-        /* LIVE STATUS BAR */
-        .status-bar { 
-            display: flex; justify-content: space-between; font-size: 10px; color: var(--blue); 
-            letter-spacing: 1px; padding: 15px; border-bottom: 1px solid #222; background: rgba(0,0,0,0.8);
-        }
+        .status-bar { display: flex; justify-content: space-between; font-size: 10px; color: var(--blue); letter-spacing: 1px; padding: 15px; border-bottom: 1px solid #222; }
         .live-tag { color: var(--accent); font-family: monospace; font-weight: bold; }
 
-        .brand { text-align: center; margin: 30px 0; }
-        .logo { font-size: 45px; font-weight: 900; letter-spacing: 15px; color: var(--gold); text-shadow: 0 0 20px rgba(212,175,55,0.3); }
+        .brand { text-align: center; margin: 20px 0; }
+        .logo { font-size: 40px; font-weight: 900; letter-spacing: 10px; color: var(--gold); }
         
-        .card-exec { background: var(--card); border: 1px solid var(--border); padding: 20px; margin-bottom: 15px; border-left: 3px solid var(--gold); }
-        .label-gold { font-size: 10px; color: var(--gold); font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; display: block; }
+        .card-exec { background: var(--card); border: 1px solid var(--border); padding: 18px; margin-bottom: 12px; border-left: 3px solid var(--gold); }
+        .label-gold { font-size: 10px; color: var(--gold); font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 5px; display: block; }
 
-        .btn-gold { width: 100%; padding: 22px; background: var(--gold); color: #000; border: none; font-weight: 900; font-size: 14px; letter-spacing: 2px; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
-        .btn-option { width: 100%; padding: 18px; background: transparent; border: 1px solid var(--border); color: #fff; margin-bottom: 12px; text-align: left; cursor: pointer; }
+        .btn-gold { width: 100%; padding: 20px; background: var(--gold); color: #000; border: none; font-weight: 900; font-size: 13px; letter-spacing: 2px; cursor: pointer; margin-top: 5px; }
+        .btn-option { width: 100%; padding: 15px; background: transparent; border: 1px solid var(--border); color: #fff; margin-bottom: 8px; text-align: left; cursor: pointer; }
 
-        /* CALCULATOR GRID */
         .term-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-        .term-box { background: #050505; border: 1px solid #111; padding: 12px; }
-        .val-display { font-size: 22px; font-weight: bold; margin-top: 5px; }
+        .term-box { background: #050505; border: 1px solid #111; padding: 10px; text-align: center; }
         
-        select, input { background: #111; border: 1px solid var(--border); color: #fff; padding: 12px; width: 100%; font-size: 18px; outline: none; margin-top: 5px; border-radius: 4px; }
+        input, select { background: #111; border: 1px solid var(--border); color: #fff; padding: 12px; width: 100%; font-size: 20px; outline: none; text-align: center; font-weight: bold; }
         
-        .tax-tag { font-size: 10px; color: var(--tax-red); margin-top: 5px; display: block; font-weight: bold; }
-        .pulse { animation: pulse-green 2s infinite; }
-        @keyframes pulse-green { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        .val-total { font-size: 26px; font-weight: bold; color: var(--accent); }
+        .profit-item { font-size: 11px; color: var(--accent); margin-top: 4px; display: block; }
+        .initial-item { font-size: 11px; color: #888; display: block; }
     </style>
 </head>
 <body>
 
 <div class="app">
     <div id="p1" class="page active">
-        <div class="status-bar">
-            <div><span class="live-tag pulse">●</span> SISTEMA ONLINE</div>
-            <div id="clock-capa">06/02/2026 | 13:42</div>
-        </div>
-        <div class="brand">
-            <h1 class="logo">ØMNI</h1>
-            <p style="font-size: 8px; color: var(--blue); letter-spacing: 6px; margin-top: 10px;">GOVERNANCE TERMINAL V46</p>
-        </div>
-        <button class="btn-gold" onclick="nav('p2')">AUTORIZAR ACESSO</button>
+        <div class="status-bar"><div><span class="live-tag">●</span> SISTEMA ONLINE</div><div>V48 | SECURE</div></div>
+        <div class="brand"><h1 class="logo">ØMNI</h1></div>
+        <button class="btn-gold" onclick="nav('p2')">INICIAR PROTOCOLO</button>
     </div>
 
     <div id="p2" class="page">
-        <span class="label-gold" style="text-align:center;">Diligência e Estatuto</span>
-        <div class="card-exec">
-            <span class="label-gold">Missão Corporativa</span>
-            <p style="font-size: 14px; font-style: italic;">"Blindar o património institucional e assegurar a soberania financeira através de alocações cirúrgicas."</p>
-        </div>
-        <span class="label-gold">Selecione a Política de Risco:</span>
-        <button class="btn-option" onclick="setPerfil('cons', 'Conservador')"><b>01. PRESERVAÇÃO</b><br><small>Foco em Selic e liquidez imediata.</small></button>
-        <button class="btn-option" onclick="setPerfil('mod', 'Moderado')"><b>02. ESTRUTURA HÍBRIDA</b><br><small>Hedge inflacionário e ativos reais.</small></button>
-        <button class="btn-option" onclick="setPerfil('arr', 'Arrojado')"><b>03. EXPANSÃO DE ALFA</b><br><small>Exposição em Equity e Moeda Forte.</small></button>
+        <span class="label-gold" style="text-align:center;">Diligência de Alocação</span>
+        <button class="btn-option" onclick="setPerfil('cons')"><b>01. CONSERVADOR</b><br><small>Foco em Segurança e Selic</small></button>
+        <button class="btn-option" onclick="setPerfil('mod')"><b>02. MODERADO</b><br><small>Hedge Inflacionário (IPCA)</small></button>
+        <button class="btn-option" onclick="setPerfil('arr')"><b>03. ARROJADO</b><br><small>Maximização de Equity</small></button>
     </div>
 
     <div id="p3" class="page">
-        <div class="status-bar" id="live-header">
-            <div id="selic-box">SELIC: <span class="live-tag">10.75%</span></div>
-            <div id="ipca-box">IPCA: <span class="live-tag" style="color:var(--tax-red)">4.50%</span></div>
-            <div id="status-box" style="color:var(--blue)">REAL-TIME</div>
+        <div class="status-bar">
+            <div>SELIC: <span id="s-val" class="live-tag">10.75%</span></div>
+            <div>IPCA: <span id="i-val" class="live-tag" style="color:var(--tax-red)">4.50%</span></div>
+            <div style="color:var(--blue)">REAL-TIME</div>
         </div>
         
-        <div class="card-exec" style="border-left:none; border-top:3px solid var(--gold); text-align:center;">
-            <span class="label-gold">Capital Sob Gestão (R$)</span>
-            <input type="number" id="val" value="10000" oninput="calc()">
+        <div class="card-exec">
+            <span class="label-gold">Capital Principal (R$)</span>
+            <input type="number" id="val" value="500" oninput="calc()">
         </div>
 
         <div class="term-grid">
             <div class="term-box">
-                <span class="label-gold" style="font-size:8px;">Prazo de Alocação</span>
+                <span class="label-gold" style="font-size:7px;">Prazo</span>
                 <select id="meses" onchange="calc()">
-                    <option value="6">06 Meses (22.5% IR)</option>
-                    <option value="12">12 Meses (20.0% IR)</option>
-                    <option value="24">24 Meses (17.5% IR)</option>
-                    <option value="60">60 Meses (15.0% IR)</option>
+                    <option value="6">06 Meses</option>
+                    <option value="12">12 Meses</option>
+                    <option value="24">24 Meses</option>
+                    <option value="36">36 Meses</option>
                 </select>
             </div>
             <div class="term-box">
-                <span class="label-gold" style="font-size:8px;">Resultado Líquido</span>
-                <div id="res-final" class="val-display" style="color:var(--accent);">R$ 0,00</div>
-                <span id="tax-info" class="tax-tag">Desconto IR: R$ 0,00</span>
+                <span class="label-gold" style="font-size:7px;">Montante Líquido Final</span>
+                <div id="res-final" class="val-total">R$ 0,00</div>
+                <div id="profit-total" style="color:var(--blue); font-size:10px; font-weight:bold;">Lucro Total: R$ 0,00</div>
             </div>
         </div>
 
         <div class="card-exec">
-            <span class="label-gold">Composição Detalhada (Pós-Impostos)</span>
+            <span class="label-gold">Relatório Detalhado por Ativo</span>
             <div id="dist-list"></div>
         </div>
 
-        <div style="margin-top:10px;">
-            <span class="label-gold">Audio Briefing (Protocolo OMNI)</span>
-            <div id="voice-btns"></div>
-            <button class="btn-option" style="text-align:center; color:var(--tax-red); border-color:#311; margin-top:5px;" onclick="window.speechSynthesis.cancel()">SILENCIAR IA</button>
-        </div>
-
-        <button class="btn-gold" style="background:#111; color:var(--gold); border:1px solid var(--gold)" onclick="location.reload()">REINICIAR GOVERNANÇA</button>
+        <button class="btn-gold" style="background:#111; color:var(--gold); border:1px solid var(--gold)" onclick="location.reload()">REINICIAR</button>
     </div>
 </div>
 
 <script>
     let perfil = "";
-    const vozes = {
-        'Tesouro Selic': 'Alocação em dívida soberana. Rentabilidade pós-fixada com risco zero de crédito.',
-        'CDB Pós': 'Exposição ao crédito bancário. Proteção institucional via FGC com lucro líquido real.',
-        'LCI/LCA': 'Ativo com isenção fiscal absoluta. Performance máxima sem retenção de imposto de renda.',
-        'IPCA+': 'Proteção de poder de compra. O rendimento real acima da inflação é tributado na fonte.',
-        'FIIs': 'Renda imobiliária mensal. Dividendos isentos de imposto para pessoa física.',
-        'Ações': 'Equity de alta volatilidade e retorno. Participação nos lucros das maiores corporações.',
-        'BDR/Dólar': 'Blindagem cambial em moeda forte. Proteção contra desvalorização do Real.'
-    };
-
     function nav(id) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById(id).classList.add('active');
-        window.scrollTo(0,0);
     }
 
     function marketPulse() {
         setInterval(() => {
             let s = (10.75 + (Math.random() * 0.04 - 0.02)).toFixed(2);
             let i = (4.50 + (Math.random() * 0.02 - 0.01)).toFixed(2);
-            if(document.querySelector('#selic-box span')) document.querySelector('#selic-box span').innerText = s + "%";
-            if(document.querySelector('#ipca-box span')) document.querySelector('#ipca-box span').innerText = i + "%";
+            document.getElementById('s-val').innerText = s + "%";
+            document.getElementById('i-val').innerText = i + "%";
         }, 4000);
     }
 
-    function setPerfil(p, label) { perfil = p; nav('p3'); calc(); }
+    function setPerfil(p) { perfil = p; nav('p3'); calc(); }
 
     function calc() {
-        const v = parseFloat(document.getElementById('val').value) || 0;
-        const m = parseInt(document.getElementById('meses').value);
+        const principalTotal = parseFloat(document.getElementById('val').value) || 0;
+        const tMeses = parseInt(document.getElementById('meses').value);
         
-        let ir = 0.225;
-        if (m > 6) ir = 0.20;
-        if (m > 12) ir = 0.175;
-        if (m > 24) ir = 0.15;
+        let taxaIR = 0.225;
+        if (tMeses > 6) taxaIR = 0.20;
+        if (tMeses > 12) taxaIR = 0.175;
+        if (tMeses > 24) taxaIR = 0.15;
 
-        const taxaAnual = perfil === 'cons' ? 0.1075 : (perfil === 'mod' ? 0.145 : 0.185);
-        
-        let rendBruto = v * (Math.pow((1 + taxaAnual), (m/12)) - 1);
-        
-        // No dashboard, calculamos a média ponderada de IR (simplificada)
-        let impostoTotal = 0;
+        const jAnual = perfil === 'cons' ? 0.1075 : (perfil === 'mod' ? 0.145 : 0.185);
+        const taxaMensal = jAnual / 12;
+
         let data = perfil === 'cons' ? [['Tesouro Selic', 0.7, false], ['CDB Pós', 0.3, false]] :
                  (perfil === 'mod' ? [['LCI/LCA', 0.4, true], ['IPCA+', 0.3, false], ['FIIs', 0.3, true]] :
-                 [['Ações', 0.5, false], ['BDR/Dólar', 0.5, false]]);
+                 [['Ações', 0.5, false], ['Dólar', 0.5, false]]);
 
-        let h = ""; let vb = "";
-        let lucroLiquidoTotal = 0;
+        let html = "";
+        let lucroLiquidoAcumulado = 0;
 
         data.forEach(item => {
-            let pV = v * item[1];
-            let rB = pV * (Math.pow((1 + taxaAnual), (m/12)) - 1);
-            let imp = item[2] ? 0 : rB * ir;
-            impostoTotal += imp;
-            let liq = rB - imp;
-            lucroLiquidoTotal += liq;
+            let pInicialAtivo = principalTotal * item[1];
+            let mBrutoAtivo = pInicialAtivo * Math.pow((1 + taxaMensal), tMeses);
+            let lucroBrutoAtivo = mBrutoAtivo - pInicialAtivo;
             
-            h += `<div style="display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid #111; font-size:13px;">
-                <span>${item[0]} ${item[2] ? '<small style="color:var(--blue)">[ISENTO]</small>':''}</span>
-                <span style="color:var(--accent); font-weight:bold;">R$ ${(pV + liq).toLocaleString('pt-BR',{minimumFractionDigits:2})}</span>
+            let impostoAtivo = item[2] ? 0 : lucroBrutoAtivo * taxaIR;
+            let lucroLiquidoAtivo = lucroBrutoAtivo - impostoAtivo;
+            lucroLiquidoAcumulado += lucroLiquidoAtivo;
+            
+            html += `<div style="padding:12px 0; border-bottom:1px solid #111;">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span style="font-size:14px; font-weight:bold;">${item[0]}</span>
+                    <span style="color:var(--accent); font-weight:bold;">R$ ${(pInicialAtivo + lucroLiquidoAtivo).toLocaleString('pt-BR',{minimumFractionDigits:2})}</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; margin-top:4px;">
+                    <span class="initial-item">Inicial: R$ ${pInicialAtivo.toLocaleString('pt-BR',{minimumFractionDigits:2})}</span>
+                    <span class="profit-item">+ Lucro: R$ ${lucroLiquidoAtivo.toLocaleString('pt-BR',{minimumFractionDigits:2})}</span>
+                </div>
             </div>`;
-            vb += `<button class="btn-option" style="font-size:11px;" onclick="falar('${item[0]}')">Relatório: ${item[0]}</button>`;
         });
 
-        document.getElementById('res-final').innerText = "R$ " + (v + lucroLiquidoTotal).toLocaleString('pt-BR',{minimumFractionDigits:2});
-        document.getElementById('tax-info').innerText = "Imposto Estimado: - R$ " + impostoTotal.toLocaleString('pt-BR',{minimumFractionDigits:2});
-        document.getElementById('dist-list').innerHTML = h;
-        document.getElementById('voice-btns').innerHTML = vb;
-    }
-
-    function falar(t) {
-        window.speechSynthesis.cancel();
-        const msg = new SpeechSynthesisUtterance(vozes[t]);
-        msg.lang = 'pt-BR';
-        msg.pitch = 1.05;
-        msg.rate = 0.92;
-        window.speechSynthesis.speak(msg);
+        document.getElementById('res-final').innerText = "R$ " + (principalTotal + lucroLiquidoAcumulado).toLocaleString('pt-BR',{minimumFractionDigits:2});
+        document.getElementById('profit-total').innerText = "Lucro Líquido Total: R$ " + lucroLiquidoAcumulado.toLocaleString('pt-BR',{minimumFractionDigits:2});
+        document.getElementById('dist-list').innerHTML = html;
     }
 
     window.onload = marketPulse;
