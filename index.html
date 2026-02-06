@@ -1,27 +1,61 @@
-    <div id="p2" class="page fade">
-        <span class="label-gold" style="text-align:center; margin-bottom:30px; font-size: 11px;">ESTATUTO DE GOVERNANÇA ØMNI</span>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>OMNI V42 | SOVEREIGN COMMAND</title>
+    <style>
+        :root { --gold: #D4AF37; --bg: #000000; --accent: #00FF41; --blue: #00D1FF; --card: #0c0c0c; --border: #1a1a1a; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body, html { background-color: #000 !important; color: #fff; font-family: 'Georgia', serif; height: 100%; overflow-x: hidden; }
+        
+        .container { width: 100%; min-height: 100vh; display: flex; flex-direction: column; }
+        .page { display: none; width: 100%; flex: 1; padding: 30px; flex-direction: column; }
+        .active { display: flex; }
+
+        /* HEADER */
+        .brand-header { text-align: center; margin-bottom: 40px; border-bottom: 1px solid var(--gold); padding-bottom: 20px; }
+        .logo-text { font-size: 45px; font-weight: 900; letter-spacing: 12px; color: var(--gold); }
+
+        /* CARDS ROBUSTOS */
+        .exec-card { 
+            background: var(--card); border: 1px solid var(--border); padding: 25px; 
+            border-radius: 4px; margin-bottom: 20px; border-left: 4px solid var(--gold);
+        }
+        .label-gold { font-size: 11px; color: var(--gold); font-weight: bold; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; display: block; }
+        .exec-text { font-size: 16px; line-height: 1.6; color: #e0e0e0; font-style: italic; }
+
+        /* BOTÕES DE COMANDO */
+        .btn-gold { 
+            width: 100%; padding: 22px; background: var(--gold); color: #000; border: none; 
+            font-weight: 900; font-size: 14px; letter-spacing: 2px; cursor: pointer; text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+        .btn-outline { 
+            width: 100%; padding: 18px; background: transparent; border: 1px solid var(--border); 
+            color: #fff; margin-bottom: 12px; text-align: left; font-size: 14px; cursor: pointer;
+        }
+        .btn-outline b { color: var(--gold); display: block; margin-bottom: 5px; }
+
+        /* DASHBOARD GRID */
+        .hud-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .hud-item { background: #080808; border: 1px solid #111; padding: 12px; text-align: center; }
+        .hud-val { font-size: 14px; font-weight: bold; color: var(--accent); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="p1" class="page active">
+        <div class="brand-header" style="margin-top: 15vh;">
+            <h1 class="logo-text">ØMNI</h1>
+            <p style="color: var(--blue); font-size: 9px; letter-spacing: 5px; margin-top: 10px;">SUPREME GOVERNANCE V42</p>
+        </div>
+        <button class="btn-gold" onclick="goTo('p2')">INICIAR PROTOCOLO DE ACESSO</button>
+    </div>
+
+    <div id="p2" class="page">
+        <span class="label-gold" style="text-align:center; margin-bottom:30px;">Estatuto de Soberania Financeira</span>
         
         <div class="exec-card">
-            <span class="label-gold">MISSÃO ESTRATÉGICA</span>
-            <p style="font-size: 15px; line-height: 1.6; color: #fff; font-weight: 300;">
-                **Blindar o patrimônio institucional** contra a erosão inflacionária, utilizando algoritmos de alta precisão para converter volatilidade em oportunidade real de crescimento.
-            </p>
-        </div>
-
-        <div class="exec-card">
-            <span class="label-gold">VISÃO DE DOMINÂNCIA</span>
-            <p style="font-size: 15px; line-height: 1.6; color: #fff; font-weight: 300;">
-                Consolidar a hegemonia no **Padrão Ouro**, tornando-se a inteligência central para a tomada de decisões financeiras que definem o futuro das grandes capitais.
-            </p>
-        </div>
-
-        <div class="exec-card">
-            <span class="label-gold">OBJETIVO TÁTICO</span>
-            <p style="font-size: 15px; line-height: 1.6; color: #fff; font-weight: 300;">
-                Assegurar a **maximização do Alfa** através de alocações cirúrgicas, garantindo que cada centavo esteja posicionado na vanguarda da eficiência de capital.
-            </p>
-        </div>
-
-        <button class="btn-gold" onclick="goTo('p3')">EFETUAR ALOCAÇÃO DE ELITE</button>
-    </div>
-    
+            
