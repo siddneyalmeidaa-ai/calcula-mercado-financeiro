@@ -11,106 +11,20 @@
         .header { border-bottom: 2px solid var(--gold); padding: 10px; display: flex; justify-content: space-between; font-size: 11px; color: var(--gold); font-weight: 900; }
         .container { padding: 15px; flex: 1; display: flex; flex-direction: column; gap: 10px; }
         
+        /* BLOCO DO MONTANTE TOTAL */
         .total-box { background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%); border: 2px solid var(--gold); padding: 15px; border-radius: 8px; text-align: center; }
-        .total-val { font-size: 28px; font-weight: 900; color: var(--gold); }
-        .label { font-size: 8px; color: var(--gold); font-weight: bold; text-transform: uppercase; display: block; }
+        .total-val { font-size: 28px; font-weight: 900; color: var(--gold); text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
+        .label { font-size: 8px; color: var(--gold); font-weight: bold; text-transform: uppercase; display: block; margin-bottom: 3px; }
 
+        /* INDICADORES DO SERVIDOR */
         .top-monitor { background: #050505; border: 1px solid var(--accent); padding: 8px; border-radius: 4px; display: flex; justify-content: space-around; font-size: 10px; font-weight: bold; transition: 0.5s; }
 
         .dash-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
         .input-card { background: #0a0a0a; border-left: 3px solid var(--gold); padding: 8px; border-radius: 4px; }
         input { background: #111; border: 1px solid #333; color: var(--accent); padding: 6px; width: 100%; font-size: 14px; border-radius: 4px; outline: none; }
 
+        /* PRODUTOS FINANCEIROS MOLDADOS */
         .product-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
         .p-card { background: #0a0a0a; border: 1px solid var(--blue); padding: 10px; border-radius: 4px; text-align: center; }
-        .p-name { font-size: 8px; color: var(--blue); font-weight: bold; display: block; text-transform: uppercase; }
-        .p-val { font-size: 10px; color: #fff; margin-top: 5px; }
-
-        .res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        .res-box { background: #050505; border-top: 3px solid var(--accent); padding: 10px; text-align: center; border-radius: 4px; }
-        .val { font-size: 16px; font-weight: bold; color: var(--accent); }
-
-        /* RODAPÉ ESTRATÉGICO */
-        .chat-wrap { background: #050505; border: 2px solid var(--blue); border-radius: 8px; margin-top: auto; }
-        .chat-head { background: var(--blue); color: #000; padding: 8px; font-size: 10px; font-weight: 900; text-align: center; text-transform: uppercase; }
-        .chat-area { padding: 12px; min-height: 100px; font-size: 12px; color: #fff; line-height: 1.4; }
-        .resumo-item { margin-bottom: 8px; border-left: 2px solid var(--blue); padding-left: 8px; }
-        .resumo-title { color: var(--blue); font-weight: bold; font-size: 10px; text-transform: uppercase; }
-    </style>
-</head>
-<body>
-<div class="header">
-    <div>🔱 S.A. SUPREMACIA | V104</div>
-    <div>06/02/2026 | 19:41</div>
-</div>
-<div class="container">
-    <div class="total-box">
-        <span class="label">Montante Total Acumulado</span>
-        <div class="total-val" id="total-geral">R$ 0,00</div>
-    </div>
-    <div class="top-monitor" id="monitor-cor">
-        <span>SELIC: 10.75%</span>
-        <span>IPCA: 4.52%</span>
-        <span id="ir-val">IR: 22.5%</span>
-    </div>
-    <div class="dash-grid">
-        <div class="input-card"><span class="label">Inicial</span><input type="number" id="ini" value="1000" oninput="recalcular()"></div>
-        <div class="input-card"><span class="label">Mensal</span><input type="number" id="mes" value="200" oninput="recalcular()"></div>
-        <div class="input-card"><span class="label">Meses</span><input type="number" id="tempo" value="12" oninput="recalcular()"></div>
-    </div>
-    <div class="product-grid">
-        <div class="p-card"><span class="p-name">CDB Pós</span><div class="p-val" id="v1">R$ 0</div></div>
-        <div class="p-card"><span class="p-name">Tesouro</span><div class="p-val" id="v2">R$ 0</div></div>
-        <div class="p-card"><span class="p-name">LCI/LCA</span><div class="p-val" id="v3">R$ 0</div></div>
-    </div>
-    <div class="res-grid">
-        <div class="res-box"><span class="label">Lucro Líquido Real</span><div class="val" id="res-liq">R$ 0,00</div></div>
-        <div class="res-box" style="border-top-color: #fff;"><span class="label">Total Investido</span><div class="val" id="total-inv" style="color:#fff">R$ 0,00</div></div>
-    </div>
-    <div class="chat-wrap">
-        <div class="chat-head">Angela V104 | Resumo Estratégico</div>
-        <div class="chat-area" id="resumo-total">Carregando inteligência...</div>
-    </div>
-</div>
-<script>
-    function recalcular() {
-        const p = parseFloat(document.getElementById('ini').value) || 0;
-        const pm = parseFloat(document.getElementById('mes').value) || 0;
-        const t = parseInt(document.getElementById('tempo').value) || 1;
-        let ir = (t > 24) ? 0.15 : (t > 12) ? 0.175 : (t > 6) ? 0.20 : 0.225;
-        let cor = (t > 24) ? "#00FF41" : (t > 6) ? "#D4AF37" : "#FF4444";
-        
-        document.getElementById('monitor-cor').style.borderColor = cor;
-        document.getElementById('ir-val').innerText = "IR: " + (ir*100).toFixed(1) + "%";
-        document.getElementById('ir-val').style.color = cor;
-
-        const sM = Math.pow(1.1075, 1/12) - 1;
-        let mTotalBruto = (p * Math.pow(1 + sM, t)) + (pm * ((Math.pow(1 + sM, t) - 1) / sM));
-        let tInv = p + (pm * t);
-        let lLiq = ((mTotalBruto - tInv) * 0.5) * (1 - ir);
-        let mFinal = tInv + lLiq;
-
-        document.getElementById('total-geral').innerText = "R$ " + mFinal.toLocaleString('pt-BR', {minimumFractionDigits: 2});
-        document.getElementById('res-liq').innerText = "R$ " + lLiq.toFixed(2);
-        document.getElementById('total-inv').innerText = "R$ " + tInv.toFixed(2);
-        document.getElementById('v1').innerText = "R$ "+(mFinal*0.2).toFixed(0);
-        document.getElementById('v2').innerText = "R$ "+(mFinal*0.7).toFixed(0);
-        document.getElementById('v3').innerText = "R$ "+(mFinal*0.1).toFixed(0);
-
-        // GERAR RESUMO NO RODAPÉ
-        let perspectiva = (lLiq > (tInv * 0.05)) ? "Alta Performance" : "Conservadora";
-        document.getElementById('resumo-total').innerHTML = `
-            <div class="resumo-item">
-                <span class="resumo-title">Perspectiva: ${perspectiva}</span><br>
-                Em ${t} meses, você terá um ganho real de <b>R$ ${lLiq.toFixed(2)}</b> acima do capital investido.
-            </div>
-            <div class="resumo-item">
-                <span class="resumo-title">Análise de Alocação</span><br>
-                O <b>Tesouro (70%)</b> garante a segurança do montante, enquanto o <b>CDB e LCI</b> turbinam o rendimento aproveitando a SELIC de 10.75%.
-            </div>
-        `;
-    }
-    window.onload = recalcular;
-</script>
-</body>
-</html>
+        .p-name { font-size: 8px; color: var(--blue); font-weight
+                 
