@@ -3,23 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.A. SUPREMACIA | V104 TOTAL ACUMULADO</title>
+    <title>S.A. SUPREMACIA | V104 FINAL CUMULATIVA</title>
     <style>
         :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --red: #FF4444; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
         body { background: #000; color: #fff; height: 100vh; overflow-y: auto; display: flex; flex-direction: column; }
         .header { border-bottom: 2px solid var(--gold); padding: 10px; display: flex; justify-content: space-between; font-size: 11px; color: var(--gold); font-weight: 900; }
         .container { padding: 15px; flex: 1; display: flex; flex-direction: column; gap: 10px; }
+        
+        .total-box { background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%); border: 2px solid var(--gold); padding: 15px; border-radius: 8px; text-align: center; }
+        .total-val { font-size: 28px; font-weight: 900; color: var(--gold); }
+        .label { font-size: 8px; color: var(--gold); font-weight: bold; text-transform: uppercase; display: block; margin-bottom: 3px; }
+
         .top-monitor { background: #050505; border: 1px solid var(--accent); padding: 8px; border-radius: 4px; display: flex; justify-content: space-around; font-size: 10px; color: var(--accent); font-weight: bold; }
+
         .dash-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
         .input-card { background: #0a0a0a; border-left: 3px solid var(--gold); padding: 8px; border-radius: 4px; }
-        .label { font-size: 8px; color: var(--gold); font-weight: bold; text-transform: uppercase; display: block; margin-bottom: 3px; }
         input { background: #111; border: 1px solid #333; color: var(--accent); padding: 6px; width: 100%; font-size: 14px; border-radius: 4px; outline: none; }
-        .btn-calc { background: var(--gold); color: #000; border: none; padding: 12px; border-radius: 4px; font-weight: 900; cursor: pointer; text-transform: uppercase; width: 100%; margin: 5px 0; }
-        
-        /* DESTAQUE DO MONTANTE TOTAL */
-        .total-box { background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%); border: 2px solid var(--gold); padding: 15px; border-radius: 8px; text-align: center; margin-bottom: 5px; }
-        .total-val { font-size: 28px; font-weight: 900; color: var(--gold); text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
+
+        .product-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+        .p-card { background: #0a0a0a; border: 1px solid var(--blue); padding: 10px; border-radius: 4px; text-align: center; }
+        .p-name { font-size: 8px; color: var(--blue); font-weight: bold; display: block; text-transform: uppercase; }
+        .p-percent { font-size: 14px; color: var(--accent); font-weight: 900; margin: 4px 0; }
+        .p-val { font-size: 10px; color: #fff; }
 
         .res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
         .res-box { background: #050505; border-top: 3px solid var(--accent); padding: 10px; text-align: center; border-radius: 4px; }
@@ -28,67 +34,71 @@
 
         .chat-wrap { background: #050505; border: 2px solid var(--blue); border-radius: 8px; display: flex; flex-direction: column; margin-top: auto; }
         .chat-head { background: var(--blue); color: #000; padding: 8px; font-size: 10px; font-weight: 900; text-align: center; }
-        .chat-area { padding: 12px; height: 80px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
-        .m { padding: 8px; border-radius: 8px; font-size: 13px; color: var(--blue); }
+        .chat-area { padding: 12px; height: 70px; overflow-y: auto; }
+        .m { font-size: 13px; color: var(--blue); }
     </style>
 </head>
 <body>
-
 <div class="header">
     <div>🔱 S.A. SUPREMACIA | V104</div>
-    <div>06/02/2026 | 19:35</div>
+    <div>06/02/2026 | 19:47</div>
 </div>
-
 <div class="container">
     <div class="total-box">
         <span class="label">Montante Total Acumulado</span>
         <div class="total-val" id="total-geral">R$ 0,00</div>
-        <div class="sub-val" style="color:var(--gold)">Investimento + Lucro Real</div>
     </div>
-
+    <div class="top-monitor">
+        <span id="selic-display">SELIC: 10.75%</span>
+        <span id="ipca-display">IPCA: 4.52%</span>
+        <span id="ir-tag" style="color:var(--red)">IR: 22.5%</span>
+    </div>
     <div class="dash-grid">
-        <div class="input-card"><span class="label">Inicial (R$)</span><input type="number" id="ini" value="1000" oninput="recalcular()"></div>
-        <div class="input-card"><span class="label">Mensal (R$)</span><input type="number" id="mes" value="200" oninput="recalcular()"></div>
-        <div class="input-card"><span class="label">Tempo (Meses)</span><input type="number" id="tempo" value="36" oninput="recalcular()"></div>
+        <div class="input-card"><span class="label">Inicial</span><input type="number" id="ini" value="1000" oninput="recalcular()"></div>
+        <div class="input-card"><span class="label">Mensal</span><input type="number" id="mes" value="200" oninput="recalcular()"></div>
+        <div class="input-card"><span class="label">Meses</span><input type="number" id="tempo" value="12" oninput="recalcular()"></div>
     </div>
-    
+    <div class="product-grid">
+        <div class="p-card"><span class="p-name">CDB Pós</span><div class="p-percent">20%</div><div class="p-val" id="v1">R$ 0</div></div>
+        <div class="p-card"><span class="p-name">Tesouro</span><div class="p-percent">70%</div><div class="p-val" id="v2">R$ 0</div></div>
+        <div class="p-card"><span class="p-name">LCI/LCA</span><div class="p-percent">10%</div><div class="p-val" id="v3">R$ 0</div></div>
+    </div>
     <div class="res-grid">
-        <div class="res-box"><span class="label">Lucro Líquido Real</span><div class="val" id="res-liq">R$ 0,00</div><div class="sub-val">Projeção -50%</div></div>
-        <div class="res-box" style="border-top-color: var(--red);"><span class="label">Total Investido</span><div class="val" style="color:#fff;" id="total-inv">R$ 0,00</div><div class="sub-val">Sem rendimentos</div></div>
+        <div class="res-box"><span class="label">Lucro Líquido Real (-50%)</span><div class="val" id="res-liq">R$ 0,00</div></div>
+        <div class="res-box" style="border-top-color: var(--red);"><span class="label">Total Investido</span><div class="val" id="total-inv" style="color:#fff">R$ 0,00</div></div>
     </div>
-
     <div class="chat-wrap">
-        <div class="chat-head">Angela V104 | Visão Patrimonial</div>
-        <div class="chat-area"><div class="m" id="status-msg">Pronto para acumular.</div></div>
+        <div class="chat-head">Angela V104 | Analista de Prazo</div>
+        <div class="chat-area"><div class="m" id="status-msg">Aguardando dados...</div></div>
     </div>
 </div>
-
 <script>
     function recalcular() {
         const p = parseFloat(document.getElementById('ini').value) || 0;
         const pm = parseFloat(document.getElementById('mes').value) || 0;
         const t = parseInt(document.getElementById('tempo').value) || 1;
         
-        let irTaxa = (t > 24) ? 0.15 : (t > 12) ? 0.175 : (t > 6) ? 0.20 : 0.225;
-        const selicAnual = 0.1075;
-        const selicMensal = Math.pow(1 + selicAnual, 1/12) - 1;
+        // Indicadores e IR dinâmico
+        let ir = (t > 24) ? 0.15 : (t > 12) ? 0.175 : (t > 6) ? 0.20 : 0.225;
+        const selic = 0.1075;
+        const sM = Math.pow(1 + selic, 1/12) - 1;
         
-        let mInic = p * Math.pow(1 + selicMensal, t);
-        let mMens = pm * ((Math.pow(1 + selicMensal, t) - 1) / selicMensal);
-        
-        let totalInvestido = p + (pm * t);
-        let lucroBruto = (mInic + mMens) - totalInvestido;
-        
-        let lucroProjetado = lucroBruto * 0.5; // REGRA -50%
-        let valorIR = lucroProjetado * irTaxa;
-        let lucroLiquido = lucroProjetado - valorIR;
-        let montanteFinal = totalInvestido + lucroLiquido;
+        let mI = p * Math.pow(1 + sM, t);
+        let mM = pm * ((Math.pow(1 + sM, t) - 1) / sM);
+        let tInv = p + (pm * t);
+        let lB = (mI + mM) - tInv;
+        let lLiq = (lB * 0.5) * (1 - ir); // Regra -50% + IR
+        let mTotal = tInv + lLiq;
 
-        document.getElementById('res-liq').innerText = "R$ " + lucroLiquido.toFixed(2);
-        document.getElementById('total-inv').innerText = "R$ " + totalInvestido.toFixed(2);
-        document.getElementById('total-geral').innerText = "R$ " + montanteFinal.toLocaleString('pt-BR', {minimumFractionDigits: 2});
-        
-        document.getElementById('status-msg').innerHTML = "Em " + t + " meses, seu patrimônio total será de <b>R$ " + montanteFinal.toFixed(2) + "</b>";
+        // Atualização em Tempo Real
+        document.getElementById('total-geral').innerText = "R$ " + mTotal.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+        document.getElementById('res-liq').innerText = "R$ " + lLiq.toFixed(2);
+        document.getElementById('total-inv').innerText = "R$ " + tInv.toFixed(2);
+        document.getElementById('v1').innerText = "R$ "+(mTotal*0.2).toFixed(0);
+        document.getElementById('v2').innerText = "R$ "+(mTotal*0.7).toFixed(0);
+        document.getElementById('v3').innerText = "R$ "+(mTotal*0.1).toFixed(0);
+        document.getElementById('ir-tag').innerText = "IR: "+(ir*100).toFixed(1)+"%";
+        document.getElementById('status-msg').innerHTML = "<b>Sincronizado:</b> Projeção para " + t + " meses ativa.";
     }
     window.onload = recalcular;
 </script>
