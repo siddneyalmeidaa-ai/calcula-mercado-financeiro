@@ -3,171 +3,194 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.A. SUPREMACIA | V118 FULL</title>
+    <title>S.A. SUPREMACIA | V120 DINÂMICA</title>
     <style>
         :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --red: #FF4444; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
         body { background: #000; color: #fff; height: 100vh; overflow: hidden; }
 
-        /* 1. TELA DE CORTINA (APRESENTAÇÃO) */
-        #splash {
+        /* CUMULATIVO: CORTINA E SCANNER */
+        #splash, #scanner {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 1000; transition: transform 0.8s cubic-bezier(0.7, 0, 0.3, 1);
+            z-index: 1000; transition: 0.8s;
         }
-
-        /* 2. TELA DE VARREDURA (VALORIZAÇÃO) */
-        #scanner {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; display: none; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 999; color: var(--accent); font-family: monospace;
-        }
+        #scanner { display: none; z-index: 999; color: var(--accent); font-family: monospace; }
         .bar-bg { width: 220px; height: 2px; background: #222; margin: 20px 0; overflow: hidden; }
         .bar-fill { width: 0%; height: 100%; background: var(--accent); box-shadow: 0 0 15px var(--accent); }
 
-        /* ESTRUTURA PRINCIPAL */
+        /* APP CORE */
         .main-app { display: none; height: 100vh; flex-direction: column; opacity: 0; transition: 0.5s; }
         .container { padding: 15px; flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
         .page { display: none; }
         .page.active { display: flex; flex-direction: column; gap: 8px; }
 
-        .header-status { padding: 10px; border-bottom: 1px solid var(--gold); display: flex; justify-content: space-between; font-size: 9px; color: var(--gold); font-weight: bold; background: #050505; }
-        
-        /* DESIGN DE BLINDAGEM */
-        .q-card { background: #0a0a0a; border-left: 3px solid var(--blue); padding: 12px; border-radius: 4px; }
-        .total-display { border: 2px solid var(--gold); border-radius: 8px; padding: 20px; text-align: center; position: relative; background: linear-gradient(180deg, #0a0a0a 0%, #000 100%); }
+        /* DESIGN S.A. */
+        .header-status { padding: 10px; border-bottom: 1px solid var(--gold); display: flex; justify-content: space-between; font-size: 9px; color: var(--gold); font-weight: bold; }
+        .indicators-box { border: 1px solid var(--accent); border-radius: 4px; display: flex; justify-content: space-around; align-items: center; padding: 10px; font-size: 10px; background: rgba(0, 255, 65, 0.05); }
+        .sync-btn { background: transparent; border: 1px solid var(--gold); color: var(--gold); border-radius: 50%; width: 22px; height: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+        .spinning { animation: spin 0.6s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        .total-display { border: 2px solid var(--gold); border-radius: 8px; padding: 20px; text-align: center; position: relative; }
         .val-main { font-size: 34px; font-weight: 900; color: var(--gold); }
 
         .input-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
         .input-box { background: #050505; border: 1px solid #333; border-radius: 4px; padding: 8px; }
-        .input-box label { display: block; font-size: 8px; color: var(--gold); margin-bottom: 4px; font-weight: bold; text-transform: uppercase; }
-        input, select { width: 100%; background: transparent; border: none; color: #fff; font-weight: bold; text-align: center; font-size: 15px; outline: none; }
-
-        .btn-acao { background: var(--gold); color: #000; padding: 18px; border: none; font-weight: 900; border-radius: 30px; cursor: pointer; text-transform: uppercase; width: 260px; letter-spacing: 2px; box-shadow: 0 5px 15px rgba(212,175,55,0.2); }
+        .input-box label { display: block; font-size: 8px; color: var(--gold); margin-bottom: 4px; font-weight: bold; }
+        input, select { width: 100%; background: transparent; border: none; color: #fff; font-weight: bold; text-align: center; font-size: 14px; outline: none; }
         
+        /* CARDS DE PRODUTOS DINÂMICOS */
+        .grid-prods { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+        .prod-card { border: 1px solid var(--blue); border-radius: 4px; padding: 10px; text-align: center; background: #050505; }
+        .prod-title { font-size: 7px; color: var(--blue); font-weight: bold; display: block; margin-bottom: 5px; text-transform: uppercase; }
+        .prod-val { font-size: 11px; font-weight: bold; color: #fff; }
+
+        .btn-acao { background: var(--gold); color: #000; padding: 18px; border: none; font-weight: 900; border-radius: 30px; cursor: pointer; text-transform: uppercase; width: 260px; letter-spacing: 2px; }
         .slide-up { transform: translateY(-100%); }
     </style>
 </head>
 <body>
 
     <div id="splash">
-        <div style="font-size: 60px; margin-bottom: 10px; filter: drop-shadow(0 0 10px var(--gold));">🔱</div>
+        <div style="font-size: 60px; margin-bottom: 10px;">🔱</div>
         <h2 style="color:var(--gold); letter-spacing:8px; font-size:14px; margin-bottom:40px;">S.A. SUPREMACIA</h2>
-        <button class="btn-acao" onclick="entrarSistema()">INICIAR LICENÇA</button>
-        <p style="color:#444; font-size:9px; margin-top:20px; font-weight:bold;">SISTEMA DE MOLDAGEM PROTEGIDA</p>
+        <button class="btn-acao" onclick="iniciarSistema()">ATIVAR SISTEMA</button>
     </div>
 
     <div id="scanner">
-        <div id="status">CONECTANDO AO SERVIDOR S.A...</div>
+        <div id="status">ANALISANDO PERFIL...</div>
         <div class="bar-bg"><div class="bar-fill" id="bar"></div></div>
-        <div id="log" style="font-size: 9px; color: #555;">Validando blindagens e travas de vácuo...</div>
+        <div id="log" style="font-size: 9px; color: #555;">Mapeando ativos de segurança...</div>
     </div>
 
     <div class="main-app" id="app">
         <div class="header-status">
             <span>🛡️ LICENÇA PRO: VALIDADA</span>
-            <span>06/02/2026 | 22:15</span>
+            <span>06/02/2026 | 22:25</span>
         </div>
 
         <div class="container">
             <div id="tab-funil" class="page active">
-                <h3 style="color:var(--gold); text-align:center; font-size:11px; margin-bottom:5px;">SULTABILIDADE OPERACIONAL</h3>
-                <div class="q-card"><span>PERFIL DE RISCO</span>
-                    <select id="perfil"><option value="conservador">CONSERVADOR</option><option value="moderado">MODERADO</option><option value="agressivo">AGRESSIVO</option></select>
+                <h3 style="color:var(--gold); text-align:center; font-size:11px; margin-bottom:10px;">CONFIGURAÇÃO DE MOLDAGEM</h3>
+                <div class="input-box" style="margin-bottom:8px;"><label>PERFIL</label>
+                    <select id="perfil">
+                        <option value="conservador">CONSERVADOR</option>
+                        <option value="moderado">MODERADO</option>
+                        <option value="agressivo">AGRESSIVO</option>
+                    </select>
                 </div>
-                <div class="q-card"><span>INVESTIMENTO INICIAL</span><input type="number" id="ini" value="3000"></div>
-                <div class="q-card"><span>APORTE MENSAL</span><input type="number" id="mes" value="400"></div>
-                <div class="q-card"><span>DURAÇÃO (MESES)</span><input type="number" id="tempo" value="12"></div>
-                <button class="btn-acao" style="width:100%; margin-top:10px; border-radius:4px;" onclick="executarVarredura()">PROJETAR LUCRO REAL</button>
+                <div class="input-box" style="margin-bottom:8px;"><label>INICIAL (R$)</label><input type="number" id="ini" value="5000"></div>
+                <div class="input-box" style="margin-bottom:8px;"><label>MENSAL (R$)</label><input type="number" id="mes" value="1000"></div>
+                <div class="input-box" style="margin-bottom:8px;"><label>TEMPO (MESES)</label><input type="number" id="tempo" value="12"></div>
+                <button class="btn-acao" style="width:100%; border-radius:4px; margin-top:10px;" onclick="executarVarredura()">GERAR PROJEÇÃO</button>
             </div>
 
             <div id="tab-coracao" class="page">
-                <div style="border: 1px solid var(--accent); border-radius: 4px; display: flex; justify-content: space-around; padding: 10px; font-size: 10px; font-weight: bold; background: rgba(0, 255, 65, 0.05);">
-                    <span>● SELIC: 10.75%</span>
-                    <span>● IPCA: 4.52%</span>
-                    <span>IR: <span id="res-ir" style="color:var(--red)">--</span></span>
+                <div class="indicators-box">
+                    <span>SELIC: <span id="val-selic" style="color:var(--accent)">10.75</span>%</span>
+                    <button class="sync-btn" onclick="syncLive()">⟳</button>
+                    <span>IPCA: <span id="val-ipca" style="color:var(--accent)">4.52</span>%</span>
+                    <span style="color:var(--red)">IR: <span id="val-ir">--</span></span>
                 </div>
 
                 <div class="total-display">
-                    <div style="position: absolute; top: -10px; right: 10px; background: var(--accent); color: #000; font-size: 8px; padding: 4px 8px; border-radius: 10px; font-weight: 900;">PROTEÇÃO -50% ATIVA</div>
-                    <span style="font-size:8px; color:var(--gold); font-weight:bold;">MOLDAGEM DE LUCRO LÍQUIDO</span>
+                    <div style="position: absolute; top: -10px; right: 10px; background: var(--accent); color: #000; font-size: 8px; padding: 4px 8px; border-radius: 10px; font-weight: 900;">✓ BLINDAGEM ATIVA</div>
+                    <span style="font-size:8px; color:var(--gold); font-weight:bold;">MOLDAGEM LÍQUIDA (-50%)</span>
                     <div class="val-main" id="total-final">R$ 0,00</div>
                 </div>
 
                 <div class="input-row">
-                    <div class="input-box"><label>INICIAL</label><input type="text" id="d-ini" readonly></div>
-                    <div class="input-box"><label>MENSAL</label><input type="text" id="d-mes" readonly></div>
-                    <div class="input-box"><label>MESES</label><input type="text" id="d-tempo" readonly></div>
+                    <div class="input-box"><label>INICIAL</label><input type="number" id="d-ini" oninput="recalcular()"></div>
+                    <div class="input-box"><label>MENSAL</label><input type="number" id="d-mes" oninput="recalcular()"></div>
+                    <div class="input-box"><label>MESES</label><input type="number" id="d-tempo" oninput="recalcular()"></div>
                 </div>
 
-                <div id="grid-prods" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px;"></div>
+                <div class="input-box"><label>ALTERAR PERFIL E PRODUTOS</label>
+                    <select id="d-perfil" onchange="recalcular()">
+                        <option value="conservador">CONSERVADOR</option>
+                        <option value="moderado">MODERADO</option>
+                        <option value="agressivo">AGRESSIVO</option>
+                    </select>
+                </div>
+
+                <div id="grid-produtos" class="grid-prods"></div>
 
                 <div style="border: 2px solid var(--blue); border-radius: 4px; margin-top: auto;">
-                    <div style="background:var(--blue); color:#000; padding:6px; text-align:center; font-weight:900; font-size:10px;">ANGELA IA | STATUS SULTA BILHETE</div>
-                    <div id="angela-msg" style="background:#050505; padding:12px; font-size:11px; line-height:1.4;"></div>
+                    <div style="background:var(--blue); color:#000; padding:6px; text-align:center; font-weight:900; font-size:10px;">ANGELA IA | ESTRATEGISTA S.A.</div>
+                    <div id="angela-msg" style="padding:10px; font-size:10px; background:#050505; line-height:1.3;"></div>
                 </div>
             </div>
         </div>
     </div>
 
 <script>
-    function entrarSistema() {
-        document.getElementById('splash').classList.add('slide-up');
-        setTimeout(() => {
-            document.getElementById('app').style.display = 'flex';
-            document.getElementById('app').style.opacity = '1';
-        }, 800);
-    }
+    function iniciarSistema() { document.getElementById('splash').classList.add('slide-up'); }
 
     function executarVarredura() {
         document.getElementById('scanner').style.display = 'flex';
         let p = 0;
         const interval = setInterval(() => {
-            p += 4;
-            document.getElementById('bar').style.width = p + "%";
+            p += 5; document.querySelector('.bar-fill').style.width = p + "%";
             if(p >= 100) {
                 clearInterval(interval);
                 document.getElementById('scanner').style.display = 'none';
-                processarCoraçao();
+                document.getElementById('tab-funil').classList.remove('active');
+                document.getElementById('tab-coracao').classList.add('active');
+                document.getElementById('app').style.display = 'flex';
+                document.getElementById('app').style.opacity = '1';
+                
+                // Sincroniza dados
+                document.getElementById('d-ini').value = document.getElementById('ini').value;
+                document.getElementById('d-mes').value = document.getElementById('mes').value;
+                document.getElementById('d-tempo').value = document.getElementById('tempo').value;
+                document.getElementById('d-perfil').value = document.getElementById('perfil').value;
+                recalcular();
             }
         }, 50);
     }
 
-    function processarCoraçao() {
-        document.getElementById('tab-funil').classList.remove('active');
-        document.getElementById('tab-coracao').classList.add('active');
-        
-        const i = parseFloat(document.getElementById('ini').value);
-        const m = parseFloat(document.getElementById('mes').value);
-        const t = parseInt(document.getElementById('tempo').value);
-        const perf = document.getElementById('perfil').value;
+    function syncLive() {
+        const btn = document.querySelector('.sync-btn');
+        btn.classList.add('spinning');
+        setTimeout(() => { btn.classList.remove('spinning'); recalcular(); }, 800);
+    }
 
-        document.getElementById('d-ini').value = "R$ " + i;
-        document.getElementById('d-mes').value = "R$ " + m;
-        document.getElementById('d-tempo').value = t;
+    function recalcular() {
+        const p = parseFloat(document.getElementById('d-ini').value) || 0;
+        const pm = parseFloat(document.getElementById('d-mes').value) || 0;
+        const t = parseInt(document.getElementById('d-tempo').value) || 1;
+        const perf = document.getElementById('d-perfil').value;
 
         let ir = t <= 6 ? 0.225 : t <= 12 ? 0.20 : t <= 24 ? 0.175 : 0.15;
-        document.getElementById('res-ir').innerText = (ir*100).toFixed(1) + "%";
+        document.getElementById('val-ir').innerText = (ir*100).toFixed(1) + "%";
 
         const sM = Math.pow(1.1075, 1/12) - 1;
-        let bruto = (i * Math.pow(1 + sM, t)) + (m * ((Math.pow(1 + sM, t) - 1) / sM));
-        let liq = (bruto - (i + (m * t))) * (1 - ir);
-        let final = (i + (m * t)) + (liq * 0.5);
+        let mBruto = (p * Math.pow(1 + sM, t)) + (pm * ((Math.pow(1 + sM, t) - 1) / sM));
+        let lucroLiq = (mBruto - (p + (pm * t))) * (1 - ir);
+        let mFinal = (p + (pm * t)) + (lucroLiq * 0.5);
 
-        document.getElementById('total-final').innerText = "R$ " + final.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+        document.getElementById('total-final').innerText = "R$ " + mFinal.toLocaleString('pt-BR', {minimumFractionDigits: 2});
 
-        let prods = "";
+        let prods = ""; let msg = "";
         if(perf === 'conservador') {
-            prods = `<div class="prod-card" style="border:1px solid var(--blue); padding:10px; text-align:center;"><span style="font-size:8px; color:var(--blue)">TESOURO</span><br><b>R$ ${(final*0.7).toFixed(0)}</b></div>
-                     <div class="prod-card" style="border:1px solid var(--blue); padding:10px; text-align:center;"><span style="font-size:8px; color:var(--blue)">CDB 100%</span><br><b>R$ ${(final*0.2).toFixed(0)}</b></div>
-                     <div class="prod-card" style="border:1px solid var(--blue); padding:10px; text-align:center;"><span style="font-size:8px; color:var(--blue)">LCI</span><br><b>R$ ${(final*0.1).toFixed(0)}</b></div>`;
+            prods = `<div class="prod-card"><span class="prod-title">TESOURO</span><div class="prod-val">R$ ${(mFinal*0.7).toFixed(0)}</div></div>
+                     <div class="prod-card" style="border-color:var(--gold)"><span class="prod-title" style="color:var(--gold)">CDB PÓS</span><div class="prod-val">R$ ${(mFinal*0.2).toFixed(0)}</div></div>
+                     <div class="prod-card"><span class="prod-title">LCI</span><div class="prod-val">R$ ${(mFinal*0.1).toFixed(0)}</div></div>`;
+            msg = "ESTRATÉGIA CONSERVADORA: Foco 70% em Títulos Públicos para máxima blindagem.";
+        } else if(perf === 'moderado') {
+            prods = `<div class="prod-card"><span class="prod-title">CDB 110%</span><div class="prod-val">R$ ${(mFinal*0.4).toFixed(0)}</div></div>
+                     <div class="prod-card" style="border-color:var(--gold)"><span class="prod-title" style="color:var(--gold)">TESOURO</span><div class="prod-val">R$ ${(mFinal*0.4).toFixed(0)}</div></div>
+                     <div class="prod-card"><span class="prod-title">LCA</span><div class="prod-val">R$ ${(mFinal*0.2).toFixed(0)}</div></div>`;
+            msg = "ESTRATÉGIA MODERADA: Equilíbrio entre CDBs bancários e segurança do Tesouro.";
         } else {
-            prods = `<div class="prod-card" style="border:1px solid var(--blue); padding:10px; text-align:center;"><span style="font-size:8px; color:var(--blue)">CDB 130%</span><br><b>R$ ${(final*0.6).toFixed(0)}</b></div>
-                     <div class="prod-card" style="border:1px solid var(--blue); padding:10px; text-align:center;"><span style="font-size:8px; color:var(--blue)">LCA</span><br><b>R$ ${(final*0.3).toFixed(0)}</b></div>
-                     <div class="prod-card" style="border:1px solid var(--blue); padding:10px; text-align:center;"><span style="font-size:8px; color:var(--blue)">TESOURO</span><br><b>R$ ${(final*0.1).toFixed(0)}</b></div>`;
+            prods = `<div class="prod-card"><span class="prod-title">CDB 135%</span><div class="prod-val">R$ ${(mFinal*0.5).toFixed(0)}</div></div>
+                     <div class="prod-card" style="border-color:var(--gold)"><span class="prod-title" style="color:var(--gold)">AÇÕES S.A</span><div class="prod-val">R$ ${(mFinal*0.3).toFixed(0)}</div></div>
+                     <div class="prod-card"><span class="prod-title">CRIs/CRAs</span><div class="prod-val">R$ ${(mFinal*0.2).toFixed(0)}</div></div>`;
+            msg = "ESTRATÉGIA AGRESSIVA: Performance máxima com alocação em Renda Variável e Crédito Privado.";
         }
-        document.getElementById('grid-prods').innerHTML = prods;
-        document.getElementById('angela-msg').innerHTML = "<b>VARREDURA S.A. CONCLUÍDA:</b> O lucro líquido projetado de R$ " + (liq*0.5).toFixed(2) + " já considera a trava de vácuo de segurança.";
+        document.getElementById('grid-produtos').innerHTML = prods;
+        document.getElementById('angela-msg').innerHTML = "<b>SISTEMA ATUALIZADO:</b> " + msg + " A regra de vácuo de -50% garante que você receba no mínimo R$ " + mFinal.toFixed(0);
     }
 </script>
 </body>
