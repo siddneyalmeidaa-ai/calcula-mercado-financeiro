@@ -3,143 +3,211 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.A. SUPREMACIA | V112 PROTECT</title>
+    <title>S.A. SUPREMACIA | V116 GOLD</title>
     <style>
         :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --red: #FF4444; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
         body { background: #000; color: #fff; height: 100vh; overflow: hidden; }
 
-        /* CORTINA POWERPOINT */
-        #splash {
+        /* BOOT SYSTEM */
+        #splash, #scanner {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle, #1a1a1a 0%, #000 100%);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 999; transition: transform 0.9s cubic-bezier(0.7, 0, 0.3, 1);
+            background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 999; transition: 0.8s ease-in-out;
         }
+        #scanner { display: none; z-index: 998; color: var(--accent); font-family: monospace; }
+        .bar-bg { width: 200px; height: 2px; background: #222; margin: 20px 0; overflow: hidden; }
+        .bar-fill { width: 0%; height: 100%; background: var(--accent); box-shadow: 0 0 15px var(--accent); }
 
+        /* APP DESIGN */
         .main-app { display: none; height: 100vh; flex-direction: column; opacity: 0; transition: 0.5s; }
-        .container { padding: 15px; flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-        .page { display: none; }
-        .page.active { display: flex; flex-direction: column; gap: 10px; }
-
-        /* CARDS E INPUTS */
-        .q-card { background: #0a0a0a; border-left: 3px solid var(--blue); padding: 10px; border-radius: 4px; }
-        select, input { width: 100%; background: #111; border: 1px solid #333; color: #fff; padding: 10px; border-radius: 4px; font-weight: bold; }
+        .container { padding: 15px; flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
         
-        .total-box { background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%); border: 2px solid var(--gold); padding: 20px; border-radius: 8px; text-align: center; position: relative; }
-        .blindagem-badge { position: absolute; top: -10px; right: 10px; background: var(--accent); color: #000; font-size: 8px; padding: 4px 8px; border-radius: 10px; font-weight: 900; box-shadow: 0 0 10px var(--accent); }
+        .header-status { padding: 10px; border-bottom: 1px solid var(--gold); display: flex; justify-content: space-between; font-size: 9px; color: var(--gold); font-weight: bold; background: #050505; }
+        
+        /* INDICADORES */
+        .indicators { border: 1px solid var(--accent); border-radius: 4px; display: flex; justify-content: space-around; align-items: center; padding: 10px; font-size: 10px; font-weight: bold; background: rgba(0, 255, 65, 0.05); }
+        .live-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; display: inline-block; margin-right: 5px; animation: pulse 1s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
 
-        .product-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-        .p-card { background: #050505; border: 1px solid var(--blue); padding: 10px; border-radius: 4px; text-align: center; }
-        .p-name { font-size: 7px; color: var(--blue); font-weight: bold; text-transform: uppercase; }
+        .btn-sync { background: transparent; border: 1px solid var(--gold); color: var(--gold); font-size: 8px; padding: 4px 8px; border-radius: 4px; cursor: pointer; text-transform: uppercase; }
+        .btn-sync:active { transform: scale(0.9); }
 
-        .btn-acao { background: var(--gold); color: #000; padding: 15px; border: none; font-weight: 900; border-radius: 4px; cursor: pointer; text-transform: uppercase; width: 100%; }
+        /* DASHBOARD */
+        .total-display { border: 2px solid var(--gold); border-radius: 8px; padding: 20px; text-align: center; position: relative; background: linear-gradient(180deg, #0a0a0a 0%, #000 100%); }
+        .val-main { font-size: 34px; font-weight: 900; color: var(--gold); text-shadow: 0 0 10px rgba(212,175,55,0.3); }
 
+        .input-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+        .input-box { background: #050505; border: 1px solid #333; border-radius: 4px; padding: 8px; }
+        .input-box label { display: block; font-size: 8px; color: var(--gold); margin-bottom: 4px; font-weight: bold; }
+        .input-box input, .input-box select { width: 100%; background: transparent; border: none; color: #fff; font-weight: bold; text-align: center; font-size: 15px; outline: none; }
+
+        .product-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+        .prod-card { border: 1px solid var(--blue); border-radius: 4px; padding: 10px; text-align: center; background: #050505; }
+        .prod-title { font-size: 8px; color: var(--blue); font-weight: bold; display: block; margin-bottom: 5px; }
+
+        .angela-box { border: 2px solid var(--blue); border-radius: 4px; margin-top: auto; }
+        .angela-head { background: var(--blue); color: #000; padding: 6px; text-align: center; font-weight: 900; font-size: 10px; }
+        .angela-body { background: #050505; padding: 12px; font-size: 11px; line-height: 1.4; }
+
+        .btn-main { background: var(--gold); color: #000; padding: 18px; border: none; font-weight: 900; border-radius: 30px; cursor: pointer; text-transform: uppercase; width: 250px; letter-spacing: 2px; }
         .slide-up { transform: translateY(-100%); }
+        
+        /* ANIMAÇÃO DE GIRO */
+        .spinning { animation: spin 0.5s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
     <div id="splash">
-        <div style="font-size: 50px; margin-bottom: 10px;">🔱</div>
-        <h2 style="color:var(--gold); letter-spacing:5px; font-size:12px; margin-bottom:40px;">S.A. SUPREMACIA | ANTI-LESÃO</h2>
-        <button class="btn-acao" style="width:250px; border-radius:30px;" onclick="ativarSistema()">INICIAR BLINDAGEM</button>
+        <div style="font-size: 60px; margin-bottom: 10px;">🔱</div>
+        <h2 style="color:var(--gold); letter-spacing:8px; font-size:14px; margin-bottom:40px;">S.A. SUPREMACIA</h2>
+        <button class="btn-main" onclick="bootSystem()">ATIVAR LICENÇA</button>
+    </div>
+
+    <div id="scanner">
+        <div id="status">CONECTANDO AO TERMINAL BLOOMBERG...</div>
+        <div class="bar-bg"><div class="bar-fill" id="bar"></div></div>
+        <div id="log" style="font-size: 9px; color: #555;">Injetando blindagem quântica...</div>
     </div>
 
     <div class="main-app" id="app">
-        <div class="header" style="padding:10px; border-bottom:1px solid var(--gold); display:flex; justify-content:space-between; font-size:9px; color:var(--gold); font-weight:bold;">
-            <span>S.A. PROTECT SYSTEM</span>
-            <span id="live-clock">06/02/2026 | 21:30</span>
+        <div class="header-status">
+            <span>🛡️ LICENÇA PRO: VALIDADA</span>
+            <span id="clock">06/02/2026 | 22:05</span>
         </div>
 
         <div class="container">
-            <div id="tab-perguntas" class="page active">
-                <h3 style="color:var(--gold); text-align:center; font-size:11px;">TRIAGEM ANTI-LESÃO PATRIMONIAL</h3>
-                <div class="q-card"><span>1. Objetivo de Proteção?</span><select id="p_risco">
-                    <option value="conservador">Conservador (Risco Zero)</option>
-                    <option value="moderado">Moderado (Risco Controlado)</option>
-                    <option value="agressivo">Agressivo (Risco Estratégico)</option>
-                </select></div>
-                <div class="q-card"><span>2. Qual seu aporte inicial?</span><input type="number" id="ini" value="1000"></div>
-                <div class="q-card"><span>3. Aporte mensal previsto?</span><input type="number" id="mes" value="200"></div>
-                <div class="q-card"><span>4. Tempo de permanência?</span><select id="p_tempo"><option value="12">12 Meses</option><option value="60">60 Meses</option></select></div>
-                
-                <button class="btn-acao" onclick="irParaCoracao()">GERAR MOLDAGEM SEGURA</button>
+            <div class="indicators">
+                <span><div class="live-dot"></div>SELIC: <span id="v-selic" style="color:var(--accent)">10.75</span>%</span>
+                <span><div class="live-dot"></div>IPCA: <span id="v-ipca" style="color:var(--accent)">4.52</span>%</span>
+                <button class="btn-sync" onclick="syncData()">Sync ⟳</button>
             </div>
 
-            <div id="tab-coracao" class="page">
-                <div class="total-box">
-                    <div class="blindagem-badge">✓ BLINDAGEM ATIVA</div>
-                    <span style="font-size:8px; color:var(--gold);">MONTANTE FINAL PROTEGIDO</span>
-                    <div id="total-geral" style="font-size:28px; font-weight:900; color:var(--gold);">R$ 0,00</div>
-                </div>
+            <div class="total-display">
+                <div style="position: absolute; top: -10px; right: 10px; background: var(--accent); color: #000; font-size: 8px; padding: 4px 8px; border-radius: 10px; font-weight: 900;">PROTEÇÃO -50% ATIVA</div>
+                <span style="font-size:8px; color:var(--gold); font-weight:bold;">LUCRO LÍQUIDO DISPONÍVEL (MOLDADO)</span>
+                <div class="val-main" id="total-final">R$ 0,00</div>
+            </div>
 
-                <div style="background: #050505; border: 1px solid var(--accent); padding: 8px; border-radius: 4px; display: flex; justify-content: space-around; font-size: 9px; font-weight: bold;">
-                    <span>● SELIC: <span id="l-selic" style="color:var(--accent)">10.75</span>%</span>
-                    <span>● IPCA: <span id="l-ipca" style="color:var(--accent)">4.52</span>%</span>
-                </div>
+            <div class="input-row">
+                <div class="input-box"><label>INICIAL</label><input type="number" id="ini" value="2000" oninput="recalcular()"></div>
+                <div class="input-box"><label>MENSAL</label><input type="number" id="mes" value="500" oninput="recalcular()"></div>
+                <div class="input-box"><label>MESES</label><input type="number" id="tempo" value="12" oninput="recalcular()"></div>
+            </div>
 
-                <div class="product-grid" id="grid-produtos"></div>
-
-                <div style="background:#050505; border:2px solid var(--blue); border-radius:4px; padding:12px; margin-top:auto;">
-                    <b style="color:var(--blue); font-size:9px; text-transform:uppercase;">IA-SENTINELA | RELATÓRIO DE SEGURANÇA</b>
-                    <p id="msg-sentinela" style="font-size:11px; line-height:1.4; margin-top:5px;"></p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                <div class="input-box"><label>PERFIL</label>
+                    <select id="perfil" onchange="recalcular()">
+                        <option value="conservador">CONSERVADOR</option>
+                        <option value="moderado">MODERADO</option>
+                        <option value="agressivo">AGRESSIVO</option>
+                    </select>
                 </div>
+                <div class="input-box"><label>IMPOSTO (IR)</label>
+                    <div id="ir-label" style="color:var(--red); font-weight:bold; font-size:15px; margin-top:5px;">--</div>
+                </div>
+            </div>
+
+            <div class="product-row" id="grid-produtos"></div>
+
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
+                <div style="background:#050505; border:1px solid #222; padding:10px; border-radius:4px; text-align:center;">
+                    <span style="font-size:7px; color:var(--gold);">LUCRO BRUTO</span>
+                    <div id="lucro-bruto" style="color:#666; font-size:12px;">R$ 0,00</div>
+                </div>
+                <div style="background:#050505; border:1px solid #222; padding:10px; border-radius:4px; text-align:center;">
+                    <span style="font-size:7px; color:var(--gold);">TOTAL INVESTIDO</span>
+                    <div id="total-inv" style="font-weight:bold; font-size:12px;">R$ 0,00</div>
+                </div>
+            </div>
+
+            <div class="angela-box">
+                <div class="angela-head">ANGELA IA | ESTRATEGISTA S.A.</div>
+                <div class="angela-body" id="angela-msg"></div>
             </div>
         </div>
     </div>
 
 <script>
-    function ativarSistema() {
+    function bootSystem() {
         document.getElementById('splash').classList.add('slide-up');
         setTimeout(() => {
-            document.getElementById('app').style.display = 'flex';
-            document.getElementById('app').style.opacity = '1';
-        }, 900);
+            document.getElementById('scanner').style.display = 'flex';
+            let p = 0;
+            const interval = setInterval(() => {
+                p += 5;
+                document.getElementById('bar').style.width = p + "%";
+                if(p >= 100) {
+                    clearInterval(interval);
+                    document.getElementById('scanner').style.display = 'none';
+                    document.getElementById('app').style.display = 'flex';
+                    document.getElementById('app').style.opacity = '1';
+                    recalcular();
+                }
+            }, 50);
+        }, 800);
     }
 
-    function irParaCoracao() {
-        document.getElementById('tab-perguntas').classList.remove('active');
-        document.getElementById('tab-coracao').classList.add('active');
-        processarBlindagem();
-        setInterval(() => {
-            document.getElementById('l-selic').innerText = (10.75 + (Math.random()*0.02 - 0.01)).toFixed(2);
-        }, 3000);
+    function syncData() {
+        const btn = document.querySelector('.btn-sync');
+        btn.classList.add('spinning');
+        setTimeout(() => {
+            btn.classList.remove('spinning');
+            document.getElementById('v-selic').innerText = (10.75 + (Math.random()*0.1 - 0.05)).toFixed(2);
+            recalcular();
+        }, 1000);
     }
 
-    function processarBlindagem() {
+    function recalcular() {
         const p = parseFloat(document.getElementById('ini').value) || 0;
         const pm = parseFloat(document.getElementById('mes').value) || 0;
-        const t = parseInt(document.getElementById('p_tempo').value) || 1;
-        const perfil = document.getElementById('p_risco').value;
+        const t = parseInt(document.getElementById('tempo').value) || 1;
+        const perfil = document.getElementById('perfil').value;
 
-        const sM = Math.pow(1.1075, 1/12) - 1;
-        let mBruto = (p * Math.pow(1 + sM, t)) + (pm * ((Math.pow(1 + sM, t) - 1) / sM));
+        // Regra de IR Regressivo
+        let taxaIR = 0.225;
+        if(t > 6) taxaIR = 0.20;
+        if(t > 12) taxaIR = 0.175;
+        if(t > 24) taxaIR = 0.15;
+        document.getElementById('ir-label').innerText = (taxaIR * 100).toFixed(1) + "%";
+
+        const selicAno = 0.1075;
+        const selicMes = Math.pow(1 + selicAno, 1/12) - 1;
+
+        let mBruto = (p * Math.pow(1 + selicMes, t)) + (pm * ((Math.pow(1 + selicMes, t) - 1) / selicMes));
         let tInv = p + (pm * t);
-        let lLiq = (mBruto - tInv) * 0.5 * 0.85; 
-        let mFinal = tInv + lLiq;
+        let lucroBruto = mBruto - tInv;
+        let lucroLiq = lucroBruto * (1 - taxaIR);
+        
+        // Regra S.A. de -50% da projeção para segurança
+        let lucroFinal = lucroLiq * 0.5;
+        let mFinal = tInv + lucroFinal;
 
-        document.getElementById('total-geral').innerText = "R$ " + mFinal.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+        document.getElementById('total-final').innerText = "R$ " + mFinal.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+        document.getElementById('lucro-bruto').innerText = "R$ " + lucroBruto.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+        document.getElementById('total-inv').innerText = "R$ " + tInv.toLocaleString('pt-BR', {minimumFractionDigits: 2});
 
         let prods = ""; let msg = "";
         if(perfil === 'conservador') {
-            prods = `<div class="p-card"><span class="p-name">Tesouro Selic</span><div>R$ ${(mFinal*0.8).toFixed(0)}</div></div>
-                     <div class="p-card"><span class="p-name">CDB 100%</span><div>R$ ${(mFinal*0.15).toFixed(0)}</div></div>
-                     <div class="p-card"><span class="p-name">LCI Isenta</span><div>R$ ${(mFinal*0.05).toFixed(0)}</div></div>`;
-            msg = "Mecanismo Anti-Lesão ativado. Alocação em ativos de soberania nacional para garantir que seu patrimônio não sofra com o vácuo bancário.";
+            prods = `<div class="prod-card"><span class="prod-title">CDB PÓS</span><div>R$ ${(mFinal*0.2).toFixed(0)}</div></div>
+                     <div class="prod-card" style="border-color:var(--gold)"><span class="prod-title" style="color:var(--gold)">TESOURO</span><div>R$ ${(mFinal*0.7).toFixed(0)}</div></div>
+                     <div class="prod-card"><span class="prod-title">LCI/LCA</span><div>R$ ${(mFinal*0.1).toFixed(0)}</div></div>`;
+            msg = "<b>BLINDAGEM CONSERVADORA:</b> Alocação focada em 70% Tesouro Direto. O IR de " + (taxaIR*100) + "% já foi retido na fonte.";
         } else if(perfil === 'moderado') {
-            prods = `<div class="p-card"><span class="p-name">Tesouro IPCA</span><div>R$ ${(mFinal*0.5).toFixed(0)}</div></div>
-                     <div class="p-card"><span class="p-name">LCI/LCA</span><div>R$ ${(mFinal*0.3).toFixed(0)}</div></div>
-                     <div class="p-card"><span class="p-name">CDB 110%</span><div>R$ ${(mFinal*0.2).toFixed(0)}</div></div>`;
-            msg = "Equilíbrio Sincronizado. A IA-SENTINELA detectou proteção contra inflação via Tesouro IPCA+, mantendo o poder de compra intacto.";
+            prods = `<div class="prod-card"><span class="prod-title">CDB 110%</span><div>R$ ${(mFinal*0.4).toFixed(0)}</div></div>
+                     <div class="prod-card" style="border-color:var(--gold)"><span class="prod-title" style="color:var(--gold)">TESOURO</span><div>R$ ${(mFinal*0.4).toFixed(0)}</div></div>
+                     <div class="prod-card"><span class="prod-title">LCI/LCA</span><div>R$ ${(mFinal*0.2).toFixed(0)}</div></div>`;
+            msg = "<b>MOLDAGEM MODERADA:</b> O lucro líquido de R$ " + lucroFinal.toFixed(2) + " considera a trava de vácuo de 50%.";
         } else {
-            prods = `<div class="p-card"><span class="p-name">CDB 130%</span><div>R$ ${(mFinal*0.6).toFixed(0)}</div></div>
-                     <div class="p-card"><span class="p-name">LCA Isenta</span><div>R$ ${(mFinal*0.3).toFixed(0)}</div></div>
-                     <div class="p-card"><span class="p-name">Ações S.A.</span><div>R$ ${(mFinal*0.1).toFixed(0)}</div></div>`;
-            msg = "Aceleração Blindada. Mesmo no modo agressivo, o sistema mantém 30% em letras isentas para garantir liquidez em caso de emergência.";
+            prods = `<div class="prod-card"><span class="prod-title">CDB 130%</span><div>R$ ${(mFinal*0.6).toFixed(0)}</div></div>
+                     <div class="prod-card" style="border-color:var(--gold)"><span class="prod-title" style="color:var(--gold)">LCA ISENTA</span><div>R$ ${(mFinal*0.3).toFixed(0)}</div></div>
+                     <div class="prod-card"><span class="prod-title">TESOURO</span><div>R$ ${(mFinal*0.1).toFixed(0)}</div></div>`;
+            msg = "<b>PERFORMANCE AGRESSIVA:</b> Foco em CDBs de alto giro. A IA-SENTINELA reduziu a projeção em 50% para garantir sua segurança.";
         }
         document.getElementById('grid-produtos').innerHTML = prods;
-        document.getElementById('msg-sentinela').innerText = msg;
+        document.getElementById('angela-msg').innerHTML = msg;
     }
 </script>
 </body>
