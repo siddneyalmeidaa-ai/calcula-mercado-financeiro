@@ -3,102 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OMNI V22 | SUPREME</title>
+    <title>OMNI V24 | ANBIMA CPA-10</title>
     <style>
-        :root { --gold: #D4AF37; --bg: #000; --blue: #00D1FF; --accent: #00FF41; --card: #080808; }
-        body { background: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; justify-content: center; min-height: 100vh; }
-        .box { width: 92%; max-width: 420px; padding: 20px; margin-top: 20px; }
-        .step { display: none; text-align: center; background: var(--card); padding: 25px; border-radius: 30px; border: 1px solid #1a1a1a; animation: fadeIn 0.4s; }
+        :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --card: #080808; }
+        body { background: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; justify-content: center; padding: 20px; }
+        .box { width: 100%; max-width: 400px; }
+        .step { display: none; background: var(--card); padding: 25px; border-radius: 25px; border: 1px solid #1a1a1a; animation: fadeIn 0.3s; }
         .step.active { display: block; }
-        
-        h2 { font-size: 10px; color: var(--gold); letter-spacing: 3px; margin-bottom: 20px; }
-        .msg { font-size: 18px; font-weight: bold; margin-bottom: 25px; }
-        .btn { width: 100%; padding: 18px; margin-bottom: 12px; background: #111; border: 1px solid #333; color: #fff; border-radius: 15px; cursor: pointer; font-size: 14px; font-weight: bold; }
-        
-        /* Dashboard */
-        .input-box { background: #000; padding: 15px; border-radius: 20px; border: 1px solid #222; margin-bottom: 15px; text-align: left; }
-        .input-box label { color: var(--gold); font-size: 9px; font-weight: 900; display: block; margin-bottom: 5px; }
-        .input-box input { background: transparent; border: none; color: #fff; font-size: 22px; font-weight: bold; width: 100%; outline: none; }
-        
-        .resgate-box { background: linear-gradient(180deg, #0a0a0a, #000); border: 1px solid var(--accent); border-radius: 25px; padding: 25px; margin: 20px 0; }
-        .val-total { font-size: 32px; color: var(--accent); font-weight: 900; font-family: monospace; }
-        .asset-item { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #111; font-size: 12px; color: #aaa; }
-        
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        h2 { font-size: 9px; color: var(--gold); letter-spacing: 3px; margin-bottom: 20px; text-align: center; }
+        .msg { font-size: 16px; font-weight: bold; margin-bottom: 20px; text-align: center; line-height: 1.4; }
+        .btn { width: 100%; padding: 16px; margin-bottom: 10px; background: #111; border: 1px solid #333; color: #fff; border-radius: 12px; cursor: pointer; font-size: 13px; text-align: left; transition: 0.2s; }
+        .btn:hover { border-color: var(--gold); background: #151100; }
+        .input-box { background: #000; padding: 12px; border-radius: 15px; border: 1px solid #222; margin-bottom: 15px; }
+        .input-box label { color: var(--gold); font-size: 8px; font-weight: 900; display: block; }
+        .input-box input { background: transparent; border: none; color: #fff; font-size: 20px; width: 100%; outline: none; font-weight: bold; }
+        .res-total { font-size: 30px; color: var(--accent); font-weight: 900; text-align: center; margin: 20px 0; }
+        .ipi { font-size: 8px; color: #333; text-align: center; margin-top: 20px; }
     </style>
 </head>
 <body>
-
 <div class="box">
     <div id="q1" class="step active">
-        <h2>MAPEAMENTO 01/02</h2>
-        <div class="msg">Qual seu nível de urgência?</div>
-        <button class="btn" onclick="go(1,2,'safe')">PRECISO PRA ONTEM</button>
-        <button class="btn" onclick="go(1,2,'ag')">POSSO ESPERAR</button>
+        <h2>ANBIMA CPA-10 | 01/03</h2>
+        <div class="msg">Qual o objetivo principal e prazo desse investimento?</div>
+        <button class="btn" onclick="next(1,2,'cons')">Reserva / Curto Prazo (Até 1 ano)</button>
+        <button class="btn" onclick="next(1,2,'mod')">Patrimônio / Médio Prazo (1 a 3 anos)</button>
+        <button class="btn" onclick="next(1,2,'arr')">Renda e Crescimento / Longo Prazo</button>
     </div>
 
     <div id="q2" class="step">
-        <h2>MAPEAMENTO 02/02</h2>
-        <div class="msg">Seu foco é renda ou acúmulo?</div>
-        <button class="btn" onclick="go(2,3,'renda')">DIVIDENDOS TODO MÊS</button>
-        <button class="btn" onclick="go(2,3,'crescer')">BATER A INFLAÇÃO</button>
+        <h2>ANBIMA CPA-10 | 02/03</h2>
+        <div class="msg">Qual sua tolerância à volatilidade (risco)?</div>
+        <button class="btn" onclick="next(2,3)">Segurança total (0% de oscilação)</button>
+        <button class="btn" onclick="next(2,3)">Moderada (Aceito até 10% de queda)</button>
+        <button class="btn" onclick="next(2,3)">Agressiva (Foco em retorno histórico)</button>
     </div>
 
     <div id="q3" class="step">
-        <h2>OMNI SUPREME V22</h2>
-        
+        <h2>TERMINAL OMNI SUPREME</h2>
         <div class="input-box">
-            <label>QUANTO DESEJA APORTAR (R$)</label>
-            <input type="number" id="cap" value="5000" oninput="calc()">
+            <label>VALOR DO APORTE (R$)</label>
+            <input type="number" id="cap" value="1000" oninput="calc()">
         </div>
-
-        <div class="input-box">
-            <label>TEMPO DE BLINDAGEM (MESES)</label>
-            <input type="number" id="tempo" value="12" oninput="calc()">
-        </div>
-
-        <div class="resgate-box">
-            <div style="font-size: 9px; color: #666; margin-bottom: 10px;">PROJEÇÃO LÍQUIDA (SEM IR)</div>
-            <div class="val-total" id="v-total">R$ 0,00</div>
-            <div id="v-mensal" style="font-size: 12px; color: var(--blue); margin-top: 10px;">Renda Mensal: R$ 0,00</div>
-        </div>
-
-        <div id="lista-ativos"></div>
-        
-        <button class="btn" style="margin-top:20px; color:var(--gold); font-size: 10px;" onclick="location.reload()">REINICIAR PROTOCOLO</button>
+        <div class="res-total" id="total">R$ 0,00</div>
+        <div id="ativos" style="font-size: 11px; color: #aaa; border-top: 1px solid #222; padding-top: 15px;"></div>
+        <button class="btn" style="margin-top:20px; text-align:center; color:var(--gold)" onclick="location.reload()">REINICIAR</button>
+        <div class="ipi">IPI: 2026-CS-ANBIMA-V24</div>
     </div>
 </div>
 
 <script>
-    let dna = { p: '', o: '' };
-
-    function go(c, n, val) {
-        if(c === 1) dna.p = val;
-        if(c === 2) dna.o = val;
-        document.getElementById('q'+c).classList.remove('active');
-        document.getElementById('q'+n).classList.add('active');
-        if(n === 3) calc();
-    }
+    let perfil = "";
+    function next(c, n, p) { if(p) perfil = p; document.getElementById('q'+c).classList.remove('active'); document.getElementById('q'+n).classList.add('active'); if(n===3) calc(); }
 
     function calc() {
-        let capital = parseFloat(document.getElementById('cap').value) || 0;
-        let meses = parseInt(document.getElementById('tempo').value) || 1;
+        let v = parseFloat(document.getElementById('cap').value) || 0;
+        let r = perfil === 'cons' ? 1.1075 : (perfil === 'mod' ? 1.145 : 1.182);
+        let liq = v * r; // Simulação 12 meses
+        document.getElementById('total').innerText = "R$ " + liq.toLocaleString('pt-BR',{minimumFractionDigits:2});
         
-        // Definição de Ativos por Perfil (Sem Bitcoins)
-        let tx = dna.p === 'safe' ? 11.2 : (dna.o === 'renda' ? 13.8 : 16.5);
-        let rend = capital * (Math.pow(1 + (tx/100), meses/12)) - capital;
-        let liq = capital + (rend * 0.85); // Simulação de IR médio
-        
-        document.getElementById('v-total').innerText = "R$ " + liq.toLocaleString('pt-BR', {minimumFractionDigits: 2});
-        document.getElementById('v-mensal').innerText = "Renda Estimada: R$ " + (rend / meses).toLocaleString('pt-BR', {minimumFractionDigits: 2}) + " /mês";
-
-        let ativos = dna.o === 'renda' ? 
-            [['FIIs Imobiliários', '40%'], ['Ações Dividendos', '40%'], ['CRI Isento', '20%']] :
-            [['Tesouro IPCA+', '40%'], ['CDB Pré 14%', '30%'], ['Ações Growth', '30%']];
-
-        document.getElementById('lista-ativos').innerHTML = ativos.map(a => `
-            <div class="asset-item"><span>${a[0]}</span><span style="color:var(--gold)">${a[1]}</span></div>
-        `).join('');
+        let a = perfil === 'cons' ? 
+            "Tesouro Selic (70%), CDB 110% (30%)" : 
+            (perfil === 'mod' ? "LCI/LCA (40%), IPCA+ (30%), FIIs (30%)" : "Ações Dividendos (40%), BDRs (30%), FIIs (30%)");
+        document.getElementById('ativos').innerText = "ESTRUTURA: " + a;
     }
 </script>
 </body>
