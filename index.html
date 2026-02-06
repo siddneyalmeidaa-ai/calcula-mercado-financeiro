@@ -2,36 +2,163 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>OMNI V62 | RECOVERY SERVER</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OMNI V63 | ANTI-BLACKOUT</title>
     <style>
-        /* CSS INLINE PARA EVITAR QUEBRA VISUAL */
-        :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --tax: #ff4444; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
-        body { background: #000; color: #fff; height: 100vh; overflow-x: hidden; }
+        :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+        body { background: #000; color: #fff; line-height: 1.4; }
         
-        .app-container { width: 100%; max-width: 500px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; border: 1px solid #111; }
-        .page { display: none; padding: 20px; flex-direction: column; }
-        .active { display: flex !important; }
+        .header { border-bottom: 2px solid var(--gold); padding: 10px; display: flex; justify-content: space-between; font-size: 10px; color: var(--blue); position: sticky; top: 0; background: #000; z-index: 10; }
+        .container { padding: 15px; max-width: 500px; margin: 0 auto; }
+        
+        .card { background: #0a0a0a; border: 1px solid #1a1a1a; padding: 15px; margin-bottom: 15px; border-left: 4px solid var(--gold); border-radius: 4px; }
+        .label { font-size: 10px; color: var(--gold); font-weight: bold; text-transform: uppercase; margin-bottom: 5px; display: block; }
 
-        /* HEADER */
-        .header { display: flex; justify-content: space-between; font-size: 10px; color: var(--blue); padding: 15px; border-bottom: 2px solid var(--gold); letter-spacing: 1px; }
-        .live { color: var(--accent); font-weight: bold; }
+        input, select { background: #111; border: 1px solid #333; color: var(--accent); padding: 12px; width: 100%; font-size: 16px; margin-bottom: 10px; border-radius: 4px; }
+        
+        .btn { background: var(--gold); color: #000; border: none; padding: 15px; font-weight: 900; width: 100%; cursor: pointer; text-transform: uppercase; border-radius: 4px; }
+        
+        .dash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .box { background: #050505; border: 1px solid #111; padding: 10px; text-align: center; border-radius: 4px; }
+        .val { font-size: 16px; font-weight: bold; margin-top: 5px; }
 
-        /* CARDS */
-        .card { background: #0a0a0a; border: 1px solid #1a1a1a; padding: 15px; margin-bottom: 15px; border-left: 4px solid var(--gold); }
-        .label { font-size: 10px; color: var(--gold); font-weight: bold; text-transform: uppercase; margin-bottom: 8px; display: block; }
+        .ia-box { border: 1px solid var(--blue); margin-top: 10px; border-radius: 4px; overflow: hidden; }
+        .ia-header { background: var(--blue); color: #000; padding: 5px; font-size: 10px; font-weight: bold; text-align: center; }
+        .ia-content { padding: 10px; font-size: 12px; color: var(--blue); min-height: 50px; background: rgba(0,209,255,0.05); }
+        
+        .audit-item { padding: 8px 0; border-bottom: 1px solid #111; font-size: 12px; }
+        .page { display: none; }
+        .active { display: block; }
+    </style>
+</head>
+<body>
 
-        /* INPUTS */
-        .grid-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-        input, select { background: #151515; border: 1px solid #222; color: var(--accent); padding: 12px; width: 100%; border-radius: 4px; font-weight: bold; font-size: 16px; outline: none; }
+<div class="header">
+    <div>SISTEMA: <span style="color:var(--accent)">ESTÁVEL</span></div>
+    <div>06/02/2026</div>
+</div>
 
-        /* DASHBOARD */
-        .dash-dual { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .box { padding: 15px; border-radius: 5px; text-align: center; border: 1px solid #111; background: #050505; }
-        .val { font-size: 18px; font-weight: 800; margin-top: 5px; }
+<div class="container">
+    <div id="p1" class="page active">
+        <div style="text-align:center; padding: 40px 0;">
+            <h1 style="color:var(--gold); font-size:40px; letter-spacing:8px;">ØMNI</h1>
+            <p style="font-size:10px; color:var(--blue); margin-top:10px;">V63 - CONSOLIDADO SUPREMO</p>
+        </div>
+        <button class="btn" onclick="go('p2')">ACESSAR TERMINAL</button>
+    </div>
 
-        /* IA CHAT */
-        .chat-box { border: 1px solid var(--blue); border-radius: 8px; overflow: hidden; margin-top: 10px; }
-        .chat-head { background: var(--blue); color: #000; padding: 8px;
-                    
+    <div id="p2" class="page">
+        <span class="label" style="text-align:center;">Selecione sua Alocação</span>
+        <button class="btn" style="margin-bottom:10px; background:#111; color:#fff; border:1px solid #333;" onclick="set('cons')">CONSERVADOR</button>
+        <button class="btn" style="margin-bottom:10px; background:#111; color:#fff; border:1px solid #333;" onclick="set('mod')">MODERADO</button>
+        <button class="btn" onclick="set('arr')">ARROJADO</button>
+    </div>
+
+    <div id="p3" class="page">
+        <div class="card">
+            <span class="label">Aporte Inicial (R$)</span>
+            <input type="number" id="ini" value="500" oninput="run()">
+            <span class="label">Aporte Mensal (R$)</span>
+            <input type="number" id="mes" value="100" oninput="run()">
+            <span class="label">Prazo Estratégico</span>
+            <select id="tempo" onchange="run()">
+                <option value="6">06 Meses (22.5% IR)</option>
+                <option value="12">12 Meses (20.0% IR)</option>
+                <option value="24">24 Meses (17.5% IR)</option>
+                <option value="60">60 Meses (15.0% IR)</option>
+            </select>
+        </div>
+
+        <div class="dash-grid">
+            <div class="box" style="border-top: 3px solid var(--accent);">
+                <span class="label" style="color:var(--accent)">Lucro Líquido</span>
+                <div id="l-liq" class="val" style="color:var(--accent)">R$ 0,00</div>
+            </div>
+            <div class="box" style="border-top: 3px solid #ff4444;">
+                <span class="label" style="color:#ff4444;">Imposto (IR)</span>
+                <div id="l-ir" class="val" style="color:#ff4444;">R$ 0,00</div>
+            </div>
+        </div>
+
+        <div class="card" style="text-align:center;">
+            <span class="label">Montante Final Líquido</span>
+            <div id="l-total" style="font-size:24px; font-weight:bold; color:var(--blue);">R$ 0,00</div>
+        </div>
+
+        <div class="card">
+            <span class="label">Composição do Portfólio</span>
+            <div id="lista"></div>
+        </div>
+
+        <div class="ia-box">
+            <div class="ia-header">IA-BIBLIOTECÁRIA (ANBIMA MASTER)</div>
+            <div id="ia-txt" class="ia-content">Aguardando consulta sobre CPA ou regras financeiras...</div>
+            <div style="display:flex;">
+                <input type="text" id="ia-in" style="margin:0; border:none; border-radius:0;" placeholder="Ex: IR, CPA, SELIC">
+                <button onclick="pergunta()" style="background:var(--blue); border:none; padding:10px; font-weight:bold;">➔</button>
+            </div>
+        </div>
+
+        <button class="btn" style="background:#000; color:var(--gold); border:1px solid var(--gold); margin-top:20px;" onclick="location.reload()">REINICIAR</button>
+    </div>
+</div>
+
+<script>
+    let P = "";
+    const DB = {
+        "cpa": "Certificações ANBIMA (10 e 20) validam o conhecimento para o varejo e alta renda.",
+        "ir": "Renda Fixa segue tabela regressiva: 22.5% (até 6m) a 15% (acima de 2 anos).",
+        "selic": "Taxa básica de juros (10.75%). Principal indexador da renda fixa conservadora.",
+        "lci": "Isento de IR para pessoa física. Ótimo para perfis Moderados."
+    };
+
+    function go(id) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    }
+
+    function set(p) { P = p; go('p3'); run(); }
+
+    function run() {
+        const vIni = parseFloat(document.getElementById('ini').value) || 0;
+        const vMes = parseFloat(document.getElementById('mes').value) || 0;
+        const n = parseInt(document.getElementById('tempo').value);
+        const jA = P === 'cons' ? 0.1075 : (P === 'mod' ? 0.142 : 0.185);
+        const i = Math.pow(1 + jA, 1/12) - 1;
+        const tIR = n > 24 ? 0.15 : (n > 12 ? 0.175 : (n > 6 ? 0.20 : 0.225));
+
+        const mBruto = (vIni * Math.pow(1+i, n)) + (vMes * (Math.pow(1+i, n) - 1) / i);
+        const investido = vIni + (vMes * n);
+        const lucroBruto = mBruto - investido;
+
+        let ativos = P === 'cons' ? [['Tesouro Selic', 0.7, false], ['CDB Pós', 0.3, false]] :
+                    (P === 'mod' ? [['LCI/LCA', 0.4, true], ['IPCA+', 0.3, false], ['FIIs', 0.3, true]] :
+                    [['Ações', 0.5, false], ['Dólar', 0.5, false]]);
+
+        let ir = 0; let html = "";
+        ativos.forEach(a => {
+            const lA = (lucroBruto * a[1]);
+            const imp = a[2] ? 0 : lA * tIR;
+            ir += imp;
+            html += `<div class="audit-item"><b>${a[0]}</b> <span style="float:right; color:var(--accent)">R$ ${((investido*a[1]) + lA - imp).toLocaleString('pt-BR')}</span></div>`;
+        });
+
+        document.getElementById('l-liq').innerText = "R$ " + (lucroBruto - ir).toLocaleString('pt-BR');
+        document.getElementById('l-ir').innerText = "R$ " + ir.toLocaleString('pt-BR');
+        document.getElementById('l-total').innerText = "R$ " + (investido + lucroBruto - ir).toLocaleString('pt-BR');
+        document.getElementById('lista').innerHTML = html;
+    }
+
+    function pergunta() {
+        const q = document.getElementById('ia-in').value.toLowerCase();
+        let r = "Termo não encontrado no servidor Angela. Tente: CPA, IR ou SELIC.";
+        for(let k in DB) { if(q.includes(k)) r = DB[k]; }
+        document.getElementById('ia-txt').innerText = r;
+        document.getElementById('ia-in').value = "";
+        const v = new SpeechSynthesisUtterance(r); v.lang = 'pt-BR'; window.speechSynthesis.speak(v);
+    }
+</script>
+</body>
+                </html>
+                
