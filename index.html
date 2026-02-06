@@ -3,59 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>OMNI V42 | SOVEREIGN COMMAND</title>
+    <title>OMNI V43 | SOVEREIGN FIX</title>
     <style>
-        :root { --gold: #D4AF37; --bg: #000000; --accent: #00FF41; --blue: #00D1FF; --card: #0c0c0c; --border: #1a1a1a; }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body, html { background-color: #000 !important; color: #fff; font-family: 'Georgia', serif; height: 100%; overflow-x: hidden; }
+        :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --card: #0c0c0c; --border: #1a1a1a; }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         
-        .container { width: 100%; min-height: 100vh; display: flex; flex-direction: column; }
-        .page { display: none; width: 100%; flex: 1; padding: 30px; flex-direction: column; }
-        .active { display: flex; }
-
-        /* HEADER */
-        .brand-header { text-align: center; margin-bottom: 40px; border-bottom: 1px solid var(--gold); padding-bottom: 20px; }
-        .logo-text { font-size: 45px; font-weight: 900; letter-spacing: 12px; color: var(--gold); }
-
-        /* CARDS ROBUSTOS */
-        .exec-card { 
-            background: var(--card); border: 1px solid var(--border); padding: 25px; 
-            border-radius: 4px; margin-bottom: 20px; border-left: 4px solid var(--gold);
+        body, html { 
+            background-color: #000 !important; color: #fff; 
+            font-family: 'Georgia', serif; height: 100vh; width: 100vw; 
+            overflow: hidden; 
         }
-        .label-gold { font-size: 11px; color: var(--gold); font-weight: bold; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; display: block; }
-        .exec-text { font-size: 16px; line-height: 1.6; color: #e0e0e0; font-style: italic; }
 
+        .container { width: 100%; height: 100%; position: relative; }
+
+        .page { 
+            display: none; width: 100%; height: 100%; padding: 30px; 
+            flex-direction: column; overflow-y: auto; position: absolute; top: 0; left: 0;
+            background: #000;
+        }
+        .active { display: flex !important; }
+
+        /* DESIGN EXECUTIVO */
+        .brand-header { text-align: center; margin-bottom: 40px; margin-top: 10vh; }
+        .logo-text { font-size: 45px; font-weight: 900; letter-spacing: 12px; color: var(--gold); }
+        
+        .exec-card { 
+            background: var(--card); border: 1px solid var(--border); padding: 20px; 
+            border-radius: 4px; margin-bottom: 15px; border-left: 4px solid var(--gold);
+        }
+        .label-gold { font-size: 10px; color: var(--gold); font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; display: block; }
+        
         /* BOTÕES DE COMANDO */
         .btn-gold { 
-            width: 100%; padding: 22px; background: var(--gold); color: #000; border: none; 
+            width: 100%; padding: 20px; background: var(--gold); color: #000; border: none; 
             font-weight: 900; font-size: 14px; letter-spacing: 2px; cursor: pointer; text-transform: uppercase;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+            margin-top: 20px; border-radius: 2px;
         }
         .btn-outline { 
             width: 100%; padding: 18px; background: transparent; border: 1px solid var(--border); 
-            color: #fff; margin-bottom: 12px; text-align: left; font-size: 14px; cursor: pointer;
+            color: #fff; margin-bottom: 12px; text-align: left; font-size: 13px; cursor: pointer; border-radius: 2px;
         }
-        .btn-outline b { color: var(--gold); display: block; margin-bottom: 5px; }
 
-        /* DASHBOARD GRID */
+        /* DASHBOARD INDICATORS */
         .hud-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .hud-item { background: #080808; border: 1px solid #111; padding: 12px; text-align: center; }
-        .hud-val { font-size: 14px; font-weight: bold; color: var(--accent); }
+        .hud-item { background: #080808; border: 1px solid #111; padding: 10px; text-align: center; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div id="p1" class="page active">
-        <div class="brand-header" style="margin-top: 15vh;">
+        <div class="brand-header">
             <h1 class="logo-text">ØMNI</h1>
-            <p style="color: var(--blue); font-size: 9px; letter-spacing: 5px; margin-top: 10px;">SUPREME GOVERNANCE V42</p>
+            <p style="color: var(--blue); font-size: 9px; letter-spacing: 5px; margin-top: 10px;">SOVEREIGN GOVERNANCE V43</p>
         </div>
-        <button class="btn-gold" onclick="goTo('p2')">INICIAR PROTOCOLO DE ACESSO</button>
+        <button class="btn-gold" onclick="nav('p2')">AUTORIZAR ACESSO</button>
     </div>
 
     <div id="p2" class="page">
-        <span class="label-gold" style="text-align:center; margin-bottom:30px;">Estatuto de Soberania Financeira</span>
+        <span class="label-gold" style="text-align:center; margin: 20px 0;">Estatuto de Cúpula</span>
         
         <div class="exec-card">
-            
+            <span class="label-gold">MISSÃO ESTRATÉGICA</span>
+            <p style="font-size: 15px; line-height: 1.6; color: #fff;">"Blindar o patrimônio institucional contra a erosão inflacionária, convertendo volatilidade em dominância absoluta."</p>
+        </div>
+
+        <div class="exec-card">
+            <span class="label-gold">VISÃO DE DOMINÂNCIA</span>
+            <p style="font-size: 15px; line-height: 1.6; color: #fff;">"Consolidar o Padrão Ouro como a bússola tecnológica para a soberania financeira em mercados complexos."</p>
+        </div>
+
+        <div class="exec-card">
+            <span class="label-gold">OBJETIVO TÁTICO</span>
+            <p style="font-size: 15px; line-height: 1.6; color: #fff;">"Assegurar a maximização do Alfa, garantindo que cada alocação esteja na vanguarda da eficiência de capital."</p>
+        </div>
+
+        <button class="btn-gold" onclick="nav('p3')">PROSSEGUIR PARA ANÁLISE</button>
+    </div>
+
+    <div id="p3" class="page">
+        <span class="label-gold" style="text-align:center; margin: 20px 0;">Política de Gestão de Risco</span>
+        
+        <button class="btn-outline" onclick="setPerfil('cons')">
+            <b style="color:var(--gold)">01. PRESERVAÇÃO (CONSERVADOR)</b>
+            Foco em liquidez imediata e risco soberano.
+        </button>
+
+        <button class="btn-outline" onclick="setPerfil('mod')">
+            <b style="color:var(--gold)">02. ESTRUTURA HÍBRIDA (MODERADO)</b>
+            Equilíbrio entre proteção inflacionária e dividendos.
+        </button>
+
+        <button class="btn-outline" onclick="setPerfil('arr')">
+            <b style="color:var(--gold)">03. EXPANSÃO (ARROJADO)</b>
+            Exposição agressiva para captura de prêmios de equity.
+        </button>
+    </div>
+
+    <div id="p4" class="page">
+        <div class="hud-grid">
+            <div class="hud-item"><span class="label-gold" style="font-size:7px;">SELIC</span><div style="color:var(--accent); font-weight:bold;">10.75%</div></div>
+            <div class="hud-item"><span class="label-gold" style="font-size:7px;">IPCA</span><div style="color:red; font-weight:bold;">4.50%</div></div>
+            <div class="hud-item"><span class="label-gold" style="font-size:7px;">GANHO REAL</span><div style="color:var(--blue); font-weight:bold;">6.25%</div></div>
+        </div>
+
+        <div class="exec-card" style="text-align:center; border-left:none; border-top:4px solid var(--gold);">
+            <span class="label-gold">Capital Sob Gestão (R$)</span>
+            <input type="number" id="val" value="10000" oninput="calc()" style="background:transparent; border:none; color:#fff; font-size:35px; font-weight:bold; text-align:center; width:100%; outline:none;">
+            <div id="total-proj" style="color:var(--accent); font-size:20px; margin-top:10px;">R$ 0,00</div>
+        </div>
+
+        <div id="fracionamento"></div>
+
+        <div style="margin-top:20px;">
+            <span class="label-gold">Briefings de Voz</span>
+            <div id="botoes-voz"></div>
+            <button class="btn-outline" style="text-align:center; color:red; border-color:#311;" onclick="window.speechSynthesis.cancel()">SILENCIAR IA</button>
+        </div>
+
+        <button class="btn-gold" style="background:#111; color:var(--gold); border:1px solid var(--gold)" onclick="location.reload()">REINICIAR</button>
+    </div>
+</div>
+
+<script>
+    function nav(id) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        window.scrollTo(0,0);
+    }
+
+    let perfilAtivo = "";
+    const vozes = {
+        'Tesouro Selic': 'Alocação soberana. Segurança absoluta com rentabilidade pós-fixada.',
+        'CDB Pós': 'Crédito bancário com proteção institucional do F.G.C.',
+        'LCI/LCA': 'Isenção fiscal absoluta. Otimização do lucro líquido real.',
+        'IPCA+': 'Blindagem inflacionária. Ganho real garantido acima do índice de preços.',
+        'FIIs': 'Renda passiva imobiliária. Dividendos mensais isentos de impostos.',
+        'Ações': 'Equity de alta performance. Participação em corporações líderes.',
+        'BDR/Dólar': 'Hedge internacional. Proteção cambial contra instabilidades locais.'
+    };
+
+    function setPerfil(p) { perfilAtivo = p; nav('p4'); calc(); }
+
+    function calc() {
+        let v = parseFloat(document.getElementById('val').value) || 0;
+        let r = perfilAtivo === 'cons' ? 1.1075 : (perfilAtivo === 'mod' ? 1.145 : 1.185);
+        document.getElementById('total-proj').innerText = "R$ " + (v * r).toLocaleString('pt-BR',{minimumFractionDigits:2});
+
+        let data = perfilAtivo === 'cons' ? [['Tesouro Selic', 0.7], ['CDB Pós', 0.3]] :
+                 (perfilAtivo === 'mod' ? [['LCI/LCA', 0.4], ['IPCA+', 0.3], ['FIIs', 0.3]] :
+                 [['Ações', 0.5], ['BDR/Dólar', 0.5]]);
+
+        let h = ""; let vb = "";
+        data.forEach(item => {
+            let part = v * item[1];
+            h += `<div style="display:flex; justify-content:space-between; padding:15px 0; border-bottom:1px solid #111; font-size:14px;">
+                <span>${item[0]}</span><span style="color:var(--accent); font-weight:bold;">R$ ${part.toLocaleString('pt-BR',{minimumFractionDigits:2})}</span>
+            </div>`;
+            vb += `<button class="btn-outline" style="font-size:11px;" onclick="falar('${item[0]}')">Ouvir Briefing: ${item[0]}</button>`;
+        });
+        document.getElementById('fracionamento').innerHTML = h;
+        document.getElementById('botoes-voz').innerHTML = vb;
+    }
+
+    function falar(t) {
+        window.speechSynthesis.cancel();
+        const m = new SpeechSynthesisUtterance(vozes[t]);
+        m.lang = 'pt-BR'; m.rate = 0.9;
+        window.speechSynthesis.speak(m);
+    }
+</script>
+</body>
+</html>
