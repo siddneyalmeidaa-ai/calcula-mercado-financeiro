@@ -2,23 +2,30 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.A. SUPREMACIA | V131 CORRELAÇÃO</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>S.A. SUPREMACIA | V133 APP</title>
+    
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="data:application/json;base64,ewogICJkZWZhdWx0X2xvY2FsZSI6ICJwdCIsCiAgIm5hbWUiOiAiUy5BLiBTVVBSRU1BQ0lBIiwKICAic2hvcnRfbmFtZSI6ICJTLkEuIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwMDAwMDAiLAogICJ0aGVtZV9jb2xvciI6ICIjRDRBRjM3IiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly9jZG4taWNvbnMtcG5nLmZlYXRpY29uLmNvbS81MTIvNDc1OC80NzU4NjgxLnBuZyIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogICAgfQogIF0KfQ==">
+
     <style>
         :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --red: #FF4444; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background: #000; color: #fff; height: 100vh; width: 100vw; overflow: hidden; position: fixed; }
 
-        .header-status { padding: 12px; border-bottom: 1px solid var(--gold); display: flex; justify-content: space-between; font-size: 10px; color: var(--gold); font-weight: bold; background: #050505; }
+        /* STATUS BAR E HEADER */
+        .header-status { padding: 15px 12px; border-bottom: 1px solid var(--gold); display: flex; justify-content: space-between; font-size: 10px; color: var(--gold); font-weight: bold; background: #050505; }
         .indicators-box { border: 1px solid var(--accent); border-radius: 4px; display: flex; justify-content: space-around; align-items: center; padding: 12px; font-size: 11px; background: rgba(0, 255, 65, 0.05); margin: 10px; }
         .live-dot { height: 6px; width: 6px; background: var(--accent); border-radius: 50%; display: inline-block; margin-right: 5px; animation: pulse 0.8s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.3; transform: scale(1.2); } }
 
-        #app { display: block; height: 100vh; width: 100%; background: #000; overflow-y: auto; }
-        .container { padding: 15px; display: flex; flex-direction: column; gap: 10px; padding-bottom: 80px; }
+        #app { display: block; height: 100vh; width: 100%; background: #000; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+        .container { padding: 15px; display: flex; flex-direction: column; gap: 12px; padding-bottom: 100px; }
         
-        .total-display { border: 2px solid var(--gold); border-radius: 8px; padding: 25px; text-align: center; background: #050505; box-shadow: inset 0 0 20px rgba(212, 175, 55, 0.2); }
-        .val-main { font-size: 38px; font-weight: 900; color: var(--gold); transition: 0.3s; }
+        .total-display { border: 2px solid var(--gold); border-radius: 8px; padding: 25px; text-align: center; background: #050505; box-shadow: 0 0 15px rgba(212, 175, 55, 0.2); }
+        .val-main { font-size: 36px; font-weight: 900; color: var(--gold); text-shadow: 0 0 10px rgba(212, 175, 55, 0.4); }
 
         .input-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
         .input-box { background: #0a0a0a; border: 1px solid #333; border-radius: 4px; padding: 10px; }
@@ -26,22 +33,30 @@
         input, select { width: 100%; background: transparent; border: none; color: #fff; font-weight: 900; text-align: center; font-size: 16px; outline: none; }
         
         .grid-prods { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-        .prod-card { border: 1px solid var(--blue); border-radius: 4px; padding: 12px; text-align: center; background: #050505; transition: 0.2s; position: relative; }
-        .prod-card.up { border-color: var(--accent); }
-        .prod-card.down { border-color: var(--red); }
-        .prod-title { font-size: 8px; color: var(--blue); font-weight: bold; text-transform: uppercase; margin-bottom: 5px; display: block; }
-        .prod-val { font-size: 13px; font-weight: 900; color: #fff; }
+        .prod-card { border: 1px solid var(--blue); border-radius: 4px; padding: 12px; text-align: center; background: #050505; transition: 0.3s; }
+        .prod-card.update { border-color: #fff; transform: scale(1.03); }
+        .prod-title { font-size: 8px; color: var(--blue); font-weight: bold; text-transform: uppercase; display: block; margin-bottom: 5px; }
+        .prod-val { font-size: 12px; font-weight: 900; color: #fff; }
 
-        .status-msg { border-left: 3px solid var(--gold); padding: 10px; background: rgba(212, 175, 55, 0.05); font-size: 10px; color: var(--gold); }
+        /* TABELA DA FAVELINHA */
+        .favelinha-box { margin-top: 10px; background: #050505; border: 1px solid #222; border-radius: 4px; overflow: hidden; }
+        .favelinha-title { background: #111; padding: 8px; font-size: 9px; color: var(--gold); text-align: center; font-weight: bold; }
+        table { width: 100%; border-collapse: collapse; font-size: 10px; text-align: center; }
+        th { color: #555; padding: 8px; border-bottom: 1px solid #222; }
+        td { padding: 8px; border-bottom: 1px solid #111; font-weight: bold; }
+
+        .btn-install { background: var(--gold); color: #000; padding: 12px; border-radius: 4px; border: none; font-weight: 900; font-size: 12px; margin: 10px; display: none; }
     </style>
 </head>
 <body>
 
     <div id="app">
         <div class="header-status">
-            <span>🛡️ S.A. SUPREMACIA | V131 MULTI-INDEX</span>
-            <span id="header-clock">07/02/2026 | 01:36:00</span>
+            <span>🛡️ S.A. SUPREMACIA | V133</span>
+            <span id="header-clock">--/--/---- | 00:00:00</span>
         </div>
+
+        <button id="btnInstall" class="btn-install">INSTALAR APP S.A.</button>
 
         <div class="indicators-box">
             <span><span class="live-dot"></span>SELIC: <b id="display-selic" style="color:var(--accent)">10.75%</b></span>
@@ -61,25 +76,44 @@
                 <div class="input-box"><label>MESES</label><input type="number" id="d-tempo" value="12" oninput="recalcular()"></div>
             </div>
 
-            <div class="input-box"><label>ESTRATEGIA</label>
+            <div class="input-box"><label>ESTRATÉGIA DE COMANDO</label>
                 <select id="d-perfil" onchange="recalcular()">
-                    <option value="conservador">CONSERVADOR (SELIC)</option>
-                    <option value="moderado" selected>MODERADO (SELIC + IPCA)</option>
-                    <option value="agressivo">AGRESSIVO (VARIÁVEL)</option>
+                    <option value="conservador">CONSERVADOR</option>
+                    <option value="moderado" selected>MODERADO</option>
+                    <option value="agressivo">AGRESSIVO</option>
                 </select>
             </div>
 
             <div id="grid-produtos" class="grid-prods"></div>
 
-            <div class="status-msg">
-                <strong>ENGINE V131:</strong> <span id="log-engine">Aguardando pulso...</span>
+            <div class="favelinha-box">
+                <div class="favelinha-title">TABELA DA FAVELINHA - PROJEÇÃO DE ESCALABILIDADE</div>
+                <table>
+                    <thead><tr><th>Mês</th><th>Ação Imediata</th><th>Stake</th></tr></thead>
+                    <tbody id="favelinha-body"></tbody>
+                </table>
             </div>
         </div>
     </div>
 
 <script>
     let selicBase = 10.75;
-    let ipcaBase = 4.52;
+    let deferredPrompt;
+
+    // SUPORTE PARA INSTALAÇÃO (PWA)
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        document.getElementById('btnInstall').style.display = 'block';
+    });
+
+    document.getElementById('btnInstall').addEventListener('click', async () => {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') document.getElementById('btnInstall').style.display = 'none';
+        }
+    });
 
     function startClock() {
         setInterval(() => {
@@ -88,69 +122,65 @@
         }, 1000);
     }
 
-    function oscilarMercado() {
-        // Oscilação da SELIC
-        let varSelic = (Math.random() * 0.10 - 0.05);
+    function oscilar() {
+        let varSelic = (Math.random() * 0.06 - 0.03);
         let novaSelic = selicBase + varSelic;
-        // Oscilação do IPCA (Debêntures olham para cá)
-        let varIpca = (Math.random() * 0.06 - 0.03);
-        let novoIpca = ipcaBase + varIpca;
-
         document.getElementById('display-selic').innerText = novaSelic.toFixed(2) + "%";
-        document.getElementById('display-ipca').innerText = novoIpca.toFixed(2) + "%";
+        recalcular(novaSelic / 100);
         
-        recalcular(novaSelic / 100, novoIpca / 100);
+        // Efeito visual nos cards
+        const cards = document.querySelectorAll('.prod-card');
+        cards.forEach(c => {
+            c.classList.add('update');
+            setTimeout(() => c.classList.remove('update'), 300);
+        });
     }
 
-    function recalcular(s, i) {
-        const cap = parseFloat(document.getElementById('d-ini').value) || 0;
-        const aporte = parseFloat(document.getElementById('d-mes').value) || 0;
-        const tempo = parseInt(document.getElementById('d-tempo').value) || 1;
+    function recalcular(sVigente) {
+        const i = parseFloat(document.getElementById('d-ini').value) || 0;
+        const m = parseFloat(document.getElementById('d-mes').value) || 0;
+        const t = parseInt(document.getElementById('d-tempo').value) || 1;
         const perf = document.getElementById('d-perfil').value;
 
-        const sMensal = Math.pow(1 + (s || selicBase/100), 1/12) - 1;
-        const iMensal = Math.pow(1 + (i || ipcaBase/100), 1/12) - 1;
+        const sAnual = sVigente || (selicBase / 100);
+        const sMensal = Math.pow(1 + sAnual, 1/12) - 1;
 
-        let ir = tempo > 24 ? 0.15 : tempo > 12 ? 0.175 : tempo > 6 ? 0.20 : 0.225;
+        let ir = t > 24 ? 0.15 : t > 12 ? 0.175 : t > 6 ? 0.20 : 0.225;
         document.getElementById('val-ir').innerText = (ir*100).toFixed(1) + "%";
 
-        // Cálculo Base SELIC
-        let bruto = (cap * Math.pow(1 + sMensal, tempo)) + (aporte * ((Math.pow(1 + sMensal, tempo) - 1) / sMensal));
-        let lucroSeguro = (bruto - (cap + aporte * tempo)) * (1 - ir) * 0.5;
-        let final = (cap + aporte * tempo) + lucroSeguro;
+        let bruto = (i * Math.pow(1 + sMensal, t)) + (m * ((Math.pow(1 + sMensal, t) - 1) / sMensal));
+        let lucroSeguro = (bruto - (i + (m * t))) * (1 - ir) * 0.5;
+        let final = (i + (m * t)) + lucroSeguro;
 
         document.getElementById('total-final').innerText = "R$ " + final.toLocaleString('pt-BR', {minimumFractionDigits: 2});
 
-        // LÓGICA DE ATIVOS MULTI-INDICADOR
+        // ATIVOS
+        const ativos = {
+            conservador: ["TESOURO", "CDB 100%", "LCI/LCA"],
+            moderado: ["CDB 115%", "DEBÊNTURE", "FIIs"],
+            agressivo: ["AÇÕES", "CRIPTO", "OPÇÕES"]
+        };
+        
         let html = "";
-        if(perf === 'conservador') {
-            // Todos seguem SELIC
-            html = card("TESOURO", final*0.6, "up") + card("CDB 100%", final*0.3, "up") + card("POUPANÇA", final*0.1, "down");
-        } else if(perf === 'moderado') {
-            // Debênture segue IPCA
-            html = card("CDB 110%", final*0.5, "up") + card("DEBÊNTURE", final*0.3, "up") + card("FIIs", final*0.2, "up");
-        } else {
-            // Ações e Cripto (Inverso à SELIC)
-            let fatorInverso = (10.75 / (s*100)); // Se selic sobe, fator diminui
-            html = card("AÇÕES", final*0.5 * fatorInverso, s*100 > 10.75 ? "down" : "up") + 
-                   card("CRIPTO", final*0.3 * fatorInverso, s*100 > 10.75 ? "down" : "up") + 
-                   card("DÓLAR", final*0.2, "up");
-        }
+        ativos[perf].forEach((nome, idx) => {
+            let v = final * [0.6, 0.3, 0.1][idx];
+            html += `<div class="prod-card"><span class="prod-title">${nome}</span><b class="prod-val">R$ ${v.toLocaleString('pt-BR', {maximumFractionDigits: 0})}</b></div>`;
+        });
         document.getElementById('grid-produtos').innerHTML = html;
-        document.getElementById('log-engine').innerText = `Ativos sincronizados: SELIC p/ Renda Fixa | IPCA p/ Híbridos.`;
-    }
 
-    function card(nome, val, trend) {
-        return `<div class="prod-card ${trend}">
-                    <span class="prod-title">${nome}</span>
-                    <b class="prod-val">R$ ${val.toLocaleString('pt-BR', {maximumFractionDigits: 0})}</b>
-                </div>`;
+        // TABELA FAVELINHA
+        let fHtml = "";
+        for(let j=1; j<=3; j++) {
+            let stake = (final * 0.01 / j); 
+            fHtml += `<tr><td>${t+j}</td><td>ENTRA</td><td>R$ ${stake.toFixed(2)}</td></tr>`;
+        }
+        document.getElementById('favelinha-body').innerHTML = fHtml;
     }
 
     window.onload = () => {
         startClock();
         recalcular();
-        setInterval(oscilarMercado, 2500);
+        setInterval(oscilar, 3000);
     };
 </script>
 </body>
