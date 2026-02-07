@@ -3,223 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TERMINAL S.A. | V149</title>
+    <title>TERMINAL S.A. | V150 FINAL</title>
     <style>
         :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --red: #FF4444; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background: #000; color: #fff; height: 100vh; overflow: hidden; }
 
-        /* TELA INICIAL (SPLASH) E QUIZ */
+        /* RITUAL DE ENTRADA */
         #splash, #quiz { position: fixed; inset: 0; background: #000; z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 25px; }
-        .logo-trident { font-size: 70px; color: var(--gold); margin-bottom: 10px; text-shadow: 0 0 20px rgba(212,175,55,0.4); }
-        .btn-gold { margin-top: 30px; padding: 15px 45px; background: transparent; border: 1px solid var(--gold); color: var(--gold); border-radius: 50px; font-weight: 900; cursor: pointer; letter-spacing: 2px; }
-        .quiz-opt { width: 100%; max-width: 320px; background: #0a0a0a; padding: 16px; border-radius: 8px; margin-bottom: 12px; border: 1px solid #222; text-align: left; transition: 0.2s; cursor: pointer; }
+        .logo-trident { font-size: 80px; color: var(--gold); margin-bottom: 10px; filter: drop-shadow(0 0 15px var(--gold)); }
+        .btn-gold { margin-top: 30px; padding: 15px 45px; background: transparent; border: 1px solid var(--gold); color: var(--gold); border-radius: 50px; font-weight: 900; cursor: pointer; letter-spacing: 2px; text-transform: uppercase; }
+        .quiz-opt { width: 100%; max-width: 320px; background: #0a0a0a; padding: 18px; border-radius: 8px; margin-bottom: 12px; border: 1px solid #222; text-align: left; cursor: pointer; font-weight: 900; }
         .quiz-opt:active { background: var(--gold); color: #000; }
 
-        /* INTERFACE PRINCIPAL (SÓ APARECE DEPOIS DO QUIZ) */
+        /* INTERFACE PRINCIPAL */
         #main-app { display: none; height: 100vh; overflow: hidden; }
-        .header { padding: 8px 15px; border-bottom: 1px solid var(--gold); display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: var(--gold); background: #050505; font-weight: 900; }
-        #top-perfil { background: var(--gold); color: #000; padding: 3px 10px; border-radius: 4px; cursor: pointer; border: none; font-weight: 900; font-size: 9px; }
-        .sensors { display: flex; justify-content: space-around; padding: 6px; background: #080808; border-bottom: 1px solid #111; font-size: 9px; }
+        .header { padding: 10px 15px; border-bottom: 1px solid var(--gold); display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: var(--gold); background: #050505; font-weight: 900; }
+        #top-perfil { background: var(--gold); color: #000; padding: 4px 12px; border-radius: 4px; cursor: pointer; border: none; font-weight: 900; font-size: 10px; }
+
+        .sensors { display: flex; justify-content: space-around; padding: 8px; background: #080808; border-bottom: 1px solid #111; font-size: 9px; }
         .sensor-item b { color: var(--accent); }
 
-        .container { padding: 10px; display: flex; flex-direction: column; gap: 8px; overflow-y: auto; height: calc(100vh - 70px); }
+        .container { padding: 12px; display: flex; flex-direction: column; gap: 12px; overflow-y: auto; height: calc(100vh - 80px); }
 
-        .selector-wrapper { background: #111; border: 1px solid var(--gold); padding: 10px; border-radius: 8px; display: none; margin-bottom: 5px; }
-        select { width: 100%; background: #000; color: var(--gold); border: 1px solid #333; padding: 8px; font-weight: 900; border-radius: 4px; }
+        /* DISPLAY DE LUCRO */
+        .display-box { border: 2px solid var(--gold); border-radius: 10px; padding: 18px; text-align: center; background: #050505; }
+        .val-main { font-size: 28px; font-weight: 900; color: var(--gold); transition: 0.3s; }
 
-        .display-box { border: 2px solid var(--gold); border-radius: 10px; padding: 15px; text-align: center; background: #050505; }
-        .val-main { font-size: 26px; font-weight: 900; color: var(--gold); transition: 0.2s; }
-
+        /* INPUTS */
         .input-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
         .in-box { background: #0a0a0a; border: 1px solid #222; padding: 8px; border-radius: 6px; text-align: center; }
-        .in-box label { display: block; font-size: 7px; color: var(--gold); font-weight: 900; margin-bottom: 2px; }
-        input { width: 100%; background: transparent; border: none; color: #fff; font-weight: 900; text-align: center; font-size: 14px; outline: none; }
+        .in-box label { display: block; font-size: 7px; color: var(--gold); font-weight: 900; margin-bottom: 3px; }
+        input { width: 100%; background: transparent; border: none; color: #fff; font-weight: 900; text-align: center; font-size: 15px; outline: none; }
+
+        /* SELETOR ESTRATÉGIA */
+        .selector-wrapper { background: #111; border: 1px solid var(--gold); padding: 10px; border-radius: 8px; display: none; }
+        select { width: 100%; background: #000; color: var(--gold); border: 1px solid #333; padding: 10px; font-weight: 900; border-radius: 4px; outline: none; }
 
         /* CARDS PULSANTES */
         .grid-p { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-        .card-p { border: 1px solid var(--blue); border-radius: 6px; padding: 12px; text-align: center; background: #050505; }
+        .card-p { border: 1px solid var(--blue); border-radius: 6px; padding: 14px; text-align: center; background: #050505; transition: 0.5s; }
         .p-pulse { animation: pulseActive 3s infinite; }
-        @keyframes pulseActive { 0% { box-shadow: 0 0 0px var(--blue); border-color: var(--blue); } 50% { box-shadow: 0 0 12px var(--blue); border-color: #fff; } 100% { box-shadow: 0 0 0px var(--blue); border-color: var(--blue); } }
-        .p-title { font-size: 7px; color: var(--blue); font-weight: 900; display: block; }
-        .p-val { font-size: 10px; font-weight: 900; }
-
-        .fav-box { background: #050505; border: 1px solid #222; border-radius: 6px; overflow: hidden; }
-        table { width: 100%; border-collapse: collapse; font-size: 9px; }
-        th { color: #444; padding: 8px; border-bottom: 1px solid #222; }
-        td { padding: 10px; border-bottom: 1px solid #111; font-weight: 900; text-align: center; }
-
-        /* GRÁFICO NO RODAPÉ */
-        .chart-footer { background: #050505; border: 1px solid #222; border-radius: 8px; padding: 15px; margin-top: 5px; margin-bottom: 40px; position: relative; }
-        .chart-svg { width: 100%; height: 70px; overflow: visible; }
-        .chart-line { fill: none; stroke: var(--gold); stroke-width: 2.5; filter: drop-shadow(0 0 4px var(--gold)); transition: 0.5s; }
-        .chart-dot { fill: var(--gold); stroke: #fff; stroke-width: 1.5; transition: 0.5s; }
-        .chart-labels { display: flex; justify-content: space-between; font-size: 8px; color: #555; font-weight: 900; margin-top: 5px; }
-    </style>
-</head>
-<body>
-
-    <div id="splash">
-        <div class="logo-trident">🔱</div>
-        <div style="color:var(--gold); font-weight:900; letter-spacing:4px; font-size:22px;">S.A. SUPREMACIA</div>
-        <button class="btn-gold" onclick="openQuiz()">INICIAR PROTOCOLO</button>
-    </div>
-
-    <div id="quiz" style="display:none;">
-        <div id="quiz-target" style="width:100%;"></div>
-    </div>
-
-    <div id="main-app">
-        <div class="header">
-            <span>🛡️ TERMINAL S.A. | V149</span>
-            <button id="top-perfil" onclick="toggleSelector()">CONSERVADOR</button>
-        </div>
-
-        <div class="sensors">
-            <div class="sensor-item">SELIC: <b id="s-selic">10.75%</b></div>
-            <div class="sensor-item">IPCA: <b>4.52%</b></div>
-            <div class="sensor-item">IR: <b id="s-ir" style="color:var(--red)">22.5%</b></div>
-        </div>
-
-        <div class="container">
-            <div id="wrapper" class="selector-wrapper">
-                <select id="sel-perfil" onchange="calc(); toggleSelector()">
-                    <option value="CONSERVADOR">CONSERVADOR</option>
-                    <option value="MODERADO">MODERADO</option>
-                    <option value="AGRESSIVO">AGRESSIVO</option>
-                </select>
-            </div>
-
-            <div class="display-box">
-                <span style="font-size:8px; color:var(--gold); font-weight:900;">LUCRO LÍQUIDO MOLDADO (-50%)</span>
-                <div class="val-main" id="v-moldado">R$ 0,00</div>
-            </div>
-
-            <div class="input-row">
-                <div class="in-box"><label>INICIAL</label><input type="number" id="i-ini" value="1000" oninput="calc()"></div>
-                <div class="in-box"><label>MENSAL</label><input type="number" id="i-mes" value="200" oninput="calc()"></div>
-                <div class="in-box"><label>MESES</label><input type="number" id="i-tempo" value="12" oninput="calc()"></div>
-            </div>
-
-            <div id="grid-p" class="grid-p"></div>
-
-            <div class="fav-box">
-                <table>
-                    <thead><tr><th>Mês</th><th>Ação</th><th>Stake</th></tr></thead>
-                    <tbody id="fav-body"></tbody>
-                </table>
-            </div>
-
-            <div class="chart-footer">
-                <svg class="chart-svg" id="svg-map">
-                    <path id="l-path" class="chart-line" d="M20,60 Q50,30 80,10" />
-                    <circle id="dot-1" class="chart-dot" cx="20" cy="60" r="3" />
-                    <circle id="dot-2" class="chart-dot" cx="50" cy="30" r="3" />
-                    <circle id="dot-3" class="chart-dot" cx="80" cy="10" r="4" />
-                </svg>
-                <div class="chart-labels"><span>START</span><span>EVOLUÇÃO</span><span style="color:var(--gold)">ALVO FINAL</span></div>
-            </div>
-        </div>
-    </div>
-
-<script>
-    const perguntas = [
-        { q: "Objetivo Principal?", o: ["Segurança", "Renda", "Riqueza"], v: [1, 2, 3] },
-        { q: "Tempo de Espera?", o: ["Curto", "Médio", "Longo"], v: [1, 2, 3] },
-        { q: "Conhecimento?", o: ["Iniciante", "Médio", "Expert"], v: [1, 2, 3] },
-        { q: "Aceita o Vácuo?", o: ["Não", "Talvez", "Sim"], v: [1, 2, 3] },
-        { q: "Aporte Mensal?", o: ["Baixo", "Regular", "Pesado"], v: [1, 2, 3] },
-        { q: "Histórico?", o: ["Perdi Muito", "No Zero", "Lucrando"], v: [1, 2, 3] },
-        { q: "Frequência?", o: ["Rara", "Semanal", "Diária"], v: [1, 2, 3] }
-    ];
-    let step = 0, score = 0, realV = 0, moldV = 0, selic = 10.75;
-
-    function openQuiz() {
-        document.getElementById('splash').style.display = 'none';
-        document.getElementById('quiz').style.display = 'flex';
-        showQ();
-    }
-
-    function showQ() {
-        const q = perguntas[step];
-        let h = `<p style="color:var(--gold); font-size:20px; margin-bottom:25px; font-weight:900;">${q.q}</p>`;
-        q.o.forEach((opt, i) => h += `<div class="quiz-opt" onclick="nextQ(${q.v[i]})">${opt}</div>`);
-        document.getElementById('quiz-target').innerHTML = h;
-    }
-
-    function nextQ(v) {
-        score += v; step++;
-        if(step < perguntas.length) showQ();
-        else startApp();
-    }
-
-    function startApp() {
-        document.getElementById('quiz').style.display = 'none';
-        document.getElementById('main-app').style.display = 'block';
-        const p = score > 16 ? "AGRESSIVO" : score > 10 ? "MODERADO" : "CONSERVADOR";
-        document.getElementById('sel-perfil').value = p;
-        calc();
-    }
-
-    function toggleSelector() {
-        const w = document.getElementById('wrapper');
-        w.style.display = w.style.display === 'block' ? 'none' : 'block';
-    }
-
-    function calc() {
-        const i = parseFloat(document.getElementById('i-ini').value) || 0,
-              m = parseFloat(document.getElementById('i-mes').value) || 0,
-              t = parseInt(document.getElementById('i-tempo').value) || 1,
-              perfil = document.getElementById('sel-perfil').value;
-
-        document.getElementById('top-perfil').innerText = perfil;
-        const sM = Math.pow(1 + (selic/100), 1/12) - 1;
-        let ir = t > 24 ? 15 : t > 12 ? 17.5 : 22.5;
-        document.getElementById('s-ir').innerText = ir.toFixed(1) + "%";
-
-        let inv = i + (m * t);
-        let bruto = (i * Math.pow(1 + sM, t)) + (m * ((Math.pow(1 + sM, t) - 1) / sM));
-        let lucroLimpo = (bruto - inv) * (1 - (ir/100));
-        realV = inv + lucroLimpo;
-        moldV = inv + (lucroLimpo * 0.5);
-
-        document.getElementById('v-moldado').innerText = "R$ " + moldV.toLocaleString('pt-BR', {minimumFractionDigits: 2});
-
-        // GRÁFICO
-        const svg = document.getElementById('svg-map');
-        const width = svg.clientWidth;
-        const x1 = 30, x2 = width / 2, x3 = width - 30;
-        let y1 = 60, y3 = 15;
-        document.getElementById('l-path').setAttribute("d", `M${x1},${y1} Q${x2},35 ${x3},${y3}`);
-        document.getElementById('dot-1').setAttribute("cx", x1); document.getElementById('dot-1').setAttribute("cy", y1);
-        document.getElementById('dot-2').setAttribute("cx", x2); document.getElementById('dot-2').setAttribute("cy", 35);
-        document.getElementById('dot-3').setAttribute("cx", x3); document.getElementById('dot-3').setAttribute("cy", y3);
-
-        const prods = { "CONSERVADOR": ["TESOURO", "CDB", "LCI"], "MODERADO": ["FIIs", "AÇÕES", "OURO"], "AGRESSIVO": ["AÇÕES", "CRIPTO", "OPÇÕES"] };
-        let hP = "";
-        prods[perfil].forEach((n, idx) => {
-            hP += `<div class="card-p p-pulse"><span class="p-title">${n}</span><b class="p-val">R$ ${(moldV * [0.5, 0.3, 0.2][idx]).toLocaleString('pt-BR', {maximumFractionDigits: 0})}</b></div>`;
-        });
-        document.getElementById('grid-p').innerHTML = hP;
-
-        let hF = "";
-        for(let j=1; j<=3; j++) hF += `<tr><td>${t+j}</td><td style="color:var(--accent)">ENTRA</td><td>R$ ${(moldV * 0.01 / j).toFixed(2)}</td></tr>`;
-        document.getElementById('fav-body').innerHTML = hF;
-    }
-
-    const dVal = document.getElementById('v-moldado');
-    const audit = (s) => { 
-        dVal.innerText = "R$ " + (s ? realV : moldV).toLocaleString('pt-BR', {minimumFractionDigits: 2}); 
-        dVal.style.color = s ? "var(--accent)" : "var(--gold)";
-    };
-    dVal.onmousedown = () => audit(true); dVal.onmouseup = () => audit(false);
-    dVal.ontouchstart = () => audit(true); dVal.ontouchend = () => audit(false);
-
-    setInterval(() => {
-        selic = 10.75 + (Math.random() * 0.1 - 0.05);
-        document.getElementById('s-selic').innerText = selic.toFixed(2) + "%";
-        calc();
-    }, 4000);
-</script>
-</body>
-</html>
+        @keyframes pulseActive { 0% { box-shadow: 0 0 0px var(--blue); } 50% { box-shadow: 0 0 15px var(--blue); border-color: #fff; } 100% { box-shadow
+                                                                                                                                             
