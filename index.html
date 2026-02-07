@@ -3,157 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="S.A. SUPREMACIA">
-    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3064/3064111.png">
-    
-    <title>S.A. SUPREMACIA | V137</title>
-    
+    <title>S.A. SUPREMACIA | V138</title>
     <style>
         :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --red: #FF4444; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
-        body { background: #000; color: #fff; height: 100vh; overflow: hidden; }
+        body { background: #000; color: #fff; height: 100vh; overflow-x: hidden; }
 
-        /* DESIGN DA CAPA */
-        #splash-screen, #quiz-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 25px; }
-        .logo-trident { font-size: 80px; color: var(--gold); text-shadow: 0 0 30px rgba(212,175,55,0.6); margin-bottom: 10px; animation: glow 2s infinite alternate; }
-        @keyframes glow { from { transform: scale(1); opacity: 0.8; } to { transform: scale(1.1); opacity: 1; } }
-        
-        /* BOTÃO DE INSTALAÇÃO DENTRO DO APP */
-        .install-hint { font-size: 10px; color: #555; margin-top: 20px; border: 1px dashed #333; padding: 10px; border-radius: 8px; width: 80%; }
+        /* HEADER FIXO */
+        .header-status { padding: 10px 15px; border-bottom: 1px solid var(--gold); display: flex; justify-content: space-between; font-size: 9px; color: var(--gold); background: #0a0a0a; position: sticky; top: 0; z-index: 100; }
+        .selo-box { background: var(--gold); color: #000; padding: 2px 6px; border-radius: 3px; font-weight: 900; }
 
-        /* MOTOR E APP (MANTENDO A PERFEIÇÃO DA V136) */
-        #main-app { display: none; height: 100vh; overflow-y: auto; background: #000; }
-        .header-status { padding: 15px; border-bottom: 1px solid var(--gold); display: flex; justify-content: space-between; font-size: 10px; color: var(--gold); font-weight: bold; background: #0a0a0a; position: sticky; top: 0; z-index: 10; }
-        .selo-box { background: var(--gold); color: #000; padding: 2px 8px; border-radius: 3px; font-size: 9px; font-weight: 900; }
-        .indicators-box { border: 1px solid var(--accent); border-radius: 4px; display: flex; justify-content: space-around; padding: 12px; font-size: 11px; background: rgba(0, 255, 65, 0.05); margin: 10px; }
-        .container { padding: 15px; display: flex; flex-direction: column; gap: 12px; padding-bottom: 100px; }
-        .total-display { border: 2px solid var(--gold); border-radius: 8px; padding: 25px; text-align: center; background: #050505; }
-        .val-main { font-size: 34px; font-weight: 900; color: var(--gold); }
+        /* INDICADORES */
+        .indicators-box { border: 1px solid var(--accent); border-radius: 4px; display: flex; justify-content: space-around; padding: 10px; font-size: 10px; background: rgba(0, 255, 65, 0.05); margin: 10px; }
+
+        .container { padding: 10px; display: flex; flex-direction: column; gap: 10px; padding-bottom: 50px; }
+
+        /* DISPLAY PRINCIPAL - AJUSTE DE FONTE */
+        .total-display { border: 2px solid var(--gold); border-radius: 8px; padding: 15px; text-align: center; background: #050505; }
+        .val-main { font-size: 26px; font-weight: 900; color: var(--gold); margin: 5px 0; }
+        .label-small { font-size: 9px; color: var(--gold); font-weight: bold; text-transform: uppercase; }
+
+        /* EXTRATO DE INVESTIMENTO */
+        .extrato-box { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 5px; }
+        .extrato-item { background: #111; padding: 10px; border-radius: 4px; border-left: 3px solid var(--blue); }
+        .extrato-item.lucro { border-left-color: var(--accent); }
+        .extrato-label { font-size: 8px; color: #888; display: block; }
+        .extrato-val { font-size: 14px; font-weight: 900; color: #fff; }
+
+        /* INPUTS SLIM */
         .input-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-        .input-box { background: #0a0a0a; border: 1px solid #333; border-radius: 4px; padding: 10px; }
-        .input-box label { display: block; font-size: 8px; color: var(--gold); margin-bottom: 5px; font-weight: bold; }
-        input, select { width: 100%; background: transparent; border: none; color: #fff; font-weight: 900; text-align: center; font-size: 16px; outline: none; }
-        .grid-prods { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-        .prod-card { border: 1px solid var(--blue); border-radius: 4px; padding: 12px; text-align: center; background: #050505; transition: 0.4s; }
-        .prod-card.pulse { transform: scale(1.05); border-color: #fff; }
-        .favelinha-box { margin-top: 10px; background: #050505; border: 1px solid #222; border-radius: 4px; overflow: hidden; }
-        table { width: 100%; border-collapse: collapse; font-size: 10px; text-align: center; }
-        th { color: #555; padding: 8px; border-bottom: 1px solid #222; }
-        td { padding: 8px; border-bottom: 1px solid #111; font-weight: bold; }
+        .input-box { background: #0a0a0a; border: 1px solid #333; border-radius: 4px; padding: 8px; }
+        .input-box label { display: block; font-size: 8px; color: var(--gold); margin-bottom: 3px; font-weight: bold; }
+        input, select { width: 100%; background: transparent; border: none; color: #fff; font-weight: 900; text-align: center; font-size: 14px; outline: none; }
+
+        /* PRODUTOS - FONTE CORRIGIDA */
+        .grid-prods { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+        .prod-card { border: 1px solid var(--blue); border-radius: 4px; padding: 8px; text-align: center; background: #050505; }
+        .prod-title { font-size: 7px; color: var(--blue); font-weight: bold; display: block; margin-bottom: 2px; }
+        .prod-val { font-size: 10px; font-weight: 900; color: #fff; }
+
+        /* TABELA FAVELINHA */
+        .favelinha-box { background: #050505; border: 1px solid #222; border-radius: 4px; overflow: hidden; margin-top: 5px; }
+        table { width: 100%; border-collapse: collapse; font-size: 10px; }
+        th { color: #555; padding: 6px; border-bottom: 1px solid #222; font-size: 9px; }
+        td { padding: 8px; border-bottom: 1px solid #111; font-weight: bold; text-align: center; }
+
+        /* CAPA */
+        #splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        .logo-trident { font-size: 60px; color: var(--gold); margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
     <div id="splash-screen">
         <div class="logo-trident">🔱</div>
-        <div style="color:var(--gold); font-weight:900; letter-spacing:3px; font-size:22px;">S.A. SUPREMACIA</div>
-        <div style="font-size:10px; color:#555; margin-top:5px; letter-spacing:2px;">ENGINEERED BY S.A. MESTER</div>
-        <button style="margin-top:40px; padding:15px 40px; background:transparent; border:1px solid var(--gold); color:var(--gold); font-weight:bold; cursor:pointer; border-radius:50px;" onclick="iniciarQuiz()">ACESSAR TERMINAL</button>
-        <div class="install-hint">Para remover o ícone do Google: Clique nos 3 pontos e selecione "Instalar Aplicativo" em vez de adicionar atalho.</div>
+        <div style="color:var(--gold); font-weight:900; letter-spacing:2px;">S.A. SUPREMACIA</div>
+        <button style="margin-top:30px; padding:12px 30px; background:transparent; border:1px solid var(--gold); color:var(--gold); font-weight:bold; border-radius:50px;" onclick="document.getElementById('splash-screen').style.display='none'; iniciarMotor();">ACESSAR</button>
     </div>
 
-    <div id="quiz-screen" style="display:none; background:#050505; flex-direction:column; align-items:center; padding-top:50px;">
-        <div id="quiz-container" style="width:100%; max-width:400px;"></div>
+    <div class="header-status">
+        <span>🛡️ S.A. SUPREMACIA | V138</span>
+        <span id="selo-perfil" class="selo-box">CONSERVADOR</span>
     </div>
 
-    <div id="main-app">
-        <div class="header-status">
-            <span>🛡️ S.A. SUPREMACIA | V137</span>
-            <span id="selo-perfil" class="selo-box">AGUARDANDO...</span>
+    <div class="indicators-box">
+        <span>SELIC: <b id="display-selic" style="color:var(--accent)">10.75%</b></span>
+        <span>IPCA: <b id="display-ipca" style="color:var(--accent)">4.52%</b></span>
+        <span>IR: <b id="val-ir" style="color:var(--red)">22.5%</b></span>
+    </div>
+
+    <div class="container">
+        <div class="total-display">
+            <span class="label-small">Patrimônio Final Estimado (-50%)</span>
+            <div class="val-main" id="total-final">R$ 0,00</div>
         </div>
-        <div class="indicators-box">
-            <span>SELIC: <b id="display-selic" style="color:var(--accent)">10.75%</b></span>
-            <span>IPCA: <b id="display-ipca" style="color:var(--accent)">4.52%</b></span>
-            <span>IR: <b id="val-ir" style="color:var(--red)">--%</b></span>
+
+        <div class="extrato-box">
+            <div class="extrato-item">
+                <span class="extrato-label">SEU INVESTIMENTO</span>
+                <div class="extrato-val" id="val-investido">R$ 0,00</div>
+            </div>
+            <div class="extrato-item lucro">
+                <span class="extrato-label">LUCRO LÍQUIDO</span>
+                <div class="extrato-val" id="val-lucro" style="color:var(--accent)">R$ 0,00</div>
+            </div>
         </div>
-        <div class="container">
-            <div class="total-display">
-                <span style="font-size:8px; color:var(--gold); font-weight:bold;">LUCRO LÍQUIDO MOLDADO (-50%)</span>
-                <div class="val-main" id="total-final">R$ 0,00</div>
-            </div>
-            <div class="input-row">
-                <div class="input-box"><label>INICIAL</label><input type="number" id="d-ini" value="1000" oninput="recalcular()"></div>
-                <div class="input-box"><label>MENSAL</label><input type="number" id="d-mes" value="200" oninput="recalcular()"></div>
-                <div class="input-box"><label>MESES</label><input type="number" id="d-tempo" value="12" oninput="recalcular()"></div>
-            </div>
-            <div class="input-box"><label>ESTRATÉGIA DE COMANDO</label>
-                <select id="d-perfil" onchange="recalcular()">
-                    <option value="conservador">CONSERVADOR</option>
-                    <option value="moderado">MODERADO</option>
-                    <option value="agressivo">AGRESSIVO</option>
-                </select>
-            </div>
-            <div id="grid-produtos" class="grid-prods"></div>
-            <div class="favelinha-box">
-                <table>
-                    <thead><tr><th>Mês</th><th>Ação</th><th>Stake</th></tr></thead>
-                    <tbody id="favelinha-body"></tbody>
-                </table>
-            </div>
+
+        <div class="input-row">
+            <div class="input-box"><label>INICIAL</label><input type="number" id="d-ini" value="1000" oninput="recalcular()"></div>
+            <div class="input-box"><label>MENSAL</label><input type="number" id="d-mes" value="200" oninput="recalcular()"></div>
+            <div class="input-box"><label>MESES</label><input type="number" id="d-tempo" value="12" oninput="recalcular()"></div>
+        </div>
+
+        <div class="input-box"><label>ESTRATÉGIA</label>
+            <select id="d-perfil" onchange="recalcular()">
+                <option value="conservador">CONSERVADOR</option>
+                <option value="moderado">MODERADO</option>
+                <option value="agressivo">AGRESSIVO</option>
+            </select>
+        </div>
+
+        <div id="grid-produtos" class="grid-prods"></div>
+
+        <div class="favelinha-box">
+            <table>
+                <thead><tr><th>Mês</th><th>Ação</th><th>Stake</th></tr></thead>
+                <tbody id="favelinha-body"></tbody>
+            </table>
         </div>
     </div>
 
 <script>
-    // MOTOR V136 REPLICADO PARA ESTABILIDADE
-    const perguntas = [
-        { q: "Qual sua idade?", o: ["+50 anos", "30-50 anos", "-30 anos"], v: [1, 2, 3] },
-        { q: "Prazo do plano?", o: ["Curto", "Médio", "Longo"], v: [1, 2, 3] },
-        { q: "Objetivo?", o: ["Segurança", "Renda", "Riqueza"], v: [1, 2, 3] },
-        { q: "Conhecimento?", o: ["Baixo", "Médio", "Alto"], v: [1, 2, 3] },
-        { q: "Queda de 20%?", o: ["Pânico", "Calma", "Oportunidade"], v: [1, 2, 3] },
-        { q: "Economia mensal?", o: ["10%", "20%", "50%"], v: [1, 2, 3] },
-        { q: "Patrimônio?", o: ["Iniciando", "Médio", "Alto"], v: [1, 2, 3] }
-    ];
-    let etapa = 0, score = 0, selicBase = 10.75;
+    let selicBase = 10.75;
 
-    function iniciarQuiz() {
-        document.getElementById('splash-screen').style.display = 'none';
-        document.getElementById('quiz-screen').style.display = 'flex';
-        mostrarQ();
-    }
-    function mostrarQ() {
-        const q = perguntas[etapa];
-        let h = `<p style="font-size:18px; color:var(--gold); margin-bottom:20px; font-weight:bold;">${q.q}</p>`;
-        q.o.forEach((opt, i) => h += `<div style="background:#111; padding:16px; border-radius:6px; margin-bottom:10px; border:1px solid #333; text-align:left;" onclick="prox(${q.v[i]})">${opt}</div>`);
-        document.getElementById('quiz-container').innerHTML = h;
-    }
-    function prox(v) {
-        score += v; etapa++;
-        if(etapa < perguntas.length) mostrarQ(); else finalizar();
-    }
-    function finalizar() {
-        document.getElementById('quiz-screen').style.display = 'none';
-        document.getElementById('main-app').style.display = 'block';
-        let p = score > 17 ? "AGRESSIVO" : score > 11 ? "MODERADO" : "CONSERVADOR";
-        document.getElementById('selo-perfil').innerText = "PERFIL: " + p;
-        document.getElementById('d-perfil').value = p.toLowerCase();
+    function iniciarMotor() {
         recalcular();
-        setInterval(oscilar, 3000);
+        setInterval(() => {
+            let nS = selicBase + (Math.random() * 0.10 - 0.05);
+            document.getElementById('display-selic').innerText = nS.toFixed(2) + "%";
+            recalcular(nS / 100);
+        }, 3000);
     }
-    function oscilar() {
-        let nS = selicBase + (Math.random() * 0.10 - 0.05);
-        document.getElementById('display-selic').innerText = nS.toFixed(2) + "%";
-        recalcular(nS / 100);
-        document.querySelectorAll('.prod-card').forEach(c => { c.classList.add('pulse'); setTimeout(()=>c.classList.remove('pulse'), 400); });
-    }
+
     function recalcular(sV) {
-        const i = parseFloat(document.getElementById('d-ini').value) || 0, m = parseFloat(document.getElementById('d-mes').value) || 0, t = parseInt(document.getElementById('d-tempo').value) || 1, perf = document.getElementById('d-perfil').value;
+        const i = parseFloat(document.getElementById('d-ini').value) || 0;
+        const m = parseFloat(document.getElementById('d-mes').value) || 0;
+        const t = parseInt(document.getElementById('d-tempo').value) || 1;
+        const perf = document.getElementById('d-perfil').value;
         const sM = Math.pow(1 + (sV || selicBase/100), 1/12) - 1;
+        
         let irVal = t > 24 ? 15 : t > 12 ? 17.5 : 22.5;
         document.getElementById('val-ir').innerText = irVal.toFixed(1) + "%";
+        
+        // CÁLCULO BRUTO
+        let totalAportes = i + (m * t);
         let b = (i * Math.pow(1 + sM, t)) + (m * ((Math.pow(1 + sM, t) - 1) / sM));
-        let final = (i + (m * t)) + ((b - (i + (m * t))) * (1 - (irVal/100)) * 0.5);
-        document.getElementById('total-final').innerText = "R$ " + final.toLocaleString('pt-BR', {minimumFractionDigits: 2});
-        const ativos = { conservador: ["TESOURO", "CDB", "LCI"], moderado: ["DEBÊNTURE", "FII", "CDB+"], agressivo: ["AÇÕES", "CRIPTO", "OPÇÕES"] };
+        
+        // LUCRO LÍQUIDO MOLDADO (-50%)
+        let lucroBruto = b - totalAportes;
+        let lucroLiquidoFinal = (lucroBruto * (1 - (irVal/100))) * 0.5;
+        let finalExibido = totalAportes + lucroLiquidoFinal;
+
+        // ATUALIZA INTERFACE
+        document.getElementById('total-final').innerText = "R$ " + finalExibido.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+        document.getElementById('val-investido').innerText = "R$ " + totalAportes.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+        document.getElementById('val-lucro').innerText = "R$ " + lucroLiquidoFinal.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+        
+        const ativos = { 
+            conservador: ["TESOURO", "CDB", "LCI"], 
+            moderado: ["DEBÊNTURE", "FII", "CDB+"], 
+            agressivo: ["AÇÕES", "CRIPTO", "OPÇÕES"] 
+        };
+        
         let h = "";
-        ativos[perf].forEach((n, idx) => { h += `<div class="prod-card"><span class="prod-title">${n}</span><b class="prod-val">R$ ${(final * [0.6, 0.3, 0.1][idx]).toLocaleString('pt-BR', {maximumFractionDigits: 0})}</b></div>`; });
+        ativos[perf].forEach((n, idx) => {
+            let v = finalExibido * [0.6, 0.3, 0.1][idx];
+            h += `<div class="prod-card"><span class="prod-title">${n}</span><b class="prod-val">R$ ${v.toLocaleString('pt-BR', {maximumFractionDigits: 0})}</b></div>`;
+        });
         document.getElementById('grid-produtos').innerHTML = h;
+
         let fH = "";
-        for(let j=1; j<=3; j++) { fH += `<tr><td>${t+j}</td><td>ENTRA</td><td>R$ ${(final * 0.01 / j).toFixed(2)}</td></tr>`; }
+        for(let j=1; j<=3; j++) {
+            let stk = (finalExibido * 0.01 / j);
+            fH += `<tr><td>${t+j}</td><td>ENTRA</td><td>R$ ${stk.toFixed(2)}</td></tr>`;
+        }
         document.getElementById('favelinha-body').innerHTML = fH;
     }
 </script>
