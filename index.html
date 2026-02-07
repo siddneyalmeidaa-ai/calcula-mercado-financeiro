@@ -3,93 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. SUPREMACIA | V133 APP</title>
-    
-    <meta name="theme-color" content="#000000">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="manifest" href="data:application/json;base64,ewogICJkZWZhdWx0X2xvY2FsZSI6ICJwdCIsCiAgIm5hbWUiOiAiUy5BLiBTVVBSRU1BQ0lBIiwKICAic2hvcnRfbmFtZSI6ICJTLkEuIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwMDAwMDAiLAogICJ0aGVtZV9jb2xvciI6ICIjRDRBRjM3IiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly9jZG4taWNvbnMtcG5nLmZlYXRpY29uLmNvbS81MTIvNDc1OC80NzU4NjgxLnBuZyIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogICAgfQogIF0KfQ==">
-
+    <title>S.A. SUPREMACIA | V135 ELITE</title>
     <style>
         :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --red: #FF4444; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background: #000; color: #fff; height: 100vh; width: 100vw; overflow: hidden; position: fixed; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background: #000; color: #fff; height: 100vh; width: 100vw; overflow: hidden; }
 
-        /* STATUS BAR E HEADER */
-        .header-status { padding: 15px 12px; border-bottom: 1px solid var(--gold); display: flex; justify-content: space-between; font-size: 10px; color: var(--gold); font-weight: bold; background: #050505; }
-        .indicators-box { border: 1px solid var(--accent); border-radius: 4px; display: flex; justify-content: space-around; align-items: center; padding: 12px; font-size: 11px; background: rgba(0, 255, 65, 0.05); margin: 10px; }
-        .live-dot { height: 6px; width: 6px; background: var(--accent); border-radius: 50%; display: inline-block; margin-right: 5px; animation: pulse 0.8s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.3; transform: scale(1.2); } }
-
-        #app { display: block; height: 100vh; width: 100%; background: #000; overflow-y: auto; -webkit-overflow-scrolling: touch; }
-        .container { padding: 15px; display: flex; flex-direction: column; gap: 12px; padding-bottom: 100px; }
+        /* SPLASH E QUIZ */
+        #splash-screen, #quiz-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 25px; }
+        .logo-trident { font-size: 80px; color: var(--gold); text-shadow: 0 0 20px rgba(212,175,55,0.5); margin-bottom: 10px; }
+        .system-title { font-size: 22px; font-weight: 900; letter-spacing: 3px; color: var(--gold); }
+        .dev-name { font-size: 11px; color: #555; letter-spacing: 2px; margin-top: 5px; }
         
-        .total-display { border: 2px solid var(--gold); border-radius: 8px; padding: 25px; text-align: center; background: #050505; box-shadow: 0 0 15px rgba(212, 175, 55, 0.2); }
-        .val-main { font-size: 36px; font-weight: 900; color: var(--gold); text-shadow: 0 0 10px rgba(212, 175, 55, 0.4); }
+        #quiz-screen { display: none; background: #050505; justify-content: flex-start; overflow-y: auto; }
+        .progress-bar { width: 100%; height: 4px; background: #222; margin-bottom: 30px; border-radius: 2px; }
+        .progress-fill { height: 100%; background: var(--gold); width: 0%; transition: 0.3s; }
+        
+        .question-card { width: 100%; max-width: 450px; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .quiz-q-text { font-size: 18px; color: var(--gold); margin-bottom: 25px; font-weight: bold; line-height: 1.4; }
+        .quiz-opt { display: block; background: #111; padding: 16px; border-radius: 6px; margin-bottom: 12px; font-size: 14px; cursor: pointer; border: 1px solid #333; transition: 0.2s; text-align: left; }
+        .quiz-opt:active { background: var(--gold); color: #000; border-color: var(--gold); }
 
+        /* MAIN APP */
+        #main-app { display: none; height: 100vh; overflow-y: auto; }
+        .header-status { padding: 15px; border-bottom: 1px solid var(--gold); display: flex; justify-content: space-between; font-size: 10px; color: var(--gold); font-weight: bold; background: #0a0a0a; }
+        .selo-box { background: var(--gold); color: #000; padding: 2px 8px; border-radius: 3px; font-size: 9px; font-weight: 900; }
+        
+        .indicators-box { border: 1px solid var(--accent); border-radius: 4px; display: flex; justify-content: space-around; padding: 12px; font-size: 11px; background: rgba(0, 255, 65, 0.05); margin: 10px; }
+        .container { padding: 15px; display: flex; flex-direction: column; gap: 12px; padding-bottom: 100px; }
+        .total-display { border: 2px solid var(--gold); border-radius: 8px; padding: 25px; text-align: center; background: #050505; }
+        .val-main { font-size: 34px; font-weight: 900; color: var(--gold); }
+        
         .input-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
         .input-box { background: #0a0a0a; border: 1px solid #333; border-radius: 4px; padding: 10px; }
         .input-box label { display: block; font-size: 8px; color: var(--gold); margin-bottom: 5px; font-weight: bold; }
         input, select { width: 100%; background: transparent; border: none; color: #fff; font-weight: 900; text-align: center; font-size: 16px; outline: none; }
         
         .grid-prods { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-        .prod-card { border: 1px solid var(--blue); border-radius: 4px; padding: 12px; text-align: center; background: #050505; transition: 0.3s; }
-        .prod-card.update { border-color: #fff; transform: scale(1.03); }
+        .prod-card { border: 1px solid var(--blue); border-radius: 4px; padding: 12px; text-align: center; background: #050505; }
         .prod-title { font-size: 8px; color: var(--blue); font-weight: bold; text-transform: uppercase; display: block; margin-bottom: 5px; }
-        .prod-val { font-size: 12px; font-weight: 900; color: #fff; }
-
-        /* TABELA DA FAVELINHA */
+        .prod-val { font-size: 11px; font-weight: 900; color: #fff; }
+        
         .favelinha-box { margin-top: 10px; background: #050505; border: 1px solid #222; border-radius: 4px; overflow: hidden; }
-        .favelinha-title { background: #111; padding: 8px; font-size: 9px; color: var(--gold); text-align: center; font-weight: bold; }
         table { width: 100%; border-collapse: collapse; font-size: 10px; text-align: center; }
         th { color: #555; padding: 8px; border-bottom: 1px solid #222; }
         td { padding: 8px; border-bottom: 1px solid #111; font-weight: bold; }
-
-        .btn-install { background: var(--gold); color: #000; padding: 12px; border-radius: 4px; border: none; font-weight: 900; font-size: 12px; margin: 10px; display: none; }
     </style>
 </head>
 <body>
 
-    <div id="app">
+    <div id="splash-screen">
+        <div class="logo-trident">🔱</div>
+        <div class="system-title">S.A. SUPREMACIA</div>
+        <div class="dev-name">ENGINEERED BY S.A. MESTER</div>
+        <button style="margin-top:40px; padding:15px 40px; background:transparent; border:1px solid var(--gold); color:var(--gold); font-weight:bold; border-radius:50px;" onclick="iniciarQuiz()">INICIAR PROTOCOLO</button>
+    </div>
+
+    <div id="quiz-screen">
+        <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+        <div id="question-container" class="question-card">
+            </div>
+    </div>
+
+    <div id="main-app">
         <div class="header-status">
-            <span>🛡️ S.A. SUPREMACIA | V133</span>
-            <span id="header-clock">--/--/---- | 00:00:00</span>
+            <span>🛡️ S.A. SUPREMACIA | V135</span>
+            <span id="selo-perfil" class="selo-box">AGUARDANDO...</span>
         </div>
-
-        <button id="btnInstall" class="btn-install">INSTALAR APP S.A.</button>
-
         <div class="indicators-box">
-            <span><span class="live-dot"></span>SELIC: <b id="display-selic" style="color:var(--accent)">10.75%</b></span>
+            <span>SELIC: <b id="display-selic" style="color:var(--accent)">10.75%</b></span>
             <span>IPCA: <b id="display-ipca" style="color:var(--accent)">4.52%</b></span>
             <span style="color:var(--red)">IR: <b id="val-ir">--%</b></span>
         </div>
-
         <div class="container">
             <div class="total-display">
-                <span style="font-size:9px; color:var(--gold); font-weight:bold; letter-spacing: 1px;">MOLDAGEM DE LUCRO LÍQUIDO (-50%)</span>
+                <span style="font-size:9px; color:var(--gold); font-weight:bold;">LUCRO LÍQUIDO MOLDADO (-50%)</span>
                 <div class="val-main" id="total-final">R$ 0,00</div>
             </div>
-
             <div class="input-row">
                 <div class="input-box"><label>INICIAL</label><input type="number" id="d-ini" value="1000" oninput="recalcular()"></div>
                 <div class="input-box"><label>MENSAL</label><input type="number" id="d-mes" value="200" oninput="recalcular()"></div>
                 <div class="input-box"><label>MESES</label><input type="number" id="d-tempo" value="12" oninput="recalcular()"></div>
             </div>
-
-            <div class="input-box"><label>ESTRATÉGIA DE COMANDO</label>
+            <div class="input-box"><label>ESTRATEGIA</label>
                 <select id="d-perfil" onchange="recalcular()">
                     <option value="conservador">CONSERVADOR</option>
-                    <option value="moderado" selected>MODERADO</option>
+                    <option value="moderado">MODERADO</option>
                     <option value="agressivo">AGRESSIVO</option>
                 </select>
             </div>
-
             <div id="grid-produtos" class="grid-prods"></div>
-
             <div class="favelinha-box">
-                <div class="favelinha-title">TABELA DA FAVELINHA - PROJEÇÃO DE ESCALABILIDADE</div>
                 <table>
-                    <thead><tr><th>Mês</th><th>Ação Imediata</th><th>Stake</th></tr></thead>
+                    <thead><tr><th>Mês</th><th>Comando</th><th>Stake</th></tr></thead>
                     <tbody id="favelinha-body"></tbody>
                 </table>
             </div>
@@ -97,70 +105,79 @@
     </div>
 
 <script>
-    let selicBase = 10.75;
-    let deferredPrompt;
+    const perguntas = [
+        { q: "Qual sua faixa etária atual?", o: ["Acima de 50 anos", "Entre 30 e 50 anos", "Menos de 30 anos"], v: [1, 2, 3] },
+        { q: "Por quanto tempo pretende manter o investimento?", o: ["Menos de 1 ano", "1 a 5 anos", "Mais de 5 anos"], v: [1, 2, 3] },
+        { q: "Qual o seu objetivo com este capital?", o: ["Preservar o valor", "Superar a inflação", "Alavancagem rápida"], v: [1, 2, 3] },
+        { q: "Qual sua experiência com mercado de risco?", o: ["Nenhuma", "Intermediária", "Operacional ativa"], v: [1, 2, 3] },
+        { q: "Se houver uma queda de 30%, o que você faz?", o: ["Resgato o que sobrou", "Mantenho a posição", "Aporto mais capital"], v: [1, 2, 3] },
+        { q: "Que percentual da sua renda você poupa?", o: ["Até 10%", "De 10% a 30%", "Mais de 30%"], v: [1, 2, 3] },
+        { q: "Qual sua formação sobre produtos financeiros?", o: ["Básica", "Conheço CDB/LCI", "Conheço Derivativos/Ações"], v: [1, 2, 3] }
+    ];
 
-    // SUPORTE PARA INSTALAÇÃO (PWA)
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        document.getElementById('btnInstall').style.display = 'block';
-    });
+    let etapaAtual = 0;
+    let scoreTotal = 0;
 
-    document.getElementById('btnInstall').addEventListener('click', async () => {
-        if (deferredPrompt) {
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            if (outcome === 'accepted') document.getElementById('btnInstall').style.display = 'none';
+    function iniciarQuiz() {
+        document.getElementById('splash-screen').style.display = 'none';
+        document.getElementById('quiz-screen').style.display = 'flex';
+        mostrarPergunta();
+    }
+
+    function mostrarPergunta() {
+        const quest = perguntas[etapaAtual];
+        const progresso = ((etapaAtual) / perguntas.length) * 100;
+        document.getElementById('progress-fill').style.width = progresso + "%";
+
+        let html = `<p class="quiz-q-text">${quest.q}</p>`;
+        quest.o.forEach((opt, i) => {
+            html += `<div class="quiz-opt" onclick="proxima(${quest.v[i]})">${opt}</div>`;
+        });
+        document.getElementById('question-container').innerHTML = html;
+    }
+
+    function proxima(valor) {
+        scoreTotal += valor;
+        etapaAtual++;
+        if(etapaAtual < perguntas.length) {
+            mostrarPergunta();
+        } else {
+            finalizar();
         }
-    });
+    }
 
-    function startClock() {
-        setInterval(() => {
-            const now = new Date();
-            document.getElementById('header-clock').innerText = now.toLocaleDateString('pt-BR') + " | " + now.toLocaleTimeString('pt-BR');
-        }, 1000);
+    function finalizar() {
+        document.getElementById('quiz-screen').style.display = 'none';
+        document.getElementById('main-app').style.display = 'block';
+        
+        let perfil = "CONSERVADOR";
+        if(scoreTotal > 17) perfil = "AGRESSIVO";
+        else if(scoreTotal > 11) perfil = "MODERADO";
+
+        document.getElementById('selo-perfil').innerText = "PERFIL: " + perfil;
+        document.getElementById('d-perfil').value = perfil.toLowerCase();
+        recalcular();
+        setInterval(oscilar, 3000);
     }
 
     function oscilar() {
-        let varSelic = (Math.random() * 0.06 - 0.03);
-        let novaSelic = selicBase + varSelic;
-        document.getElementById('display-selic').innerText = novaSelic.toFixed(2) + "%";
-        recalcular(novaSelic / 100);
-        
-        // Efeito visual nos cards
-        const cards = document.querySelectorAll('.prod-card');
-        cards.forEach(c => {
-            c.classList.add('update');
-            setTimeout(() => c.classList.remove('update'), 300);
-        });
+        let nS = 10.75 + (Math.random() * 0.08 - 0.04);
+        document.getElementById('display-selic').innerText = nS.toFixed(2) + "%";
+        recalcular(nS / 100);
     }
 
-    function recalcular(sVigente) {
+    function recalcular(sV) {
         const i = parseFloat(document.getElementById('d-ini').value) || 0;
         const m = parseFloat(document.getElementById('d-mes').value) || 0;
         const t = parseInt(document.getElementById('d-tempo').value) || 1;
         const perf = document.getElementById('d-perfil').value;
-
-        const sAnual = sVigente || (selicBase / 100);
-        const sMensal = Math.pow(1 + sAnual, 1/12) - 1;
-
-        let ir = t > 24 ? 0.15 : t > 12 ? 0.175 : t > 6 ? 0.20 : 0.225;
-        document.getElementById('val-ir').innerText = (ir*100).toFixed(1) + "%";
-
-        let bruto = (i * Math.pow(1 + sMensal, t)) + (m * ((Math.pow(1 + sMensal, t) - 1) / sMensal));
-        let lucroSeguro = (bruto - (i + (m * t))) * (1 - ir) * 0.5;
-        let final = (i + (m * t)) + lucroSeguro;
-
+        const sM = Math.pow(1 + (sV || 0.1075), 1/12) - 1;
+        let ir = t > 12 ? 0.175 : 0.225;
+        let b = (i * Math.pow(1 + sM, t)) + (m * ((Math.pow(1 + sM, t) - 1) / sM));
+        let final = (i + (m * t)) + ((b - (i + (m * t))) * (1 - ir) * 0.5);
         document.getElementById('total-final').innerText = "R$ " + final.toLocaleString('pt-BR', {minimumFractionDigits: 2});
-
-        // ATIVOS
-        const ativos = {
-            conservador: ["TESOURO", "CDB 100%", "LCI/LCA"],
-            moderado: ["CDB 115%", "DEBÊNTURE", "FIIs"],
-            agressivo: ["AÇÕES", "CRIPTO", "OPÇÕES"]
-        };
         
+        const ativos = { conservador: ["TESOURO", "CDB", "LCI"], moderado: ["DEBÊNTURE", "FII", "CDB+"], agressivo: ["AÇÕES", "CRIPTO", "OPÇÕES"] };
         let html = "";
         ativos[perf].forEach((nome, idx) => {
             let v = final * [0.6, 0.3, 0.1][idx];
@@ -168,20 +185,13 @@
         });
         document.getElementById('grid-produtos').innerHTML = html;
 
-        // TABELA FAVELINHA
         let fHtml = "";
         for(let j=1; j<=3; j++) {
-            let stake = (final * 0.01 / j); 
-            fHtml += `<tr><td>${t+j}</td><td>ENTRA</td><td>R$ ${stake.toFixed(2)}</td></tr>`;
+            let stk = (final * 0.01 / j);
+            fHtml += `<tr><td>${t+j}</td><td>ENTRA</td><td>R$ ${stk.toFixed(2)}</td></tr>`;
         }
         document.getElementById('favelinha-body').innerHTML = fHtml;
     }
-
-    window.onload = () => {
-        startClock();
-        recalcular();
-        setInterval(oscilar, 3000);
-    };
 </script>
 </body>
 </html>
