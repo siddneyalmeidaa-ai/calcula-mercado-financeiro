@@ -3,102 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.A. SUPREMACIA | V124 BULLETPROOF</title>
+    <title>S.A. SUPREMACIA | V127 ACTIVE</title>
     <style>
         :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --red: #FF4444; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
         body { background: #000; color: #fff; height: 100vh; width: 100vw; overflow: hidden; position: fixed; }
 
-        /* CORTINA E SCANNER - AGORA COM DISPLAY NONE APÓS USO */
-        #splash, #scanner {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 2000; transition: opacity 0.5s ease;
-        }
-        #scanner { display: none; z-index: 1500; color: var(--accent); }
-        .bar-bg { width: 220px; height: 2px; background: #222; margin: 20px 0; }
-        .bar-fill { width: 0%; height: 100%; background: var(--accent); box-shadow: 0 0 15px var(--accent); }
+        /* HEADER E INDICADORES */
+        .header-status { padding: 12px; border-bottom: 1px solid var(--gold); display: flex; justify-content: space-between; font-size: 10px; color: var(--gold); font-weight: bold; background: #050505; }
+        .indicators-box { border: 1px solid var(--accent); border-radius: 4px; display: flex; justify-content: space-around; align-items: center; padding: 12px; font-size: 11px; background: rgba(0, 255, 65, 0.05); margin: 10px; }
+        .live-dot { height: 6px; width: 6px; background: var(--accent); border-radius: 50%; display: inline-block; margin-right: 5px; animation: pulse 1s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
 
-        /* APP CORE - SEMPRE PRONTO NO FUNDO */
-        #app { display: block; height: 100vh; width: 100%; opacity: 0; transition: opacity 0.5s; background: #000; overflow-y: auto; }
-        .container { padding: 15px; display: flex; flex-direction: column; gap: 10px; padding-bottom: 50px; }
+        /* APP CORE */
+        #app { display: block; height: 100vh; width: 100%; background: #000; overflow-y: auto; }
+        .container { padding: 15px; display: flex; flex-direction: column; gap: 10px; padding-bottom: 80px; }
         
-        .header-status { padding: 12px; border-bottom: 1px solid var(--gold); display: flex; justify-content: space-between; font-size: 10px; color: var(--gold); font-weight: bold; }
-        .indicators-box { border: 1px solid var(--accent); border-radius: 4px; display: flex; justify-content: space-around; align-items: center; padding: 12px; font-size: 11px; background: rgba(0, 255, 65, 0.05); }
-        .sync-btn { background: transparent; border: 1px solid var(--gold); color: var(--gold); border-radius: 50%; width: 24px; height: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        .spinning { animation: spin 0.6s linear infinite; }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-
-        .total-display { border: 2px solid var(--gold); border-radius: 8px; padding: 25px; text-align: center; background: #050505; }
-        .val-main { font-size: 38px; font-weight: 900; color: var(--gold); }
+        .total-display { border: 2px solid var(--gold); border-radius: 8px; padding: 25px; text-align: center; background: #050505; box-shadow: inset 0 0 20px rgba(212, 175, 55, 0.1); }
+        .val-main { font-size: 38px; font-weight: 900; color: var(--gold); text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
 
         .input-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
         .input-box { background: #0a0a0a; border: 1px solid #333; border-radius: 4px; padding: 10px; }
-        .input-box label { display: block; font-size: 8px; color: var(--gold); margin-bottom: 5px; font-weight: bold; }
+        .input-box label { display: block; font-size: 8px; color: var(--gold); margin-bottom: 5px; font-weight: bold; text-transform: uppercase; }
         input, select { width: 100%; background: transparent; border: none; color: #fff; font-weight: 900; text-align: center; font-size: 16px; outline: none; }
         
         .grid-prods { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
         .prod-card { border: 1px solid var(--blue); border-radius: 4px; padding: 12px; text-align: center; background: #050505; }
-        .prod-title { font-size: 8px; color: var(--blue); font-weight: bold; }
+        .prod-title { font-size: 8px; color: var(--blue); font-weight: bold; display: block; margin-bottom: 5px; }
+        .prod-val { font-size: 13px; font-weight: 900; color: #fff; }
 
-        .btn-acao { background: var(--gold); color: #000; padding: 20px; border: none; font-weight: 900; border-radius: 40px; cursor: pointer; text-transform: uppercase; width: 280px; }
+        .status-msg { border-left: 3px solid var(--blue); padding: 10px; background: rgba(0, 209, 255, 0.05); font-size: 11px; color: var(--blue); line-height: 1.4; }
         .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-    <div id="splash">
-        <div style="font-size: 70px; margin-bottom: 10px;">🔱</div>
-        <h2 style="color:var(--gold); letter-spacing:8px; font-size:16px; margin-bottom:40px;">S.A. SUPREMACIA</h2>
-        <button class="btn-acao" onclick="iniciarFluxo()">ATIVAR SISTEMA</button>
-    </div>
-
-    <div id="scanner">
-        <div style="font-weight: bold; letter-spacing: 2px;">RECALIBRANDO MATRIZ...</div>
-        <div class="bar-bg"><div class="bar-fill" id="bar"></div></div>
-    </div>
-
     <div id="app">
         <div class="header-status">
-            <span>🛡️ LICENÇA PRO: VALIDADA</span>
-            <span>06/02/2026 | 20:30</span>
+            <span>🛡️ SISTEMA S.A. | V127 ONLINE</span>
+            <span id="header-clock">07/02/2026 | 01:25:00</span>
         </div>
 
-        <div class="container" id="tela-funil">
-            <h3 style="color:var(--gold); text-align:center; font-size:12px;">TRIAGEM DE INVESTIDOR</h3>
-            <div class="input-box"><label>PERFIL</label>
-                <select id="perfil">
-                    <option value="conservador">CONSERVADOR</option>
-                    <option value="moderado">MODERADO</option>
-                    <option value="agressivo">AGRESSIVO</option>
-                </select>
-            </div>
-            <div class="input-box"><label>INICIAL (R$)</label><input type="number" id="ini" value="1000"></div>
-            <div class="input-box"><label>MENSAL (R$)</label><input type="number" id="mes" value="200"></div>
-            <div class="input-box"><label>TEMPO (MESES)</label><input type="number" id="tempo" value="12"></div>
-            <button class="btn-acao" style="width:100%; border-radius:8px; margin-top:20px;" onclick="iniciarVarredura()">VARREDURA S.A.</button>
+        <div class="indicators-box">
+            <span><span class="live-dot"></span>SELIC: <b style="color:var(--accent)">10.75%</b></span>
+            <span>IPCA: <b style="color:var(--accent)">4.52%</b></span>
+            <span style="color:var(--red)">IR: <b id="val-ir">22.5%</b></span>
         </div>
 
-        <div class="container hidden" id="tela-coracao">
-            <div class="indicators-box">
-                <span>SELIC: <span style="color:var(--accent)">10.75%</span></span>
-                <button class="sync-btn" onclick="syncLive()">⟳</button>
-                <span>IPCA: <span style="color:var(--accent)">4.52%</span></span>
-                <span style="color:var(--red)">IR: <span id="val-ir">--</span></span>
-            </div>
-
+        <div class="container">
             <div class="total-display">
-                <span style="font-size:9px; color:var(--gold); font-weight:bold;">MOLDAGEM DE LUCRO LÍQUIDO (-50%)</span>
+                <span style="font-size:9px; color:var(--gold); font-weight:bold; letter-spacing: 1px;">MOLDAGEM DE LUCRO LÍQUIDO (-50%)</span>
                 <div class="val-main" id="total-final">R$ 0,00</div>
             </div>
 
             <div class="input-row">
-                <div class="input-box"><label>INICIAL</label><input type="number" id="d-ini" oninput="recalcular()"></div>
-                <div class="input-box"><label>MENSAL</label><input type="number" id="d-mes" oninput="recalcular()"></div>
-                <div class="input-box"><label>MESES</label><input type="number" id="d-tempo" oninput="recalcular()"></div>
+                <div class="input-box"><label>INICIAL</label><input type="number" id="d-ini" value="1000" oninput="recalcular()"></div>
+                <div class="input-box"><label>MENSAL</label><input type="number" id="d-mes" value="200" oninput="recalcular()"></div>
+                <div class="input-box"><label>MESES</label><input type="number" id="d-tempo" value="12" oninput="recalcular()"></div>
             </div>
 
-            <div class="input-box"><label>ALTERAR ESTRATÉGIA</label>
+            <div class="input-box"><label>PERFIL DE ALOCAÇÃO</label>
                 <select id="d-perfil" onchange="recalcular()">
                     <option value="conservador">CONSERVADOR</option>
                     <option value="moderado">MODERADO</option>
@@ -108,90 +72,83 @@
 
             <div id="grid-produtos" class="grid-prods"></div>
 
-            <div style="border: 2px solid var(--blue); border-radius: 4px; padding: 10px; font-size: 11px; background: #050505;">
-                <div id="angela-msg" style="line-height:1.5;"></div>
+            <div class="status-msg">
+                <strong>ANGELA V127:</strong> <span id="status-text">Aguardando dados para processamento...</span>
             </div>
         </div>
     </div>
 
 <script>
-    function iniciarFluxo() {
-        const splash = document.getElementById('splash');
-        splash.style.opacity = '0';
-        setTimeout(() => { 
-            splash.style.display = 'none';
-            document.getElementById('app').style.opacity = '1';
-        }, 500);
+    // 1. RELÓGIO ATIVO
+    function startClock() {
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('header-clock').innerText = 
+                now.toLocaleDateString('pt-BR') + " | " + now.toLocaleTimeString('pt-BR');
+        }, 1000);
     }
 
-    function iniciarVarredura() {
-        const scanner = document.getElementById('scanner');
-        scanner.style.display = 'flex';
-        let p = 0;
-        const bar = document.getElementById('bar');
-        const interval = setInterval(() => {
-            p += 10; bar.style.width = p + "%";
-            if(p >= 100) {
-                clearInterval(interval);
-                scanner.style.opacity = '0';
-                setTimeout(() => {
-                    scanner.style.display = 'none';
-                    irParaCoracao();
-                }, 500);
-            }
-        }, 60);
-    }
-
-    function irParaCoracao() {
-        document.getElementById('tela-funil').classList.add('hidden');
-        document.getElementById('tela-coracao').classList.remove('hidden');
-        document.getElementById('d-ini').value = document.getElementById('ini').value;
-        document.getElementById('d-mes').value = document.getElementById('mes').value;
-        document.getElementById('d-tempo').value = document.getElementById('tempo').value;
-        document.getElementById('d-perfil').value = document.getElementById('perfil').value;
-        recalcular();
-    }
-
-    function syncLive() {
-        const btn = document.querySelector('.sync-btn');
-        btn.classList.add('spinning');
-        setTimeout(() => { btn.classList.remove('spinning'); recalcular(); }, 700);
-    }
-
+    // 2. MOTOR DE CÁLCULO DINÂMICO
     function recalcular() {
         const i = parseFloat(document.getElementById('d-ini').value) || 0;
         const m = parseFloat(document.getElementById('d-mes').value) || 0;
         const t = parseInt(document.getElementById('d-tempo').value) || 1;
         const perf = document.getElementById('d-perfil').value;
 
-        let ir = t <= 6 ? 0.225 : t <= 12 ? 0.20 : t <= 24 ? 0.175 : 0.15;
+        // TAXAS DO SISTEMA
+        const selicAnual = 0.1075;
+        const ipcaAnual = 0.0452;
+        const selicMensal = Math.pow(1 + selicAnual, 1/12) - 1;
+
+        // DEFINIÇÃO DE IR (TABELA REGRESSIVA)
+        let ir = 0.225;
+        if(t > 24) ir = 0.15;
+        else if(t > 12) ir = 0.175;
+        else if(t > 6) ir = 0.20;
         document.getElementById('val-ir').innerText = (ir*100).toFixed(1) + "%";
 
-        const selicM = Math.pow(1.1075, 1/12) - 1;
-        let bruto = (i * Math.pow(1 + selicM, t)) + (m * ((Math.pow(1 + selicM, t) - 1) / selicM));
-        let investido = i + (m * t);
-        let lucroLiq = (bruto - investido) * (1 - ir);
-        let final = investido + (lucroLiq * 0.5);
+        // CÁLCULO DE JUROS COMPOSTOS
+        let montanteIni = i * Math.pow(1 + selicMensal, t);
+        let montanteMes = m * ((Math.pow(1 + selicMensal, t) - 1) / selicMensal);
+        let brutoTotal = montanteIni + montanteMes;
+        let totalInvestido = i + (m * t);
+        
+        // REGRA DE OURO: -50% NA PROJEÇÃO DO LUCRO LÍQUIDO
+        let lucroBruto = brutoTotal - totalInvestido;
+        let lucroLiquidoReal = (lucroBruto * (1 - ir)) * 0.5; 
+        let finalExibicao = totalInvestido + lucroLiquidoReal;
 
-        document.getElementById('total-final').innerText = "R$ " + final.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+        document.getElementById('total-final').innerText = "R$ " + finalExibicao.toLocaleString('pt-BR', {minimumFractionDigits: 2});
 
+        // DISTRIBUIÇÃO NOS CARDS
+        const ativos = {
+            conservador: ["TESOURO", "CDB 100%", "LCI/LCA"],
+            moderado: ["CDB 115%", "DEBÊNTURE", "FIIs"],
+            agressivo: ["AÇÕES", "CRIPTO", "OPÇÕES"]
+        };
+        const pesos = [0.6, 0.3, 0.1]; // Proporção da carteira
+        
         let html = "";
-        if(perf === 'conservador') {
-            html = `<div class="prod-card"><span class="prod-title">TESOURO</span><b>R$ ${(final*0.7).toFixed(0)}</b></div>
-                    <div class="prod-card"><span class="prod-title">CDB 100%</span><b>R$ ${(final*0.2).toFixed(0)}</b></div>
-                    <div class="prod-card"><span class="prod-title">LCI/LCA</span><b>R$ ${(final*0.1).toFixed(0)}</b></div>`;
-        } else if(perf === 'moderado') {
-            html = `<div class="prod-card"><span class="prod-title">CDB 115%</span><b>R$ ${(final*0.5).toFixed(0)}</b></div>
-                    <div class="prod-card"><span class="prod-title">DEBÊNTURE</span><b>R$ ${(final*0.3).toFixed(0)}</b></div>
-                    <div class="prod-card"><span class="prod-title">FIIs</span><b>R$ ${(final*0.2).toFixed(0)}</b></div>`;
-        } else {
-            html = `<div class="prod-card"><span class="prod-title">AÇÕES</span><b>R$ ${(final*0.5).toFixed(0)}</b></div>
-                    <div class="prod-card"><span class="prod-title">CRIPTO</span><b>R$ ${(final*0.3).toFixed(0)}</b></div>
-                    <div class="prod-card"><span class="prod-title">OPÇÕES</span><b>R$ ${(final*0.2).toFixed(0)}</b></div>`;
-        }
+        ativos[perf].forEach((nome, idx) => {
+            let valorAlocado = finalExibicao * pesos[idx];
+            html += `
+                <div class="prod-card">
+                    <span class="prod-title">${nome}</span>
+                    <b class="prod-val">R$ ${valorAlocado.toLocaleString('pt-BR', {maximumFractionDigits: 0})}</b>
+                </div>`;
+        });
         document.getElementById('grid-produtos').innerHTML = html;
-        document.getElementById('angela-msg').innerHTML = "<b>STATUS V124:</b> Trava de segurança ativa. Lucro líquido projetado com vácuo de -50% para segurança do investidor.";
+
+        // MENSAGEM DINÂMICA
+        document.getElementById('status-text').innerText = 
+            `Projeção otimizada para ${t} meses sob SELIC de 10.75%. Risco ${perf.toUpperCase()} aplicado.`;
     }
+
+    // INICIALIZAÇÃO
+    window.onload = () => {
+        startClock();
+        recalcular();
+    };
 </script>
 </body>
 </html>
