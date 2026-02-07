@@ -3,50 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.A. SUPREMACIA | V127 ACTIVE</title>
+    <title>S.A. SUPREMACIA | V128 VOLATILE</title>
     <style>
         :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --red: #FF4444; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
         body { background: #000; color: #fff; height: 100vh; width: 100vw; overflow: hidden; position: fixed; }
 
-        /* HEADER E INDICADORES */
         .header-status { padding: 12px; border-bottom: 1px solid var(--gold); display: flex; justify-content: space-between; font-size: 10px; color: var(--gold); font-weight: bold; background: #050505; }
+        
+        /* INDICADORES COM PULSO */
         .indicators-box { border: 1px solid var(--accent); border-radius: 4px; display: flex; justify-content: space-around; align-items: center; padding: 12px; font-size: 11px; background: rgba(0, 255, 65, 0.05); margin: 10px; }
-        .live-dot { height: 6px; width: 6px; background: var(--accent); border-radius: 50%; display: inline-block; margin-right: 5px; animation: pulse 1s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        .live-dot { height: 6px; width: 6px; background: var(--accent); border-radius: 50%; display: inline-block; margin-right: 5px; animation: pulse 0.8s infinite; }
+        @keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.3; transform: scale(1.2); } 100% { opacity: 1; transform: scale(1); } }
 
-        /* APP CORE */
         #app { display: block; height: 100vh; width: 100%; background: #000; overflow-y: auto; }
         .container { padding: 15px; display: flex; flex-direction: column; gap: 10px; padding-bottom: 80px; }
         
-        .total-display { border: 2px solid var(--gold); border-radius: 8px; padding: 25px; text-align: center; background: #050505; box-shadow: inset 0 0 20px rgba(212, 175, 55, 0.1); }
-        .val-main { font-size: 38px; font-weight: 900; color: var(--gold); text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
+        .total-display { border: 2px solid var(--gold); border-radius: 8px; padding: 25px; text-align: center; background: #050505; box-shadow: inset 0 0 20px rgba(212, 175, 55, 0.2); }
+        .val-main { font-size: 38px; font-weight: 900; color: var(--gold); text-shadow: 0 0 15px rgba(212, 175, 55, 0.4); transition: 0.2s; }
 
         .input-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
         .input-box { background: #0a0a0a; border: 1px solid #333; border-radius: 4px; padding: 10px; }
-        .input-box label { display: block; font-size: 8px; color: var(--gold); margin-bottom: 5px; font-weight: bold; text-transform: uppercase; }
+        .input-box label { display: block; font-size: 8px; color: var(--gold); margin-bottom: 5px; font-weight: bold; }
         input, select { width: 100%; background: transparent; border: none; color: #fff; font-weight: 900; text-align: center; font-size: 16px; outline: none; }
         
         .grid-prods { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
         .prod-card { border: 1px solid var(--blue); border-radius: 4px; padding: 12px; text-align: center; background: #050505; }
-        .prod-title { font-size: 8px; color: var(--blue); font-weight: bold; display: block; margin-bottom: 5px; }
-        .prod-val { font-size: 13px; font-weight: 900; color: #fff; }
+        .prod-title { font-size: 8px; color: var(--blue); font-weight: bold; text-transform: uppercase; }
+        .prod-val { font-size: 13px; font-weight: 900; color: #fff; display: block; margin-top: 5px; }
 
-        .status-msg { border-left: 3px solid var(--blue); padding: 10px; background: rgba(0, 209, 255, 0.05); font-size: 11px; color: var(--blue); line-height: 1.4; }
-        .hidden { display: none !important; }
+        .status-msg { border-left: 3px solid var(--blue); padding: 10px; background: rgba(0, 209, 255, 0.05); font-size: 10px; color: var(--blue); }
     </style>
 </head>
 <body>
 
     <div id="app">
         <div class="header-status">
-            <span>🛡️ SISTEMA S.A. | V127 ONLINE</span>
-            <span id="header-clock">07/02/2026 | 01:25:00</span>
+            <span>🛡️ MONITOR S.A. | V128 VOLATILE</span>
+            <span id="header-clock">--/--/---- | 00:00:00</span>
         </div>
 
         <div class="indicators-box">
-            <span><span class="live-dot"></span>SELIC: <b style="color:var(--accent)">10.75%</b></span>
-            <span>IPCA: <b style="color:var(--accent)">4.52%</b></span>
+            <span><span class="live-dot"></span>SELIC: <b id="display-selic" style="color:var(--accent)">10.75%</b></span>
+            <span>IPCA: <b id="display-ipca" style="color:var(--accent)">4.52%</b></span>
             <span style="color:var(--red)">IR: <b id="val-ir">22.5%</b></span>
         </div>
 
@@ -62,7 +61,7 @@
                 <div class="input-box"><label>MESES</label><input type="number" id="d-tempo" value="12" oninput="recalcular()"></div>
             </div>
 
-            <div class="input-box"><label>PERFIL DE ALOCAÇÃO</label>
+            <div class="input-box"><label>ESTRATÉGIA DE ALOCAÇÃO</label>
                 <select id="d-perfil" onchange="recalcular()">
                     <option value="conservador">CONSERVADOR</option>
                     <option value="moderado">MODERADO</option>
@@ -73,13 +72,30 @@
             <div id="grid-produtos" class="grid-prods"></div>
 
             <div class="status-msg">
-                <strong>ANGELA V127:</strong> <span id="status-text">Aguardando dados para processamento...</span>
+                <strong>SISTEMA OPERACIONAL:</strong> <span id="status-text">Oscilação de mercado ativa. Dados atualizados em tempo real.</span>
             </div>
         </div>
     </div>
 
 <script>
-    // 1. RELÓGIO ATIVO
+    let selicBase = 10.75;
+    let ipcaBase = 4.52;
+
+    // 1. FUNÇÃO DE OSCILAÇÃO (FAZ OS NÚMEROS MOVEREM)
+    function oscilarIndicadores() {
+        // Gera uma variação pequena entre -0.02 e +0.02
+        let variacaoSelic = (Math.random() * 0.04 - 0.02);
+        let variacaoIpca = (Math.random() * 0.04 - 0.02);
+        
+        let novaSelic = selicBase + variacaoSelic;
+        let novoIpca = ipcaBase + variacaoIpca;
+
+        document.getElementById('display-selic').innerText = novaSelic.toFixed(2) + "%";
+        document.getElementById('display-ipca').innerText = novoIpca.toFixed(2) + "%";
+        
+        recalcular(novaSelic / 100);
+    }
+
     function startClock() {
         setInterval(() => {
             const now = new Date();
@@ -88,66 +104,43 @@
         }, 1000);
     }
 
-    // 2. MOTOR DE CÁLCULO DINÂMICO
-    function recalcular() {
+    function recalcular(selicManual) {
         const i = parseFloat(document.getElementById('d-ini').value) || 0;
         const m = parseFloat(document.getElementById('d-mes').value) || 0;
         const t = parseInt(document.getElementById('d-tempo').value) || 1;
         const perf = document.getElementById('d-perfil').value;
 
-        // TAXAS DO SISTEMA
-        const selicAnual = 0.1075;
-        const ipcaAnual = 0.0452;
+        const selicAnual = selicManual || (selicBase / 100);
         const selicMensal = Math.pow(1 + selicAnual, 1/12) - 1;
 
-        // DEFINIÇÃO DE IR (TABELA REGRESSIVA)
-        let ir = 0.225;
-        if(t > 24) ir = 0.15;
-        else if(t > 12) ir = 0.175;
-        else if(t > 6) ir = 0.20;
+        let ir = t > 24 ? 0.15 : t > 12 ? 0.175 : t > 6 ? 0.20 : 0.225;
         document.getElementById('val-ir').innerText = (ir*100).toFixed(1) + "%";
 
-        // CÁLCULO DE JUROS COMPOSTOS
-        let montanteIni = i * Math.pow(1 + selicMensal, t);
-        let montanteMes = m * ((Math.pow(1 + selicMensal, t) - 1) / selicMensal);
-        let brutoTotal = montanteIni + montanteMes;
-        let totalInvestido = i + (m * t);
-        
-        // REGRA DE OURO: -50% NA PROJEÇÃO DO LUCRO LÍQUIDO
-        let lucroBruto = brutoTotal - totalInvestido;
-        let lucroLiquidoReal = (lucroBruto * (1 - ir)) * 0.5; 
-        let finalExibicao = totalInvestido + lucroLiquidoReal;
+        let bruto = (i * Math.pow(1 + selicMensal, t)) + (m * ((Math.pow(1 + selicMensal, t) - 1) / selicMensal));
+        let lucroSeguro = (bruto - (i + (m * t))) * (1 - ir) * 0.5;
+        let final = (i + (m * t)) + lucroSeguro;
 
-        document.getElementById('total-final').innerText = "R$ " + finalExibicao.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+        document.getElementById('total-final').innerText = "R$ " + final.toLocaleString('pt-BR', {minimumFractionDigits: 2});
 
-        // DISTRIBUIÇÃO NOS CARDS
         const ativos = {
             conservador: ["TESOURO", "CDB 100%", "LCI/LCA"],
             moderado: ["CDB 115%", "DEBÊNTURE", "FIIs"],
             agressivo: ["AÇÕES", "CRIPTO", "OPÇÕES"]
         };
-        const pesos = [0.6, 0.3, 0.1]; // Proporção da carteira
         
         let html = "";
         ativos[perf].forEach((nome, idx) => {
-            let valorAlocado = finalExibicao * pesos[idx];
-            html += `
-                <div class="prod-card">
-                    <span class="prod-title">${nome}</span>
-                    <b class="prod-val">R$ ${valorAlocado.toLocaleString('pt-BR', {maximumFractionDigits: 0})}</b>
-                </div>`;
+            let valor = final * [0.6, 0.3, 0.1][idx];
+            html += `<div class="prod-card"><span class="prod-title">${nome}</span><b class="prod-val">R$ ${valor.toLocaleString('pt-BR', {maximumFractionDigits: 0})}</b></div>`;
         });
         document.getElementById('grid-produtos').innerHTML = html;
-
-        // MENSAGEM DINÂMICA
-        document.getElementById('status-text').innerText = 
-            `Projeção otimizada para ${t} meses sob SELIC de 10.75%. Risco ${perf.toUpperCase()} aplicado.`;
     }
 
-    // INICIALIZAÇÃO
     window.onload = () => {
         startClock();
         recalcular();
+        // Dispara a oscilação a cada 3 segundos
+        setInterval(oscilarIndicadores, 3000);
     };
 </script>
 </body>
