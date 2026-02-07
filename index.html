@@ -3,57 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TERMINAL S.A. | V145</title>
+    <title>TERMINAL S.A. | V148</title>
     <style>
         :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --red: #FF4444; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background: #000; color: #fff; height: 100vh; overflow: hidden; }
 
-        /* HEADER ATIVO */
-        .header { padding: 8px 15px; border-bottom: 1px solid var(--gold); display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: var(--gold); background: #050505; font-weight: 900; }
-        #top-perfil { background: var(--gold); color: #000; padding: 3px 10px; border-radius: 4px; cursor: pointer; border: none; font-weight: 900; font-size: 9px; animation: pulseBorder 2s infinite; }
-        @keyframes pulseBorder { 0% { box-shadow: 0 0 0 0 rgba(212,175,55,0.4); } 70% { box-shadow: 0 0 0 6px rgba(212,175,55,0); } 100% { box-shadow: 0 0 0 0 rgba(212,175,55,0); } }
+        /* CABEÇALHO E SENSORES */
+        .header { padding: 8px 15px; border-bottom: 1px solid var(--gold); display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: var(--gold); background: #050505; font-weight: 900; position: sticky; top: 0; z-index: 10; }
+        #top-perfil { background: var(--gold); color: #000; padding: 3px 10px; border-radius: 4px; cursor: pointer; border: none; font-weight: 900; font-size: 9px; box-shadow: 0 0 10px rgba(212,175,55,0.4); }
 
         .sensors { display: flex; justify-content: space-around; padding: 6px; background: #080808; border-bottom: 1px solid #111; font-size: 9px; }
         .sensor-item b { color: var(--accent); }
 
-        .container { padding: 10px; display: flex; flex-direction: column; gap: 8px; overflow-y: auto; height: calc(100vh - 70px); }
+        .container { padding: 10px; display: flex; flex-direction: column; gap: 10px; overflow-y: auto; height: calc(100vh - 70px); }
 
-        /* GRÁFICO SLIM */
-        .chart-box { background: #000; border: 1px solid #111; border-radius: 8px; height: 50px; position: relative; overflow: hidden; margin-bottom: 5px; }
-        .chart-line { fill: none; stroke: var(--gold); stroke-width: 1.5; filter: drop-shadow(0 0 2px var(--gold)); transition: 1s ease-in-out; }
-
-        /* DISPLAY CENTRAL */
-        .display-box { border: 2px solid var(--gold); border-radius: 10px; padding: 12px; text-align: center; background: #050505; margin-top: 5px; }
-        .val-main { font-size: 26px; font-weight: 900; color: var(--gold); }
-
-        /* INPUTS */
-        .input-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-        .in-box { background: #0a0a0a; border: 1px solid #222; padding: 6px; border-radius: 6px; text-align: center; }
-        .in-box label { display: block; font-size: 7px; color: var(--gold); font-weight: 900; margin-bottom: 2px; }
-        input { width: 100%; background: transparent; border: none; color: #fff; font-weight: 900; text-align: center; font-size: 14px; outline: none; }
-
-        /* SELETOR OCULTO QUE APARECE NO CLICK */
-        .selector-wrapper { background: #111; border: 1px solid var(--gold); padding: 10px; border-radius: 8px; margin-top: 5px; display: none; }
+        /* SELETOR OCULTO */
+        .selector-wrapper { background: #111; border: 1px solid var(--gold); padding: 10px; border-radius: 8px; display: none; margin-bottom: 5px; }
         select { width: 100%; background: #000; color: var(--gold); border: 1px solid #333; padding: 8px; font-weight: 900; border-radius: 4px; }
 
-        /* PRODUTOS */
-        .grid-p { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
-        .card-p { border: 1px solid var(--blue); border-radius: 6px; padding: 10px; text-align: center; background: #050505; transition: 0.3s; }
-        .p-title { font-size: 7px; color: var(--blue); font-weight: 900; display: block; }
-        .p-val { font-size: 10px; font-weight: 900; }
+        /* DISPLAY DE LUCRO */
+        .display-box { border: 2px solid var(--gold); border-radius: 10px; padding: 15px; text-align: center; background: #050505; }
+        .val-main { font-size: 28px; font-weight: 900; color: var(--gold); transition: 0.2s; }
 
-        /* FAVELINHA */
-        .fav-box { background: #050505; border: 1px solid #222; border-radius: 6px; overflow: hidden; margin-bottom: 30px; }
-        table { width: 100%; border-collapse: collapse; font-size: 9px; }
-        th { color: #444; padding: 8px; border-bottom: 1px solid #222; }
+        /* INPUTS DE COMANDO */
+        .input-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+        .in-box { background: #0a0a0a; border: 1px solid #222; padding: 8px; border-radius: 6px; text-align: center; }
+        .in-box label { display: block; font-size: 7px; color: var(--gold); font-weight: 900; margin-bottom: 2px; }
+        input { width: 100%; background: transparent; border: none; color: #fff; font-weight: 900; text-align: center; font-size: 15px; outline: none; }
+
+        /* CARDS DE ATIVOS PULSANTES */
+        .grid-p { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+        .card-p { border: 1px solid var(--blue); border-radius: 6px; padding: 12px; text-align: center; background: #050505; transition: 0.5s; }
+        .p-pulse { animation: pulseActive 3s infinite; }
+        @keyframes pulseActive { 
+            0% { box-shadow: 0 0 0px var(--blue); border-color: var(--blue); } 
+            50% { box-shadow: 0 0 15px var(--blue); border-color: #fff; } 
+            100% { box-shadow: 0 0 0px var(--blue); border-color: var(--blue); } 
+        }
+        .p-title { font-size: 8px; color: var(--blue); font-weight: 900; display: block; margin-bottom: 3px; }
+        .p-val { font-size: 11px; font-weight: 900; }
+
+        /* TABELA FAVELINHA */
+        .fav-box { background: #050505; border: 1px solid #222; border-radius: 6px; overflow: hidden; }
+        table { width: 100%; border-collapse: collapse; font-size: 10px; }
+        th { color: #444; padding: 8px; border-bottom: 1px solid #222; text-transform: uppercase; }
         td { padding: 10px; border-bottom: 1px solid #111; font-weight: 900; text-align: center; }
+
+        /* GRÁFICO DE LINHA COM MARCADORES NO RODAPÉ */
+        .chart-footer { background: #050505; border: 1px solid #222; border-radius: 8px; padding: 15px; margin-top: 5px; margin-bottom: 35px; position: relative; }
+        .chart-svg { width: 100%; height: 80px; overflow: visible; }
+        .chart-line { fill: none; stroke: var(--gold); stroke-width: 2.5; filter: drop-shadow(0 0 5px var(--gold)); transition: 0.5s; }
+        .chart-dot { fill: var(--gold); stroke: #fff; stroke-width: 1.5; transition: 0.5s; }
+        .chart-labels { display: flex; justify-content: space-between; font-size: 9px; color: #555; font-weight: 900; margin-top: 8px; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <span>🛡️ TERMINAL S.A. | V145</span>
+        <span>🛡️ TERMINAL S.A. | V148</span>
         <button id="top-perfil" onclick="toggleSelector()">CONSERVADOR</button>
     </div>
 
@@ -64,14 +72,8 @@
     </div>
 
     <div class="container">
-        <div class="chart-box">
-            <svg viewBox="0 0 100 40" preserveAspectRatio="none" style="width:100%; height:100%;">
-                <path id="l-path" class="chart-line" d="M0,35 Q25,30 50,32 T100,10" />
-            </svg>
-        </div>
-
         <div id="wrapper" class="selector-wrapper">
-            <label style="font-size:8px; color:var(--gold); display:block; margin-bottom:5px;">ALTERAR ESTRATÉGIA DE COMANDO</label>
+            <label style="font-size:8px; color:var(--gold); display:block; margin-bottom:5px; font-weight:bold;">ALTERAR ESTRATÉGIA</label>
             <select id="sel-perfil" onchange="calc(); toggleSelector()">
                 <option value="CONSERVADOR">CONSERVADOR</option>
                 <option value="MODERADO">MODERADO</option>
@@ -80,13 +82,8 @@
         </div>
 
         <div class="display-box">
-            <span style="font-size:8px; color:var(--gold); font-weight:900;">LUCRO LÍQUIDO MOLDADO (-50%)</span>
+            <span style="font-size:9px; color:var(--gold); font-weight:900;">LUCRO LÍQUIDO MOLDADO (-50%)</span>
             <div class="val-main" id="v-moldado">R$ 0,00</div>
-        </div>
-
-        <div class="extrato-row" style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
-            <div class="extrato-card"><span style="font-size:7px; color:#666;">INVESTIMENTO</span><div id="v-inv" style="font-size:12px; font-weight:900;">R$ 0,00</div></div>
-            <div class="extrato-card" style="border-color:var(--accent);"><span style="font-size:7px; color:#666;">LUCRO SEGURO</span><div id="v-lucro" style="font-size:12px; font-weight:900; color:var(--accent);">R$ 0,00</div></div>
         </div>
 
         <div class="input-row">
@@ -103,6 +100,20 @@
                 <tbody id="fav-body"></tbody>
             </table>
         </div>
+
+        <div class="chart-footer">
+            <svg class="chart-svg" id="svg-map">
+                <path id="l-path" class="chart-line" d="M20,60 Q50,30 80,10" />
+                <circle id="dot-1" class="chart-dot" cx="20" cy="60" r="4" />
+                <circle id="dot-2" class="chart-dot" cx="50" cy="30" r="4" />
+                <circle id="dot-3" class="chart-dot" cx="80" cy="10" r="5" />
+            </svg>
+            <div class="chart-labels">
+                <span>START</span>
+                <span>EVOLUÇÃO</span>
+                <span style="color:var(--gold)">ALVO FINAL</span>
+            </div>
+        </div>
     </div>
 
 <script>
@@ -111,14 +122,6 @@
     function toggleSelector() {
         const w = document.getElementById('wrapper');
         w.style.display = w.style.display === 'block' ? 'none' : 'block';
-    }
-
-    function organism() {
-        selic = 10.75 + (Math.random() * 0.1 - 0.05);
-        document.getElementById('s-selic').innerText = selic.toFixed(2) + "%";
-        calc();
-        let v1 = 25 + Math.random()*10;
-        document.getElementById('l-path').setAttribute("d", `M0,35 Q25,${v1} 50,30 T100,15`);
     }
 
     function calc() {
@@ -141,8 +144,20 @@
         moldV = inv + (lucroLimpo * 0.5);
 
         document.getElementById('v-moldado').innerText = "R$ " + moldV.toLocaleString('pt-BR', {minimumFractionDigits: 2});
-        document.getElementById('v-inv').innerText = "R$ " + inv.toLocaleString('pt-BR', {minimumFractionDigits: 2});
-        document.getElementById('v-lucro').innerText = "R$ " + (lucroLimpo * 0.5).toLocaleString('pt-BR', {minimumFractionDigits: 2});
+
+        // ATUALIZAÇÃO DO GRÁFICO (Y INVERTIDO: 0 é topo, 80 é fundo)
+        const svg = document.getElementById('svg-map');
+        const width = svg.clientWidth;
+        const x1 = 30, x2 = width / 2, x3 = width - 30;
+        
+        // Simulação de inclinação baseada no lucro
+        let inclinacao = Math.min(50, (lucroLimpo / inv) * 10); 
+        let y1 = 65, y2 = 45 - (inclinacao/2), y3 = 20 - inclinacao;
+
+        document.getElementById('l-path').setAttribute("d", `M${x1},${y1} Q${x2},${y2} ${x3},${y3}`);
+        document.getElementById('dot-1').setAttribute("cx", x1); document.getElementById('dot-1').setAttribute("cy", y1);
+        document.getElementById('dot-2').setAttribute("cx", x2); document.getElementById('dot-2').setAttribute("cy", y2);
+        document.getElementById('dot-3').setAttribute("cx", x3); document.getElementById('dot-3').setAttribute("cy", y3);
 
         const prods = {
             "CONSERVADOR": ["TESOURO", "CDB", "LCI"],
@@ -152,7 +167,7 @@
         
         let hP = "";
         prods[perfil].forEach((n, idx) => {
-            hP += `<div class="card-p"><span class="p-title">${n}</span><b class="p-val">R$ ${(moldV * [0.5, 0.3, 0.2][idx]).toLocaleString('pt-BR', {maximumFractionDigits: 0})}</b></div>`;
+            hP += `<div class="card-p p-pulse"><span class="p-title">${n}</span><b class="p-val">R$ ${(moldV * [0.5, 0.3, 0.2][idx]).toLocaleString('pt-BR', {maximumFractionDigits: 0})}</b></div>`;
         });
         document.getElementById('grid-p').innerHTML = hP;
 
@@ -163,6 +178,7 @@
         document.getElementById('fav-body').innerHTML = hF;
     }
 
+    // AUDITORIA REAL (Segurar para ver 100%)
     const dVal = document.getElementById('v-moldado');
     const audit = (s) => { 
         dVal.innerText = "R$ " + (s ? realV : moldV).toLocaleString('pt-BR', {minimumFractionDigits: 2}); 
@@ -171,7 +187,12 @@
     dVal.onmousedown = () => audit(true); dVal.onmouseup = () => audit(false);
     dVal.ontouchstart = () => audit(true); dVal.ontouchend = () => audit(false);
 
-    setInterval(organism, 3000);
+    window.addEventListener('resize', calc);
+    setInterval(() => {
+        selic = 10.75 + (Math.random() * 0.1 - 0.05);
+        document.getElementById('s-selic').innerText = selic.toFixed(2) + "%";
+        calc();
+    }, 4000);
     calc();
 </script>
 </body>
