@@ -7,33 +7,36 @@
     <style>
         :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --red: #FF4444; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background: #000; color: #fff; height: 100vh; overflow: hidden; }
+        body { background: #000; color: #fff; height: 100vh; overflow-y: auto; }
 
         #splash, #quiz { position: fixed; inset: 0; background: #000; z-index: 999; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
         .logo { font-size: 60px; color: var(--gold); margin-bottom: 10px; filter: drop-shadow(0 0 10px var(--gold)); }
         .btn-g { margin-top: 25px; padding: 15px 40px; border: 1px solid var(--gold); color: var(--gold); background: none; border-radius: 30px; font-weight: bold; cursor: pointer; letter-spacing: 2px; text-transform: uppercase; }
         
-        .opt { width: 100%; max-width: 320px; background: #0a0a0a; padding: 16px; margin: 6px; border-radius: 8px; border: 1px solid #222; cursor: pointer; font-weight: bold; }
-        .opt:active { background: var(--gold); color: #000; }
-
-        #main { display: none; height: 100vh; overflow-y: auto; padding-bottom: 100px; }
+        #main { display: none; padding-bottom: 100px; }
         .bar { padding: 12px; border-bottom: 1px solid var(--gold); display: flex; justify-content: space-between; align-items: center; font-size: 10px; background:#050505; }
-        .stats { display: flex; justify-content: space-around; padding: 6px; font-size: 9px; background: #080808; border-bottom: 1px solid #111; }
+        .stats { display: flex; justify-content: space-around; padding: 10px; font-size: 9px; background: #080808; border-bottom: 1px solid #111; }
         
         .box { margin: 12px; border: 2px solid var(--gold); border-radius: 12px; padding: 18px; text-align: center; background: #050505; }
-        .val { font-size: 28px; font-weight: 900; color: var(--gold); transition: 0.2s; }
+        .val { font-size: 28px; font-weight: 900; color: var(--gold); }
 
-        .inputs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 0 12px; }
+        .inputs-main { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 0 12px; }
         .in { background: #0a0a0a; padding: 8px; border-radius: 6px; text-align: center; border: 1px solid #222; }
-        .in label { font-size: 6px; color: var(--gold); display: block; font-weight: bold; margin-bottom: 2px; white-space: nowrap; }
-        input { width: 100%; background: none; border: none; color: #fff; text-align: center; font-size: 15px; outline: none; font-weight: bold; }
-        input::placeholder { color: #222; }
+        .in label { font-size: 6px; color: var(--gold); display: block; font-weight: bold; margin-bottom: 2px; }
+        input { width: 100%; background: none; border: none; color: #fff; text-align: center; font-size: 14px; outline: none; font-weight: bold; }
 
-        .cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin: 12px; }
-        .c { border: 1px solid var(--blue); padding: 12px; border-radius: 6px; text-align: center; background: #050505; }
+        /* ESTILO DOS CARDS CONFIGURÁVEIS */
+        .cards-config { margin: 12px; display: grid; gap: 10px; }
+        .card-at { background: #050505; border: 1px solid #333; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+        .card-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; padding-bottom: 5px; }
+        .card-header span { font-size: 9px; font-weight: 900; color: var(--blue); }
+        .card-body { display: grid; grid-template-columns: 1fr 1fr 0.5fr; gap: 5px; align-items: center; }
+        
+        select, .in-at { background: #111; border: 1px solid #444; color: #fff; font-size: 11px; padding: 5px; border-radius: 4px; text-align: center; }
+        .isento-label { font-size: 8px; display: flex; align-items: center; gap: 3px; cursor: pointer; }
 
-        table { width: 100%; font-size: 10px; margin-top: 10px; border-collapse: collapse; }
-        td, th { padding: 10px; text-align: center; border-bottom: 1px solid #111; font-weight: bold; }
+        table { width: 100%; font-size: 10px; border-collapse: collapse; background: #050505; }
+        td, th { padding: 10px; text-align: center; border-bottom: 1px solid #111; }
     </style>
 </head>
 <body>
@@ -41,23 +44,18 @@
 <div id="splash">
     <div class="logo">🔱</div>
     <p style="color:var(--gold); letter-spacing:4px; font-weight:900;">S.A. SUPREMACIA</p>
-    <button class="btn-g" onclick="startQuiz()">INICIAR PROTOCOLO</button>
-</div>
-
-<div id="quiz" style="display:none;">
-    <div id="q-box" style="width: 100%;"></div>
+    <button class="btn-g" onclick="start()">INICIAR PROTOCOLO</button>
 </div>
 
 <div id="main">
     <div class="bar">
         <span>🛡️ TERMINAL S.A. | V152</span>
-        <button id="top-perfil" style="background:var(--gold); border:none; padding:4px 10px; font-weight:900; font-size:9px; border-radius:4px;">ANALISANDO...</button>
+        <span id="dias-copom" style="color:var(--accent); font-weight:bold;"></span>
     </div>
     <div class="stats">
-        <span>SELIC: <b id="selic">--%</b></span>
-        <span style="color:var(--accent)">COPOM EM: <b id="dias-copom">--d</b></span>
-        <span>IPCA: <b>3.90%</b></span>
-        <span>IR: <b id="ir" style="color:var(--red)">--%</b></span>
+        <span>SELIC: <b id="selic">14.75%</b></span>
+        <span>IPCA: <input type="number" id="ipca-val" value="3.90" step="0.01" style="width:40px; font-size:9px; color:#fff;" oninput="calc()">%</span>
+        <span>CDI: <b id="cdi-val">14.65%</b></span>
     </div>
 
     <div class="box">
@@ -65,74 +63,61 @@
         <div class="val" id="v-mold">R$ 0,00</div>
     </div>
 
-    <div class="inputs">
+    <div class="inputs-main">
         <div class="in"><label>APORTE INICIAL</label><input type="number" id="ini" placeholder="0" oninput="calc()"></div>
         <div class="in"><label>APORTE MENSAL</label><input type="number" id="mes" placeholder="0" oninput="calc()"></div>
         <div class="in"><label>MESES</label><input type="number" id="tempo" placeholder="0" oninput="calc()"></div>
     </div>
 
-    <div id="grid-p" class="cards"></div>
+    <div class="cards-config">
+        <div class="card-at">
+            <div class="card-header"><span>PRODUTO A</span> <b id="res-a">R$ 0</b></div>
+            <div class="card-body">
+                <select id="tipo-a" onchange="calc()">
+                    <option value="CDI">% CDI</option>
+                    <option value="IPCA">IPCA +</option>
+                    <option value="PRE">PRÉ %</option>
+                </select>
+                <input type="number" id="taxa-a" class="in-at" value="100" oninput="calc()">
+                <label class="isento-label"><input type="checkbox" id="ir-a" onchange="calc()"> ISENTO</label>
+            </div>
+        </div>
+        <div class="card-at">
+            <div class="card-header"><span>PRODUTO B</span> <b id="res-b">R$ 0</b></div>
+            <div class="card-body">
+                <select id="tipo-b" onchange="calc()">
+                    <option value="CDI">% CDI</option>
+                    <option value="IPCA" selected>IPCA +</option>
+                    <option value="PRE">PRÉ %</option>
+                </select>
+                <input type="number" id="taxa-b" class="in-at" value="6" oninput="calc()">
+                <label class="isento-label"><input type="checkbox" id="ir-b" onchange="calc()"> ISENTO</label>
+            </div>
+        </div>
+    </div>
 
-    <div style="margin:12px; background:#050505; border-radius:8px; border:1px solid #111; overflow: hidden;">
+    <div style="margin:12px; border:1px solid #111; overflow: hidden; border-radius: 8px;">
         <table>
-            <thead><tr><th style="color:#444">Mês</th><th style="color:#444">Ação</th><th style="color:#444">Stake</th></tr></thead>
+            <thead><tr><th>Mês</th><th>Ação</th><th>Stake</th></tr></thead>
             <tbody id="fav"></tbody>
         </table>
     </div>
 </div>
 
 <script>
-    let sValue = 14.75, score = 0, step = 0;
-    let realGlobal = 0, moldGlobal = 0;
+    let sValue = 14.75;
 
-    const qs = [
-        {q: "OBJETIVO?", o: ["SEGURANÇA", "RENDA", "RIQUEZA"], v: [1,2,3]},
-        {q: "ACEITA RISCO?", o: ["NÃO", "TALVEZ", "SIM"], v: [1,2,3]},
-        {q: "TEMPO?", o: ["CURTO", "MÉDIO", "LONGO"], v: [1,2,3]}
-    ];
-
-    function startQuiz() {
-        document.getElementById('ini').value = "";
-        document.getElementById('mes').value = "";
-        document.getElementById('tempo').value = "";
+    function start() {
         document.getElementById('splash').style.display='none';
-        document.getElementById('quiz').style.display='flex';
-        showQ();
+        document.getElementById('main').style.display='block';
+        atualizarDatas();
     }
 
-    function showQ() {
-        const q = qs[step];
-        let h = `<h2 style="color:var(--gold); margin-bottom:30px;">${q.q}</h2>`;
-        q.o.forEach((opt, i) => h += `<div class="opt" onclick="next(${q.v[i]})">${opt}</div>`);
-        document.getElementById('q-box').innerHTML = h;
-    }
-
-    function next(v) {
-        score += v; step++;
-        if(step < qs.length) showQ();
-        else {
-            document.getElementById('quiz').style.display='none';
-            document.getElementById('main').style.display='block';
-            atualizarMercado();
-        }
-    }
-
-    async function atualizarMercado() {
-        // Cálculo dos dias para o COPOM (06/05/2026)
+    function atualizarDatas() {
         const hoje = new Date();
-        const dataCopom = new Date("2026-05-06T00:00:00");
-        const diffTime = Math.abs(dataCopom - hoje);
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        document.getElementById('dias-copom').innerText = diffDays + "d";
-
-        try {
-            const res = await fetch('https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados/ultimos/1?formato=json');
-            const data = await res.json();
-            if(data[0]) {
-                sValue = parseFloat(data[0].valor);
-                document.getElementById('selic').innerText = sValue.toFixed(2) + "%";
-            }
-        } catch(e) { document.getElementById('selic').innerText = "14.75%"; }
+        const dataCopom = new Date("2026-05-06");
+        const diffDays = Math.ceil(Math.abs(dataCopom - hoje) / (1000 * 60 * 60 * 24));
+        document.getElementById('dias-copom').innerText = "COPOM EM: " + diffDays + "d";
         calc();
     }
 
@@ -140,44 +125,42 @@
         const i = parseFloat(document.getElementById('ini').value) || 0;
         const m = parseFloat(document.getElementById('mes').value) || 0;
         const t = parseInt(document.getElementById('tempo').value) || 0;
-        
-        const p = score > 7 ? "AGRESSIVO" : score > 4 ? "MODERADO" : "CONSERVADOR";
-        document.getElementById('top-perfil').innerText = p;
+        const ipca = parseFloat(document.getElementById('ipca-val').value) || 0;
+        const cdi = sValue - 0.10;
+        document.getElementById('cdi-val').innerText = cdi.toFixed(2) + "%";
 
-        if (i === 0 && m === 0) {
-            document.getElementById('v-mold').innerText = "R$ 0,00";
-            return;
+        function calcularAtivo(id) {
+            const tipo = document.getElementById('tipo-'+id).value;
+            const taxaUser = parseFloat(document.getElementById('taxa-'+id).value) || 0;
+            const isento = document.getElementById('ir-'+id).checked;
+            
+            let taxaAnual = 0;
+            if(tipo === "CDI") taxaAnual = cdi * (taxaUser/100);
+            else if(tipo === "IPCA") taxaAnual = ipca + taxaUser;
+            else taxaAnual = taxaUser;
+
+            const taxaM = Math.pow(1 + (taxaAnual/100), 1/12) - 1;
+            const bruto = (i * Math.pow(1 + taxaM, t)) + (m * ((Math.pow(1 + taxaM, t) - 1) / taxaM));
+            const lucro = bruto - (i + (m * t));
+            
+            let irPagar = isento ? 0 : (t > 24 ? 0.15 : t > 12 ? 0.175 : 0.225);
+            return (i + (m * t)) + (lucro * (1 - irPagar));
         }
 
-        const taxaM = Math.pow(1 + (sValue/100), 1/12) - 1;
-        let irTaxa = t > 24 ? 0.15 : t > 12 ? 0.175 : 0.225;
-        document.getElementById('ir').innerText = (irTaxa * 100).toFixed(1) + "%";
-
-        const bruto = (i * Math.pow(1 + taxaM, Math.max(1,t))) + (m * ((Math.pow(1 + taxaM, Math.max(1,t)) - 1) / taxaM));
-        const inv = i + (m * t);
-        const lucroLiq = (bruto - inv) * (1 - irTaxa);
-
-        realGlobal = inv + lucroLiq;
-        moldGlobal = inv + (lucroLiq * 0.5);
-
-        document.getElementById('v-mold').innerText = "R$ " + moldGlobal.toLocaleString('pt-BR', {minimumFractionDigits:2});
+        const resA = calcularAtivo('a');
+        const resB = calcularAtivo('b');
         
-        const prod = p=="AGRESSIVO" ? ["AÇÕES","CRIPTO","OPÇÕES"] : p=="MODERADO" ? ["FIIs","AÇÕES","CDB"] : ["TESOURO","CDB","LCI"];
-        let hP = "";
-        prod.forEach((n, idx) => {
-            let vP = (moldGlobal * [0.5, 0.3, 0.2][idx]).toLocaleString('pt-BR', {maximumFractionDigits: 0});
-            hP += `<div class="c"><span style="font-size:7px;color:var(--blue); font-weight:900;">${n}</span><br><b>R$ ${vP}</b></div>`;
-        });
-        document.getElementById('grid-p').innerHTML = hP;
+        document.getElementById('res-a').innerText = "R$ " + resA.toLocaleString('pt-BR',{maximumFractionDigits:0});
+        document.getElementById('res-b').innerText = "R$ " + resB.toLocaleString('pt-BR',{maximumFractionDigits:0});
+
+        // O Lucro Moldado usa a média ou o produto principal (A)
+        const moldado = (i + (m * t)) + ((resA - (i + (m * t))) * 0.5);
+        document.getElementById('v-mold').innerText = "R$ " + moldado.toLocaleString('pt-BR', {minimumFractionDigits:2});
 
         let hF = "";
-        for(let j=1; j<=3; j++) hF += `<tr><td>${t+j}</td><td style="color:var(--accent)">ENTRA</td><td>R$ ${(moldGlobal*0.01/j).toFixed(2)}</td></tr>`;
+        for(let j=1; j<=3; j++) hF += `<tr><td>${t+j}</td><td style="color:var(--accent)">ENTRA</td><td>R$ ${(moldado*0.01/j).toFixed(2)}</td></tr>`;
         document.getElementById('fav').innerHTML = hF;
     }
-
-    const dV = document.getElementById('v-mold');
-    dV.ontouchstart = (e) => { e.preventDefault(); dV.innerText = "R$ " + realGlobal.toLocaleString('pt-BR', {minimumFractionDigits:2}); dV.style.color = "var(--accent)"; };
-    dV.ontouchend = () => { dV.innerText = "R$ " + moldGlobal.toLocaleString('pt-BR', {minimumFractionDigits:2}); dV.style.color = "var(--gold)"; };
 </script>
 </body>
 </html>
