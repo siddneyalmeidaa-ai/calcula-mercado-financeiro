@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>TERMINAL S.A. | V152</title>
     <style>
-        /* CSS INTEGRADO PARA GARANTIR O VISUAL */
+        /* CSS INTEGRADO - MANTENDO O PADRÃO OURO */
         :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --red: #FF4444; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background: #000; color: #fff; height: 100vh; overflow: hidden; }
@@ -60,8 +60,8 @@
         <button id="top-perfil" style="background:var(--gold); border:none; padding:4px 10px; font-weight:900; font-size:9px; border-radius:4px;">CONSERVADOR</button>
     </div>
     <div class="stats">
-        <span>SELIC: <b id="selic">10.75%</b></span>
-        <span>IPCA: <b>4.52%</b></span>
+        <span>SELIC REAL: <b id="selic">14.75%</b></span>
+        <span>IPCA: <b>3.90%</b></span>
         <span>IR: <b id="ir" style="color:var(--red)">22.5%</b></span>
     </div>
 
@@ -94,7 +94,8 @@
 </div>
 
 <script>
-    let sValue = 10.75, score = 0, step = 0;
+    // INICIANDO JÁ COM A TAXA REAL DE MARÇO/2026
+    let sValue = 14.75, score = 0, step = 0; 
     let realGlobal = 0, moldGlobal = 0;
 
     const qs = [
@@ -128,13 +129,14 @@
 
     async function atualizarMercado() {
         try {
+            // BUSCA REAL NO BANCO CENTRAL
             const res = await fetch('https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados/ultimos/1?formato=json');
             const data = await res.json();
             if(data[0]) {
                 sValue = parseFloat(data[0].valor);
                 document.getElementById('selic').innerText = sValue.toFixed(2) + "%";
             }
-        } catch(e) { console.log("BCB Offline"); }
+        } catch(e) { console.log("BCB Offline - Usando 14.75% de Segurança"); }
         calc();
     }
 
@@ -154,14 +156,15 @@
         const lucroLiq = (bruto - inv) * (1 - irTaxa);
 
         realGlobal = inv + lucroLiq;
-        moldGlobal = inv + (lucroLiq * 0.5); // REGRA: -50% DA PROJEÇÃO
+        moldGlobal = inv + (lucroLiq * 0.5); // REGRA DE OURO: -50%
 
         document.getElementById('v-mold').innerText = "R$ " + moldGlobal.toLocaleString('pt-BR', {minimumFractionDigits:2});
         
-        // GRÁFICO
+        // GRÁFICO DINÂMICO
         const width = document.getElementById('svg').clientWidth || 300;
-        let y3 = Math.max(5, 50 - ((lucroLiq/inv)*100 || 0));
-        document.getElementById('path').setAttribute("d", `M30,50 Q${width/2},${y3+10} ${width-30},${y3}`);
+        let sensibilidade = (lucroLiq/inv) * 100 || 0;
+        let y3 = Math.max(5, 50 - sensibilidade);
+        document.getElementById('path').setAttribute("d", `M30,50 Q${width/2},${y3+15} ${width-30},${y3}`);
         document.getElementById('d3').setAttribute("cx", width-30); document.getElementById('d3').setAttribute("cy", y3);
 
         // STAKES E CARDS
@@ -178,7 +181,7 @@
         document.getElementById('fav').innerHTML = hF;
     }
 
-    // AUDITORIA SINCERA
+    // AUDITORIA (TOQUE LONGO)
     const dV = document.getElementById('v-mold');
     const audit = (s) => { 
         dV.innerText = "R$ " + (s?realGlobal:moldGlobal).toLocaleString('pt-BR', {minimumFractionDigits:2}); 
