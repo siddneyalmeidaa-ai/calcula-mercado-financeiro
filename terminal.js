@@ -1,4 +1,4 @@
-let sValue = 10.75, score = 0, step = 0;
+let sValue = 14.75, score = 0, step = 0; // Começa com o valor real de Março/2026
 let realGlobal = 0, moldGlobal = 0;
 
 const qs = [
@@ -15,7 +15,7 @@ function startQuiz() {
 
 function showQ() {
     const q = qs[step];
-    let h = `<h2 style="color:var(--gold); margin-bottom:30px;">${q.q}</h2>`;
+    let h = `<h2 style="color:var(--gold); margin-bottom:30px; letter-spacing:1px;">${q.q}</h2>`;
     q.o.forEach((opt, i) => h += `<div class="opt" onclick="next(${q.v[i]})">${opt}</div>`);
     document.getElementById('q-box').innerHTML = h;
 }
@@ -30,18 +30,21 @@ function next(v) {
     }
 }
 
+// BUSCA A SELIC REAL NO BANCO CENTRAL (SÉRIE 432)
 async function atualizarMercado() {
     try {
         const res = await fetch('https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados/ultimos/1?formato=json');
         const data = await res.json();
         if(data[0]) {
-            sValue = parseFloat(data[0].valor);
+            sValue = parseFloat(data[0].valor); // Aqui ele pega os 14.75% oficiais
             document.getElementById('selic').innerText = sValue.toFixed(2) + "%";
             const el = document.getElementById('selic');
             el.classList.add('pulse-update');
             setTimeout(() => el.classList.remove('pulse-update'), 800);
         }
-    } catch(e) { console.log("BCB Offline"); }
+    } catch(e) { 
+        console.log("BCB Offline - Mantendo 14.75%"); 
+    }
     calc();
 }
 
@@ -52,30 +55,32 @@ function calc() {
     const p = score > 7 ? "AGRESSIVO" : score > 4 ? "MODERADO" : "CONSERVADOR";
     document.getElementById('top-perfil').innerText = p;
 
-    const taxaM = Math.pow(1 + (sValue/100), 1/12) - 1;
-    let irTaxa = t > 24 ? 0.15 : t > 12 ? 0.175 : 0.225;
-    document.getElementById('ir').innerText = (irTaxa * 100).toFixed(1) + "%";
+    const sM = Math.pow(1 + (sValue/100), 1/12) - 1;
+    let irVal = t > 24 ? 15 : t > 12 ? 17.5 : 22.5;
+    document.getElementById('ir').innerText = irVal + "%";
 
-    const bruto = (i * Math.pow(1 + taxaM, t)) + (m * ((Math.pow(1 + taxaM, t) - 1) / taxaM));
-    const inv = i + (m * t);
-    const lucroLiq = (bruto - inv) * (1 - irTaxa);
-
-    realGlobal = inv + lucroLiq;
-    moldGlobal = inv + (lucroLiq * 0.5);
-
-    document.getElementById('v-mold').innerText = moldGlobal.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+    let inv = i + (m * t);
+    let bruto = (i * Math.pow(1 + sM, t)) + (m * ((Math.pow(1 + sM, t) - 1) / sM));
+    let lucro = (bruto - inv) * (1 - (irVal/100));
     
-    const svgW = document.getElementById('svg').clientWidth || 300;
-    const y3 = Math.max(5, 60 - ((lucroLiq/inv) * 150 || 0));
-    document.getElementById('path').setAttribute("d", `M30,60 Q${svgW/2},${y3+10} ${svgW-30},${y3}`);
-    document.getElementById('d3').setAttribute("cx", svgW-30); 
-    document.getElementById('d3').setAttribute("cy", y3);
+    realGlobal = inv + lucro;
+    moldGlobal = inv + (lucro * 0.5); // REGRA: -50%
 
+    document.getElementById('v-mold').innerText = "R$ " + moldGlobal.toLocaleString('pt-BR', {minimumFractionDigits:2});
+
+    // ATUALIZA GRÁFICO
+    const width = document.getElementById('svg').clientWidth || 300;
+    let sens = (lucro / (inv || 1));
+    let y3 = Math.max(5, 40 - (sens * 100));
+    document.getElementById('path').setAttribute("d", `M30,60 Q${width/2},${Math.max(10, 50-(sens*50))} ${width-30},${y3}`);
+    document.getElementById('d3').setAttribute("cx", width-30); document.getElementById('d3').setAttribute("cy", y3);
+
+    // CARDS E STAKES
     const prod = p=="AGRESSIVO" ? ["AÇÕES","CRIPTO","OPÇÕES"] : p=="MODERADO" ? ["FIIs","AÇÕES","CDB"] : ["TESOURO","CDB","LCI"];
     let hP = "";
     prod.forEach((n, idx) => {
-        let vP = (moldGlobal * [0.5, 0.3, 0.2][idx]).toLocaleString('pt-BR', {maximumFractionDigits: 0});
-        hP += `<div class="c"><span style="font-size:7px;color:var(--blue); font-weight:900;">${n}</span><br><b>R$ ${vP}</b></div>`;
+        let valProd = (moldGlobal * [0.5, 0.3, 0.2][idx]).toLocaleString('pt-BR', {maximumFractionDigits:0});
+        hP += `<div class="c"><span style="font-size:7px;color:var(--blue);font-weight:900;">${n}</span><br><b>R$ ${valProd}</b></div>`;
     });
     document.getElementById('grid-p').innerHTML = hP;
 
@@ -84,13 +89,14 @@ function calc() {
     document.getElementById('fav').innerHTML = hF;
 }
 
+// MODO AUDITORIA (TOQUE LONGO)
 const dV = document.getElementById('v-mold');
 const audit = (s) => { 
-    dV.innerText = (s?realGlobal:moldGlobal).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}); 
+    dV.innerText = "R$ " + (s?realGlobal:moldGlobal).toLocaleString('pt-BR', {minimumFractionDigits:2}); 
     dV.style.color = s?"var(--accent)":"var(--gold)"; 
 };
 dV.onmousedown = () => audit(true); dV.onmouseup = () => audit(false);
 dV.ontouchstart = (e) => { e.preventDefault(); audit(true); }; dV.ontouchend = () => audit(false);
 
 setInterval(atualizarMer
-                                                            cado, 60000);
+            cado, 60000);
