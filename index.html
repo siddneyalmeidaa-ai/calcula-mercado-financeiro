@@ -25,20 +25,15 @@
 
         .inputs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 0 12px; }
         .in { background: #0a0a0a; padding: 8px; border-radius: 6px; text-align: center; border: 1px solid #222; }
-        .in label { font-size: 7px; color: var(--gold); display: block; font-weight: bold; margin-bottom: 2px; }
+        .in label { font-size: 6px; color: var(--gold); display: block; font-weight: bold; margin-bottom: 2px; white-space: nowrap; }
         input { width: 100%; background: none; border: none; color: #fff; text-align: center; font-size: 15px; outline: none; font-weight: bold; }
+        input::placeholder { color: #222; }
 
         .cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin: 12px; }
-        .c { border: 1px solid var(--blue); padding: 12px; border-radius: 6px; text-align: center; background: #050505; animation: pulse 3s infinite; }
-        @keyframes pulse { 0%, 100% { box-shadow: 0 0 0px var(--blue); } 50% { box-shadow: 0 0 12px var(--blue); } }
+        .c { border: 1px solid var(--blue); padding: 12px; border-radius: 6px; text-align: center; background: #050505; }
 
         table { width: 100%; font-size: 10px; margin-top: 10px; border-collapse: collapse; }
         td, th { padding: 10px; text-align: center; border-bottom: 1px solid #111; font-weight: bold; }
-
-        .chart { background: #050505; border: 1px solid #222; margin: 12px; border-radius: 10px; padding: 15px; }
-        svg { width: 100%; height: 60px; overflow: visible; }
-        .line { fill: none; stroke: var(--gold); stroke-width: 3; transition: 1.2s; filter: drop-shadow(0 0 5px var(--gold)); }
-        .dot { fill: var(--gold); stroke: #fff; stroke-width: 1; }
     </style>
 </head>
 <body>
@@ -59,9 +54,9 @@
         <button id="top-perfil" style="background:var(--gold); border:none; padding:4px 10px; font-weight:900; font-size:9px; border-radius:4px;">ANALISANDO...</button>
     </div>
     <div class="stats">
-        <span>SELIC: <b id="selic">--%</b></span>
-        <span>IPCA: <b id="ipca">3.90%</b></span>
-        <span>IR: <b id="ir" style="color:var(--red)">22.5%</b></span>
+        <span>SELIC REAL: <b id="selic">--%</b></span>
+        <span>IPCA: <b>3.90%</b></span>
+        <span>IR: <b id="ir" style="color:var(--red)">--%</b></span>
     </div>
 
     <div class="box">
@@ -70,9 +65,9 @@
     </div>
 
     <div class="inputs">
-        <div class="in"><label>INICIAL</label><input type="number" id="ini" value="1000" oninput="calc()"></div>
-        <div class="in"><label>MENSAL</label><input type="number" id="mes" value="200" oninput="calc()"></div>
-        <div class="in"><label>MESES</label><input type="number" id="tempo" value="12" oninput="calc()"></div>
+        <div class="in"><label>APORTE INICIAL</label><input type="number" id="ini" placeholder="0" oninput="calc()"></div>
+        <div class="in"><label>APORTE MENSAL</label><input type="number" id="mes" placeholder="0" oninput="calc()"></div>
+        <div class="in"><label>MESES</label><input type="number" id="tempo" placeholder="0" oninput="calc()"></div>
     </div>
 
     <div id="grid-p" class="cards"></div>
@@ -83,17 +78,9 @@
             <tbody id="fav"></tbody>
         </table>
     </div>
-
-    <div class="chart">
-        <svg id="svg">
-            <path id="path" class="line" d="M30,50 Q100,50 250,50" />
-            <circle id="d3" class="dot" r="5" cx="250" cy="50" />
-        </svg>
-    </div>
 </div>
 
 <script>
-    // VALORES DE SEGURANÇA (MARÇO 2026)
     let sValue = 14.75, score = 0, step = 0;
     let realGlobal = 0, moldGlobal = 0;
 
@@ -104,6 +91,9 @@
     ];
 
     function startQuiz() {
+        document.getElementById('ini').value = "";
+        document.getElementById('mes').value = "";
+        document.getElementById('tempo').value = "";
         document.getElementById('splash').style.display='none';
         document.getElementById('quiz').style.display='flex';
         showQ();
@@ -111,7 +101,7 @@
 
     function showQ() {
         const q = qs[step];
-        let h = `<h2 style="color:var(--gold); margin-bottom:30px; letter-spacing:1px;">${q.q}</h2>`;
+        let h = `<h2 style="color:var(--gold); margin-bottom:30px;">${q.q}</h2>`;
         q.o.forEach((opt, i) => h += `<div class="opt" onclick="next(${q.v[i]})">${opt}</div>`);
         document.getElementById('q-box').innerHTML = h;
     }
@@ -128,47 +118,42 @@
 
     async function atualizarMercado() {
         try {
-            // BUSCA REAL DA SELIC NO BANCO CENTRAL (API SGS)
             const res = await fetch('https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados/ultimos/1?formato=json');
             const data = await res.json();
             if(data[0]) {
                 sValue = parseFloat(data[0].valor);
                 document.getElementById('selic').innerText = sValue.toFixed(2) + "%";
             }
-        } catch(e) { 
-            document.getElementById('selic').innerText = "14.75%"; // VALOR FIXO SE FALHAR
-        }
+        } catch(e) { document.getElementById('selic').innerText = "14.75%"; }
         calc();
     }
 
     function calc() {
         const i = parseFloat(document.getElementById('ini').value) || 0;
         const m = parseFloat(document.getElementById('mes').value) || 0;
-        const t = parseInt(document.getElementById('tempo').value) || 1;
+        const t = parseInt(document.getElementById('tempo').value) || 0;
+        
         const p = score > 7 ? "AGRESSIVO" : score > 4 ? "MODERADO" : "CONSERVADOR";
         document.getElementById('top-perfil').innerText = p;
+
+        if (i === 0 && m === 0) {
+            document.getElementById('v-mold').innerText = "R$ 0,00";
+            return;
+        }
 
         const taxaM = Math.pow(1 + (sValue/100), 1/12) - 1;
         let irTaxa = t > 24 ? 0.15 : t > 12 ? 0.175 : 0.225;
         document.getElementById('ir').innerText = (irTaxa * 100).toFixed(1) + "%";
 
-        const bruto = (i * Math.pow(1 + taxaM, t)) + (m * ((Math.pow(1 + taxaM, t) - 1) / taxaM));
+        const bruto = (i * Math.pow(1 + taxaM, Math.max(1,t))) + (m * ((Math.pow(1 + taxaM, Math.max(1,t)) - 1) / taxaM));
         const inv = i + (m * t);
         const lucroLiq = (bruto - inv) * (1 - irTaxa);
 
         realGlobal = inv + lucroLiq;
-        moldGlobal = inv + (lucroLiq * 0.5); // REGRA: -50%
+        moldGlobal = inv + (lucroLiq * 0.5);
 
         document.getElementById('v-mold').innerText = "R$ " + moldGlobal.toLocaleString('pt-BR', {minimumFractionDigits:2});
         
-        // GRÁFICO DINÂMICO
-        const width = document.getElementById('svg').clientWidth || 300;
-        let sens = (lucroLiq/inv) * 100 || 0;
-        let y3 = Math.max(5, 50 - sens);
-        document.getElementById('path').setAttribute("d", `M30,50 Q${width/2},${y3+15} ${width-30},${y3}`);
-        document.getElementById('d3').setAttribute("cx", width-30); document.getElementById('d3').setAttribute("cy", y3);
-
-        // STAKES E CARDS
         const prod = p=="AGRESSIVO" ? ["AÇÕES","CRIPTO","OPÇÕES"] : p=="MODERADO" ? ["FIIs","AÇÕES","CDB"] : ["TESOURO","CDB","LCI"];
         let hP = "";
         prod.forEach((n, idx) => {
@@ -182,16 +167,9 @@
         document.getElementById('fav').innerHTML = hF;
     }
 
-    // AUDITORIA SINCERA (TOQUE LONGO)
     const dV = document.getElementById('v-mold');
-    const audit = (s) => { 
-        dV.innerText = "R$ " + (s?realGlobal:moldGlobal).toLocaleString('pt-BR', {minimumFractionDigits:2}); 
-        dV.style.color = s?"var(--accent)":"var(--gold)"; 
-    };
-    dV.onmousedown = () => audit(true); dV.onmouseup = () => audit(false);
-    dV.ontouchstart = (e) => { e.preventDefault(); audit(true); }; dV.ontouchend = () => audit(false);
-
-    setInterval(atualizarMercado, 60000); // ATUALIZAÇÃO CONTÍNUA
+    dV.ontouchstart = (e) => { e.preventDefault(); dV.innerText = "R$ " + realGlobal.toLocaleString('pt-BR', {minimumFractionDigits:2}); dV.style.color = "var(--accent)"; };
+    dV.ontouchend = () => { dV.innerText = "R$ " + moldGlobal.toLocaleString('pt-BR', {minimumFractionDigits:2}); dV.style.color = "var(--gold)"; };
 </script>
 </body>
 </html>
