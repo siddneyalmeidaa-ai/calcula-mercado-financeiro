@@ -3,164 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TERMINAL S.A. | V152</title>
+    <title>TERMINAL S.A. | V153</title>
     <style>
         :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --red: #FF4444; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background: #000; color: #fff; height: 100vh; overflow-y: auto; }
-
-        #splash, #quiz { position: fixed; inset: 0; background: #000; z-index: 999; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
-        .logo { font-size: 60px; color: var(--gold); margin-bottom: 10px; filter: drop-shadow(0 0 10px var(--gold)); }
-        .btn-g { margin-top: 25px; padding: 15px 40px; border: 1px solid var(--gold); color: var(--gold); background: none; border-radius: 30px; font-weight: bold; cursor: pointer; letter-spacing: 2px; text-transform: uppercase; }
-        
-        #main { display: none; padding-bottom: 100px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+        body { background: #000; color: #fff; height: 100vh; overflow-y: auto; padding-bottom: 50px; }
         .bar { padding: 12px; border-bottom: 1px solid var(--gold); display: flex; justify-content: space-between; align-items: center; font-size: 10px; background:#050505; }
         .stats { display: flex; justify-content: space-around; padding: 10px; font-size: 9px; background: #080808; border-bottom: 1px solid #111; }
-        
         .box { margin: 12px; border: 2px solid var(--gold); border-radius: 12px; padding: 18px; text-align: center; background: #050505; }
         .val { font-size: 28px; font-weight: 900; color: var(--gold); }
-
         .inputs-main { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 0 12px; }
         .in { background: #0a0a0a; padding: 8px; border-radius: 6px; text-align: center; border: 1px solid #222; }
         .in label { font-size: 6px; color: var(--gold); display: block; font-weight: bold; margin-bottom: 2px; }
-        input { width: 100%; background: none; border: none; color: #fff; text-align: center; font-size: 14px; outline: none; font-weight: bold; }
-
-        /* ESTILO DOS CARDS CONFIGURÁVEIS */
-        .cards-config { margin: 12px; display: grid; gap: 10px; }
-        .card-at { background: #050505; border: 1px solid #333; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
-        .card-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; padding-bottom: 5px; }
-        .card-header span { font-size: 9px; font-weight: 900; color: var(--blue); }
-        .card-body { display: grid; grid-template-columns: 1fr 1fr 0.5fr; gap: 5px; align-items: center; }
-        
-        select, .in-at { background: #111; border: 1px solid #444; color: #fff; font-size: 11px; padding: 5px; border-radius: 4px; text-align: center; }
-        .isento-label { font-size: 8px; display: flex; align-items: center; gap: 3px; cursor: pointer; }
-
-        table { width: 100%; font-size: 10px; border-collapse: collapse; background: #050505; }
+        input, select { width: 100%; background: #111; border: 1px solid #333; color: #fff; text-align: center; font-size: 14px; outline: none; border-radius: 4px; }
+        .card-at { margin: 12px; background: #050505; border: 1px solid #222; border-radius: 8px; padding: 12px; }
+        .card-header { display: flex; justify-content: space-between; font-size: 10px; color: var(--blue); margin-bottom: 8px; font-weight: 900; }
+        .card-body { display: grid; grid-template-columns: 1fr 1fr auto; gap: 8px; align-items: center; }
+        table { width: 100%; font-size: 10px; border-collapse: collapse; margin-top: 10px; }
         td, th { padding: 10px; text-align: center; border-bottom: 1px solid #111; }
     </style>
 </head>
 <body>
 
-<div id="splash">
-    <div class="logo">🔱</div>
-    <p style="color:var(--gold); letter-spacing:4px; font-weight:900;">S.A. SUPREMACIA</p>
-    <button class="btn-g" onclick="start()">INICIAR PROTOCOLO</button>
+<div class="bar">
+    <span>🛡️ TERMINAL S.A. | V153</span>
+    <span id="dias-copom" style="color:var(--accent)">COPOM EM: --d</span>
 </div>
 
-<div id="main">
-    <div class="bar">
-        <span>🛡️ TERMINAL S.A. | V152</span>
-        <span id="dias-copom" style="color:var(--accent); font-weight:bold;"></span>
-    </div>
-    <div class="stats">
-        <span>SELIC: <b id="selic">14.75%</b></span>
-        <span>IPCA: <input type="number" id="ipca-val" value="3.90" step="0.01" style="width:40px; font-size:9px; color:#fff;" oninput="calc()">%</span>
-        <span>CDI: <b id="cdi-val">14.65%</b></span>
-    </div>
+<div class="stats">
+    <span>SELIC: <b>14.75%</b></span>
+    <span>IPCA: <input type="number" id="ipca-val" value="3.90" style="width:35px;" oninput="calc()">%</span>
+    <span>CDI: <b id="cdi-val">14.65%</b></span>
+</div>
 
-    <div class="box">
-        <small style="font-size:8px; color:var(--gold); font-weight:900;">LUCRO MOLDADO (-50%)</small>
-        <div class="val" id="v-mold">R$ 0,00</div>
-    </div>
+<div class="box">
+    <small style="font-size:8px; color:var(--gold); font-weight:900;">LUCRO MOLDADO (-50%)</small>
+    <div class="val" id="v-mold">R$ 0,00</div>
+</div>
 
-    <div class="inputs-main">
-        <div class="in"><label>APORTE INICIAL</label><input type="number" id="ini" placeholder="0" oninput="calc()"></div>
-        <div class="in"><label>APORTE MENSAL</label><input type="number" id="mes" placeholder="0" oninput="calc()"></div>
-        <div class="in"><label>MESES</label><input type="number" id="tempo" placeholder="0" oninput="calc()"></div>
-    </div>
+<div class="inputs-main">
+    <div class="in"><label>APORTE INICIAL</label><input type="number" id="ini" placeholder="0" oninput="calc()"></div>
+    <div class="in"><label>APORTE MENSAL</label><input type="number" id="mes" placeholder="0" oninput="calc()"></div>
+    <div class="in"><label>MESES</label><input type="number" id="tempo" placeholder="0" oninput="calc()"></div>
+</div>
 
-    <div class="cards-config">
-        <div class="card-at">
-            <div class="card-header"><span>PRODUTO A</span> <b id="res-a">R$ 0</b></div>
-            <div class="card-body">
-                <select id="tipo-a" onchange="calc()">
-                    <option value="CDI">% CDI</option>
-                    <option value="IPCA">IPCA +</option>
-                    <option value="PRE">PRÉ %</option>
-                </select>
-                <input type="number" id="taxa-a" class="in-at" value="100" oninput="calc()">
-                <label class="isento-label"><input type="checkbox" id="ir-a" onchange="calc()"> ISENTO</label>
-            </div>
-        </div>
-        <div class="card-at">
-            <div class="card-header"><span>PRODUTO B</span> <b id="res-b">R$ 0</b></div>
-            <div class="card-body">
-                <select id="tipo-b" onchange="calc()">
-                    <option value="CDI">% CDI</option>
-                    <option value="IPCA" selected>IPCA +</option>
-                    <option value="PRE">PRÉ %</option>
-                </select>
-                <input type="number" id="taxa-b" class="in-at" value="6" oninput="calc()">
-                <label class="isento-label"><input type="checkbox" id="ir-b" onchange="calc()"> ISENTO</label>
-            </div>
-        </div>
+<div class="card-at">
+    <div class="card-header"><span>RENDA FIXA (CDB/LCI)</span> <b id="res-a">R$ 0</b></div>
+    <div class="card-body">
+        <select id="tipo-a" onchange="calc()"><option value="CDI">% CDI</option><option value="PRE">PRÉ %</option></select>
+        <input type="number" id="taxa-a" value="107" oninput="calc()">
+        <label style="font-size:8px;"><input type="checkbox" id="ir-a" onchange="calc()"> ISENTO</label>
     </div>
+</div>
 
-    <div style="margin:12px; border:1px solid #111; overflow: hidden; border-radius: 8px;">
-        <table>
-            <thead><tr><th>Mês</th><th>Ação</th><th>Stake</th></tr></thead>
-            <tbody id="fav"></tbody>
-        </table>
+<div class="card-at">
+    <div class="card-header"><span>MERCADO VARIÁVEL (BOLSA)</span> <b id="res-b">R$ 0</b></div>
+    <div class="card-body">
+        <input type="text" id="ticker" placeholder="TICKER (EX: PETR4)" style="font-size:10px;">
+        <input type="number" id="oscilacao" placeholder="OSCIL. ESPERADA %" oninput="calc()">
+        <span style="font-size:8px; color:var(--accent)">AO MÊS</span>
     </div>
+</div>
+
+<div style="margin:12px; border:1px solid #111; border-radius: 8px;">
+    <table>
+        <thead><tr><th>Mês</th><th>Ação</th><th>Stake</th></tr></thead>
+        <tbody id="fav"></tbody>
+    </table>
 </div>
 
 <script>
-    let sValue = 14.75;
-
-    function start() {
-        document.getElementById('splash').style.display='none';
-        document.getElementById('main').style.display='block';
-        atualizarDatas();
-    }
-
-    function atualizarDatas() {
-        const hoje = new Date();
-        const dataCopom = new Date("2026-05-06");
-        const diffDays = Math.ceil(Math.abs(dataCopom - hoje) / (1000 * 60 * 60 * 24));
-        document.getElementById('dias-copom').innerText = "COPOM EM: " + diffDays + "d";
-        calc();
-    }
-
     function calc() {
         const i = parseFloat(document.getElementById('ini').value) || 0;
         const m = parseFloat(document.getElementById('mes').value) || 0;
         const t = parseInt(document.getElementById('tempo').value) || 0;
-        const ipca = parseFloat(document.getElementById('ipca-val').value) || 0;
-        const cdi = sValue - 0.10;
-        document.getElementById('cdi-val').innerText = cdi.toFixed(2) + "%";
+        const cdi = 14.65;
+        const ipca = parseFloat(document.getElementById('ipca-val').value) || 3.90;
 
-        function calcularAtivo(id) {
-            const tipo = document.getElementById('tipo-'+id).value;
-            const taxaUser = parseFloat(document.getElementById('taxa-'+id).value) || 0;
-            const isento = document.getElementById('ir-'+id).checked;
-            
-            let taxaAnual = 0;
-            if(tipo === "CDI") taxaAnual = cdi * (taxaUser/100);
-            else if(tipo === "IPCA") taxaAnual = ipca + taxaUser;
-            else taxaAnual = taxaUser;
+        // Cálculo Renda Fixa
+        const tipoA = document.getElementById('tipo-a').value;
+        const taxaAUser = parseFloat(document.getElementById('taxa-a').value) || 0;
+        const isentoA = document.getElementById('ir-a').checked;
+        let taxaAnualA = tipoA === "CDI" ? (cdi * (taxaAUser/100)) : taxaAUser;
+        let taxaMA = Math.pow(1 + (taxaAnualA/100), 1/12) - 1;
+        let brutoA = (i * Math.pow(1 + taxaMA, t)) + (m * ((Math.pow(1 + taxaMA, t) - 1) / taxaMA));
+        let lucroA = brutoA - (i + (m * t));
+        let irA = isentoA ? 0 : (t > 24 ? 0.15 : t > 12 ? 0.175 : 0.225);
+        let liqA = (i + (m * t)) + (lucroA * (1 - irA));
 
-            const taxaM = Math.pow(1 + (taxaAnual/100), 1/12) - 1;
-            const bruto = (i * Math.pow(1 + taxaM, t)) + (m * ((Math.pow(1 + taxaM, t) - 1) / taxaM));
-            const lucro = bruto - (i + (m * t));
-            
-            let irPagar = isento ? 0 : (t > 24 ? 0.15 : t > 12 ? 0.175 : 0.225);
-            return (i + (m * t)) + (lucro * (1 - irPagar));
-        }
+        // Cálculo Bolsa (Variável)
+        const oscM = (parseFloat(document.getElementById('oscilacao').value) || 0) / 100;
+        let liqB = (i * Math.pow(1 + oscM, t)) + (m * ((Math.pow(1 + oscM, t) - 1) / oscM));
+        if (oscM === 0) liqB = i + (m * t);
 
-        const resA = calcularAtivo('a');
-        const resB = calcularAtivo('b');
-        
-        document.getElementById('res-a').innerText = "R$ " + resA.toLocaleString('pt-BR',{maximumFractionDigits:0});
-        document.getElementById('res-b').innerText = "R$ " + resB.toLocaleString('pt-BR',{maximumFractionDigits:0});
+        document.getElementById('res-a').innerText = "R$ " + liqA.toLocaleString('pt-BR',{maximumFractionDigits:0});
+        document.getElementById('res-b').innerText = "R$ " + liqB.toLocaleString('pt-BR',{maximumFractionDigits:0});
 
-        // O Lucro Moldado usa a média ou o produto principal (A)
-        const moldado = (i + (m * t)) + ((resA - (i + (m * t))) * 0.5);
+        // LUCRO MOLDADO: -50% da média dos lucros projetados
+        let lucroProjetado = (liqA - (i + (m * t)));
+        let moldado = (i + (m * t)) + (lucroProjetado * 0.5); 
+
         document.getElementById('v-mold').innerText = "R$ " + moldado.toLocaleString('pt-BR', {minimumFractionDigits:2});
 
+        // Tabela Favelinha
         let hF = "";
         for(let j=1; j<=3; j++) hF += `<tr><td>${t+j}</td><td style="color:var(--accent)">ENTRA</td><td>R$ ${(moldado*0.01/j).toFixed(2)}</td></tr>`;
         document.getElementById('fav').innerHTML = hF;
     }
+
+    // Datas COPOM
+    const dataCopom = new Date("2026-05-06");
+    const diffDays = Math.ceil(Math.abs(dataCopom - new Date()) / (1000 * 60 * 60 * 24));
+    document.getElementById('dias-copom').innerText = "COPOM EM: " + diffDays + "d";
 </script>
-</body>
+<
+    /body>
 </html>
