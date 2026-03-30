@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>TERMINAL S.A. | V152</title>
     <style>
-        /* CSS INTEGRADO - MANTENDO O PADRÃO OURO */
         :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --red: #FF4444; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background: #000; color: #fff; height: 100vh; overflow: hidden; }
@@ -18,7 +17,7 @@
         .opt:active { background: var(--gold); color: #000; }
 
         #main { display: none; height: 100vh; overflow-y: auto; padding-bottom: 100px; }
-        .bar { padding: 12px; border-bottom: 1px solid var(--gold); display: flex; justify-content: space-between; align-items: center; font-size: 10px; background: #050505; }
+        .bar { padding: 12px; border-bottom: 1px solid var(--gold); display: flex; justify-content: space-between; align-items: center; font-size: 10px; background:#050505; }
         .stats { display: flex; justify-content: space-around; padding: 6px; font-size: 9px; background: #080808; border-bottom: 1px solid #111; }
         
         .box { margin: 12px; border: 2px solid var(--gold); border-radius: 12px; padding: 18px; text-align: center; background: #050505; }
@@ -57,11 +56,11 @@
 <div id="main">
     <div class="bar">
         <span>🛡️ TERMINAL S.A. | V152</span>
-        <button id="top-perfil" style="background:var(--gold); border:none; padding:4px 10px; font-weight:900; font-size:9px; border-radius:4px;">CONSERVADOR</button>
+        <button id="top-perfil" style="background:var(--gold); border:none; padding:4px 10px; font-weight:900; font-size:9px; border-radius:4px;">ANALISANDO...</button>
     </div>
     <div class="stats">
-        <span>SELIC REAL: <b id="selic">14.75%</b></span>
-        <span>IPCA: <b>3.90%</b></span>
+        <span>SELIC: <b id="selic">--%</b></span>
+        <span>IPCA: <b id="ipca">3.90%</b></span>
         <span>IR: <b id="ir" style="color:var(--red)">22.5%</b></span>
     </div>
 
@@ -94,8 +93,8 @@
 </div>
 
 <script>
-    // INICIANDO JÁ COM A TAXA REAL DE MARÇO/2026
-    let sValue = 14.75, score = 0, step = 0; 
+    // VALORES DE SEGURANÇA (MARÇO 2026)
+    let sValue = 14.75, score = 0, step = 0;
     let realGlobal = 0, moldGlobal = 0;
 
     const qs = [
@@ -129,14 +128,16 @@
 
     async function atualizarMercado() {
         try {
-            // BUSCA REAL NO BANCO CENTRAL
+            // BUSCA REAL DA SELIC NO BANCO CENTRAL (API SGS)
             const res = await fetch('https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados/ultimos/1?formato=json');
             const data = await res.json();
             if(data[0]) {
                 sValue = parseFloat(data[0].valor);
                 document.getElementById('selic').innerText = sValue.toFixed(2) + "%";
             }
-        } catch(e) { console.log("BCB Offline - Usando 14.75% de Segurança"); }
+        } catch(e) { 
+            document.getElementById('selic').innerText = "14.75%"; // VALOR FIXO SE FALHAR
+        }
         calc();
     }
 
@@ -156,14 +157,14 @@
         const lucroLiq = (bruto - inv) * (1 - irTaxa);
 
         realGlobal = inv + lucroLiq;
-        moldGlobal = inv + (lucroLiq * 0.5); // REGRA DE OURO: -50%
+        moldGlobal = inv + (lucroLiq * 0.5); // REGRA: -50%
 
         document.getElementById('v-mold').innerText = "R$ " + moldGlobal.toLocaleString('pt-BR', {minimumFractionDigits:2});
         
         // GRÁFICO DINÂMICO
         const width = document.getElementById('svg').clientWidth || 300;
-        let sensibilidade = (lucroLiq/inv) * 100 || 0;
-        let y3 = Math.max(5, 50 - sensibilidade);
+        let sens = (lucroLiq/inv) * 100 || 0;
+        let y3 = Math.max(5, 50 - sens);
         document.getElementById('path').setAttribute("d", `M30,50 Q${width/2},${y3+15} ${width-30},${y3}`);
         document.getElementById('d3').setAttribute("cx", width-30); document.getElementById('d3').setAttribute("cy", y3);
 
@@ -181,7 +182,7 @@
         document.getElementById('fav').innerHTML = hF;
     }
 
-    // AUDITORIA (TOQUE LONGO)
+    // AUDITORIA SINCERA (TOQUE LONGO)
     const dV = document.getElementById('v-mold');
     const audit = (s) => { 
         dV.innerText = "R$ " + (s?realGlobal:moldGlobal).toLocaleString('pt-BR', {minimumFractionDigits:2}); 
@@ -190,7 +191,7 @@
     dV.onmousedown = () => audit(true); dV.onmouseup = () => audit(false);
     dV.ontouchstart = (e) => { e.preventDefault(); audit(true); }; dV.ontouchend = () => audit(false);
 
-    setInterval(atualizarMercado, 60000);
+    setInterval(atualizarMercado, 60000); // ATUALIZAÇÃO CONTÍNUA
 </script>
 </body>
 </html>
