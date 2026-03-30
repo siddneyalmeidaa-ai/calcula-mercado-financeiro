@@ -54,7 +54,8 @@
         <button id="top-perfil" style="background:var(--gold); border:none; padding:4px 10px; font-weight:900; font-size:9px; border-radius:4px;">ANALISANDO...</button>
     </div>
     <div class="stats">
-        <span>SELIC REAL: <b id="selic">--%</b></span>
+        <span>SELIC: <b id="selic">--%</b></span>
+        <span style="color:var(--accent)">COPOM EM: <b id="dias-copom">--d</b></span>
         <span>IPCA: <b>3.90%</b></span>
         <span>IR: <b id="ir" style="color:var(--red)">--%</b></span>
     </div>
@@ -117,6 +118,13 @@
     }
 
     async function atualizarMercado() {
+        // Cálculo dos dias para o COPOM (06/05/2026)
+        const hoje = new Date();
+        const dataCopom = new Date("2026-05-06T00:00:00");
+        const diffTime = Math.abs(dataCopom - hoje);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        document.getElementById('dias-copom').innerText = diffDays + "d";
+
         try {
             const res = await fetch('https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados/ultimos/1?formato=json');
             const data = await res.json();
