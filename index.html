@@ -3,32 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TERMINAL S.A. | V162 BLINDADA</title>
+    <title>TERMINAL S.A. | V163 VIVO</title>
     <style>
         :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --red: #FF3131; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background: #000; color: #fff; min-height: 100vh; overflow-y: auto; padding-bottom: 80px; transition: 0.3s; }
+        body { background: #000; color: #fff; min-height: 100vh; overflow-y: auto; padding-bottom: 80px; }
         
-        /* Snapshot Mode */
-        body.snapshot-mode .inputs-main, 
-        body.snapshot-mode .card-gaveta, 
-        body.snapshot-mode .tradingview-widget-container,
-        body.snapshot-mode .bar { display: none !important; }
-        body.snapshot-mode .box { margin-top: 50px; border-width: 3px; }
+        body.snapshot-mode .inputs-main, body.snapshot-mode .card-gaveta, 
+        body.snapshot-mode .tradingview-widget-container, body.snapshot-mode .bar, 
+        body.snapshot-mode .btn-snap { display: none !important; }
+        body.snapshot-mode .box { margin-top: 60px; border-width: 3px; }
 
         .b3-container { width: 100%; background: #050505; border-bottom: 1px solid #111; }
         .bar { padding: 12px; border-bottom: 1px solid var(--gold); display: flex; justify-content: space-between; align-items: center; font-size: 10px; background:#050505; }
         .stats { display: flex; justify-content: space-around; padding: 10px; font-size: 9px; background: #080808; border-bottom: 1px solid #111; }
         
-        /* Box Principal Blindado */
-        .box { margin: 12px; border: 2px solid var(--gold); border-radius: 12px; padding: 25px; text-align: center; background: #050505; transition: 0.3s; position: relative; }
+        .box { margin: 12px; border: 2px solid var(--gold); border-radius: 12px; padding: 25px; text-align: center; background: #050505; transition: 0.3s; }
         .box.stop-loss { border-color: var(--red); box-shadow: 0 0 20px rgba(255,49,49,0.5); }
-        .val { font-size: 36px; font-weight: 900; color: var(--gold); text-shadow: 0 0 10px rgba(212,175,55,0.4); transition: 0.3s; }
-        .box.stop-loss .val { color: var(--red); text-shadow: 0 0 15px rgba(255,49,49,0.6); }
+        .val { font-size: 36px; font-weight: 900; color: var(--gold); text-shadow: 0 0 10px rgba(212,175,55,0.4); }
         
-        /* Barra de Meta */
         .meta-bar-container { width: 80%; height: 4px; background: #111; border-radius: 2px; margin: 10px auto 0; overflow: hidden; }
-        .meta-bar-fill { height: 100%; background: var(--gold); width: 0%; transition: 0.5s; }
+        .meta-bar-fill { height: 100%; background: var(--gold); width: 0%; transition: 0.8s ease-out; }
 
         .inputs-main { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 0 12px; }
         .in { background: #0a0a0a; padding: 8px; border-radius: 6px; text-align: center; border: 1px solid #222; }
@@ -45,32 +40,27 @@
         .row { display: flex; justify-content: space-between; align-items: center; font-size: 11px; }
         .in-gaveta { background: #111; border: 1px solid #333 !important; color: #fff; padding: 5px; border-radius: 4px; width: 110px; text-align: center; }
 
-        /* Botão Snapshot */
-        .btn-snap { position: fixed; bottom: 20px; right: 20px; background: var(--gold); color: #000; border: none; padding: 12px 20px; border-radius: 30px; font-weight: 900; font-size: 12px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 999; }
+        .btn-snap { position: fixed; bottom: 20px; right: 20px; background: var(--gold); color: #000; border: none; padding: 12px 20px; border-radius: 30px; font-weight: 900; font-size: 12px; cursor: pointer; z-index: 999; }
     </style>
 </head>
 <body>
 
 <div class="b3-container">
   <div class="tradingview-widget-container">
-    <div class="tradingview-widget-container__widget"></div>
     <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
-    {
-    "symbols": [
+    { "symbols": [
       {"proName": "BMFBOVESPA:IBOV", "title": "IBOVESPA"},
       {"proName": "BMFBOVESPA:PETR4", "title": "PETR4"},
       {"proName": "BMFBOVESPA:VALE3", "title": "VALE3"},
-      {"proName": "FX_IDC:USDBRL", "title": "DÓLAR/BRL"}
-    ],
-    "showSymbolLogo": true, "colorTheme": "dark", "isTransparent": true, "displayMode": "adaptive", "locale": "br"
-    }
+      {"proName": "FX_IDC:USDBRL", "title": "DÓLAR"}
+    ], "colorTheme": "dark", "isTransparent": true, "displayMode": "adaptive", "locale": "br" }
     </script>
   </div>
 </div>
 
 <div class="bar">
-    <span id="versao-label">🛡️ TERMINAL S.A. | V162 BLINDADA</span>
-    <span id="dias-copom" style="color:var(--accent)">SINCRONIZANDO...</span>
+    <span id="versao-label">🛡️ TERMINAL S.A. | V163</span>
+    <span id="dias-copom" style="color:var(--accent)">-</span>
 </div>
 
 <div class="stats">
@@ -81,136 +71,118 @@
 <div class="box" id="main-box">
     <small style="font-size:8px; color:var(--gold); font-weight:900; letter-spacing: 2px;">LUCRO MOLDADO (-50%)</small>
     <div class="val" id="v-mold">R$ 0,00</div>
-    <div class="meta-bar-container">
-        <div class="meta-bar-fill" id="meta-fill"></div>
-    </div>
+    <div class="meta-bar-container"><div class="meta-bar-fill" id="meta-fill"></div></div>
 </div>
 
 <div class="inputs-main">
-    <div class="in"><label>APORTE INICIAL</label><input type="number" id="ini" value="0" oninput="calc()"></div>
-    <div class="in"><label>APORTE MENSAL</label><input type="number" id="mes" value="0" oninput="calc()"></div>
-    <div class="in"><label>MESES</label><input type="number" id="tempo" value="12" oninput="calc()"></div>
+    <div class="in"><label>APORTE INICIAL</label><input type="number" id="ini" value="0" oninput="saveAndCalc()"></div>
+    <div class="in"><label>APORTE MENSAL</label><input type="number" id="mes" value="0" oninput="saveAndCalc()"></div>
+    <div class="in"><label>MESES</label><input type="number" id="tempo" value="12" oninput="saveAndCalc()"></div>
 </div>
 
 <div class="card-gaveta" id="cardA">
-    <div class="card-header" onclick="toggle('cardA')">
-        <span>ESTRATÉGIA RENDA FIXA ⚙️</span>
-        <b id="res-a">R$ 0</b>
-    </div>
+    <div class="card-header" onclick="toggle('cardA')"><span>ESTRATÉGIA RENDA FIXA ⚙️</span><b id="res-a">R$ 0</b></div>
     <div class="gaveta-content">
-        <div class="row">Produto: 
-            <select id="prod-a" onchange="calc()" class="in-gaveta">
-                <option value="CDB">CDB / PÓS</option>
-                <option value="LCI_LCA">LCI / LCA</option>
-                <option value="TESOURO">TESOURO SELIC</option>
-            </select>
-        </div>
-        <div class="row">Motor: 
-            <select id="motor-a" onchange="ajustarTaxaPadrao()" class="in-gaveta">
-                <option value="CDI">PÓS (% DA SELIC)</option>
-                <option value="PRE">PRÉ-FIXADO (%)</option>
-                <option value="IPCA">INFLAÇÃO + (%)</option>
-            </select>
-        </div>
-        <div class="row">Taxa do Ativo: <input type="number" id="taxa-a" class="in-gaveta" value="100" oninput="calc()"></div>
+        <div class="row">Produto: <select id="prod-a" onchange="saveAndCalc()" class="in-gaveta"><option value="CDB">CDB / PÓS</option><option value="LCI_LCA">LCI / LCA</option></select></div>
+        <div class="row">Motor: <select id="motor-a" onchange="ajustarTaxaPadrao()" class="in-gaveta"><option value="CDI">PÓS (% DA SELIC)</option><option value="IPCA">INFLAÇÃO + (%)</option></select></div>
+        <div class="row">Taxa: <input type="number" id="taxa-a" class="in-gaveta" value="100" oninput="saveAndCalc()"></div>
     </div>
 </div>
 
 <div class="card-gaveta" id="cardB">
-    <div class="card-header" onclick="toggle('cardB')">
-        <span>MERCADO FINANCEIRO B3 ⚙️</span>
-        <b id="res-b">R$ 0</b>
-    </div>
+    <div class="card-header" onclick="toggle('cardB')"><span>MERCADO FINANCEIRO B3 ⚙️</span><b id="res-b">R$ 0</b></div>
     <div class="gaveta-content">
-        <div class="row">Ticker: <input type="text" id="ticker" class="in-gaveta" placeholder="EX: PETR4"></div>
-        <div class="row">Oscilação Mês %: <input type="number" id="oscilacao" class="in-gaveta" value="0" oninput="calc()"></div>
+        <div class="row">Ticker: <input type="text" id="ticker" class="in-gaveta" placeholder="EX: PETR4" oninput="saveAndCalc()"></div>
+        <div class="row">Oscilação Mês %: <input type="number" id="oscilacao" class="in-gaveta" value="0" oninput="saveAndCalc()"></div>
     </div>
 </div>
 
-<button class="btn-snap" id="btn-snap" onclick="toggleSnapshot()">📸 MODO PRINT</button>
+<button class="btn-snap" onclick="document.body.classList.toggle('snapshot-mode')">📸 MODO PRINT</button>
 
 <script>
     let config = { selic: 14.75, inflacao: 3.90, dataCopom: "2026-05-06T00:00:00" };
+    let currentVal = 0;
+
+    function toggle(id) { document.getElementById(id).classList.toggle('aberto'); }
+
+    function saveAndCalc() {
+        const data = {
+            ini: document.getElementById('ini').value,
+            mes: document.getElementById('mes').value,
+            tempo: document.getElementById('tempo').value,
+            ticker: document.getElementById('ticker').value,
+            osc: document.getElementById('oscilacao').value
+        };
+        localStorage.setItem('terminalData', JSON.stringify(data));
+        calc();
+    }
+
+    function animateValue(obj, start, end, duration) {
+        let startTimestamp = null;
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            const val = start + progress * (end - start);
+            obj.innerHTML = "R$ " + val.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+            if (progress < 1) window.requestAnimationFrame(step);
+        };
+        window.requestAnimationFrame(step);
+    }
 
     async function carregarConfig() {
         try {
             const response = await fetch('config.json');
-            if (response.ok) {
-                config = await response.json();
-                document.getElementById('display-selic').innerText = config.selic + "%";
-                document.getElementById('display-inflacao').innerText = config.inflacao + "%";
-                if(config.versao) document.getElementById('versao-label').innerText = "🛡️ " + config.versao;
-            }
-        } catch (e) { console.log("Erro JSON"); }
-        calc();
-    }
-
-    function toggle(id) { document.getElementById(id).classList.toggle('aberto'); }
-
-    function toggleSnapshot() {
-        const body = document.body;
-        const btn = document.getElementById('btn-snap');
-        body.classList.toggle('snapshot-mode');
-        btn.innerText = body.classList.contains('snapshot-mode') ? "🔙 VOLTAR" : "📸 MODO PRINT";
-    }
-
-    function motorTempo() {
-        const diff = Math.ceil((new Date(config.dataCopom) - new Date()) / (1000 * 60 * 60 * 24));
-        document.getElementById('dias-copom').innerText = diff > 0 ? "COPOM EM: " + diff + "D" : "REUNIÃO HOJE";
-    }
-
-    function ajustarTaxaPadrao() {
-        const motor = document.getElementById('motor-a').value;
-        const campoTaxa = document.getElementById('taxa-a');
-        campoTaxa.value = (motor === "IPCA") ? "6" : (motor === "CDI") ? "100" : campoTaxa.value;
+            if (response.ok) { config = await response.json(); }
+        } catch (e) {}
+        
+        const saved = localStorage.getItem('terminalData');
+        if(saved) {
+            const d = JSON.parse(saved);
+            document.getElementById('ini').value = d.ini;
+            document.getElementById('mes').value = d.mes;
+            document.getElementById('tempo').value = d.tempo;
+            document.getElementById('ticker').value = d.ticker;
+            document.getElementById('oscilacao').value = d.osc;
+        }
         calc();
     }
 
     function calc() {
-        motorTempo();
         const i = parseFloat(document.getElementById('ini').value) || 0;
         const m = parseFloat(document.getElementById('mes').value) || 0;
         const t = Math.max(1, parseInt(document.getElementById('tempo').value) || 0);
         const totalInvestido = i + (m * t);
 
-        // Lógica Renda Fixa
+        // RF
         const motor = document.getElementById('motor-a').value;
         const taxaUser = parseFloat(document.getElementById('taxa-a').value) || 0;
-        let taxaAnual = (motor === "CDI") ? config.selic * (taxaUser/100) : (motor === "PRE") ? taxaUser : config.inflacao + taxaUser;
+        let taxaAnual = (motor === "CDI") ? config.selic * (taxaUser/100) : config.inflacao + taxaUser;
         let taxaMA = Math.pow(1 + (taxaAnual/100), 1/12) - 1;
         let brutoA = i * Math.pow(1 + taxaMA, t);
         for(let j=1; j<=t; j++) brutoA += m * Math.pow(1 + taxaMA, t-j);
-        
-        const isento = ["LCI_LCA"].includes(document.getElementById('prod-a').value);
-        let liqA = totalInvestido + ((brutoA - totalInvestido) * (isento ? 1 : 0.825));
+        let liqA = totalInvestido + ((brutoA - totalInvestido) * 0.825);
 
-        // Lógica Bolsa com Stop Loss Visual
+        // B3
         const oscRaw = document.getElementById('oscilacao').value;
         const oscM = (parseFloat(oscRaw) || 0) / 100;
-        const mainBox = document.getElementById('main-box');
-
-        if(parseFloat(oscRaw) < 0) { mainBox.classList.add('stop-loss'); } 
-        else { mainBox.classList.remove('stop-loss'); }
-
+        document.getElementById('main-box').classList.toggle('stop-loss', parseFloat(oscRaw) < 0);
         let liqB = i * Math.pow(1 + oscM, t);
         for(let k=1; k<=t; k++) liqB += m * Math.pow(1 + oscM, t-k);
 
         document.getElementById('res-a').innerText = "R$ " + liqA.toLocaleString('pt-BR',{maximumFractionDigits:0});
         document.getElementById('res-b').innerText = "R$ " + liqB.toLocaleString('pt-BR',{maximumFractionDigits:0});
 
-        // Lucro Moldado Padrão Ouro
-        let lucroReal = (liqA + liqB) / 2; 
-        let moldado = totalInvestido + ((lucroReal - totalInvestido) * 0.5); 
-        const valorFinal = (totalInvestido > 0 ? moldado : 0);
-        document.getElementById('v-mold').innerText = "R$ " + valorFinal.toLocaleString('pt-BR', {minimumFractionDigits:2});
+        let moldado = totalInvestido + (((liqA + liqB) / 2 - totalInvestido) * 0.5);
+        let final = totalInvestido > 0 ? moldado : 0;
+        
+        animateValue(document.getElementById('v-mold'), currentVal, final, 500);
+        currentVal = final;
 
-        // Lógica Barra de Meta (Meta = Dobrar Capital)
         const fill = document.getElementById('meta-fill');
-        if(totalInvestido > 0) {
-            let meta = totalInvestido * 2;
-            let progresso = (valorFinal / meta) * 100;
-            fill.style.width = Math.min(100, progresso) + "%";
-        } else { fill.style.width = "0%"; }
+        fill.style.width = totalInvestido > 0 ? Math.min(100, (final / (totalInvestido * 2)) * 100) + "%" : "0%";
+        
+        const diff = Math.ceil((new Date(config.dataCopom) - new Date()) / (1000 * 60 * 60 * 24));
+        document.getElementById('dias-copom').innerText = "COPOM EM: " + diff + "D";
     }
 
     carregarConfig();
