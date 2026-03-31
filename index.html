@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TERMINAL S.A. | V157</title>
+    <title>TERMINAL S.A. | V158</title>
     <style>
         :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --grey: #888; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; -webkit-tap-highlight-color: transparent; }
@@ -32,14 +32,14 @@
 <body>
 
 <div class="bar">
-    <span>🛡️ TERMINAL S.A. | V157</span>
-    <span id="dias-copom" style="color:var(--accent)">COPOM EM: --d</span>
+    <span>🛡️ TERMINAL S.A. | V158</span>
+    <span id="dias-copom">Calculando...</span>
 </div>
 
 <div class="stats">
-    <span>SELIC: <b>14.75%</b></span>
-    <span>CDI: <b>14.65%</b></span>
-    <span>IPCA: <b>3.90%</b></span>
+    <span>SELIC: <b id="val-selic">14.75%</b></span>
+    <span>CDI: <b id="val-cdi">14.65%</b></span>
+    <span>IPCA: <b id="val-ipca">3.90%</b></span>
 </div>
 
 <div class="box">
@@ -101,16 +101,34 @@
 <script>
     function toggle(id) { document.getElementById(id).classList.toggle('aberto'); }
 
+    // Motor de Tempo Real - Padrão Ouro
+    function motorTempo() {
+        const dataReuniao = new Date("2026-05-06T00:00:00");
+        const hoje = new Date();
+        const diff = dataReuniao - hoje;
+        const dias = Math.ceil(diff / (1000 * 60 * 60 * 24));
+        const el = document.getElementById('dias-copom');
+        
+        if(dias > 0) {
+            el.innerText = "COPOM EM: " + dias + "d";
+            el.style.color = "var(--accent)";
+        } else {
+            el.innerText = "COPOM EM ANDAMENTO";
+            el.style.color = "red";
+        }
+    }
+
     function calc() {
+        motorTempo(); // Atualiza os dias toda vez que algo muda
         const i = parseFloat(document.getElementById('ini').value) || 0;
         const m = parseFloat(document.getElementById('mes').value) || 0;
         const t = Math.max(1, parseInt(document.getElementById('tempo').value) || 0);
+        
+        // Valores que futuramente virão do JSON
         const cdi = 14.65;
         const ipca = 3.90;
         const totalInvestido = i + (m * t);
 
-        // Lógica Renda Fixa Inteligente
-        const prod = document.getElementById('prod-a').value;
         const motor = document.getElementById('motor-a').value;
         const taxaUser = parseFloat(document.getElementById('taxa-a').value) || 0;
         
@@ -123,15 +141,13 @@
         let brutoA = i * Math.pow(1 + taxaMA, t);
         for(let j=1; j<=t; j++) { brutoA += m * Math.pow(1 + taxaMA, t-j); }
         
-        const isento = ["LCI_LCA", "CRA_CRI", "DEB_INCENT"].includes(prod);
+        const isento = ["LCI_LCA", "CRA_CRI", "DEB_INCENT"].includes(document.getElementById('prod-a').value);
         let fIr = t > 24 ? 0.15 : t > 12 ? 0.175 : 0.225;
         let liqA = totalInvestido + ((brutoA - totalInvestido) * (isento ? 1 : (1 - fIr)));
 
-        // Lógica Bolsa
         const oscM = (parseFloat(document.getElementById('oscilacao').value) || 0) / 100;
         let liqB = i * Math.pow(1 + oscM, t);
         for(let k=1; k<=t; k++) { liqB += m * Math.pow(1 + oscM, t-k); }
-        if (oscM === 0) liqB = totalInvestido;
 
         document.getElementById('res-a').innerText = "R$ " + liqA.toLocaleString('pt-BR',{maximumFractionDigits:0});
         document.getElementById('res-b').innerText = "R$ " + liqB.toLocaleString('pt-BR',{maximumFractionDigits:0});
@@ -147,9 +163,7 @@
         document.getElementById('fav').innerHTML = hF;
     }
 
-    const dataCopom = new Date("2026-05-06");
-    const diffDays = Math.ceil((dataCopom - new Date()) / (1000 * 60 * 60 * 24));
-    document.getElementById('dias-copom').innerText = "COPOM EM: " + diffDays + "d";
+    motorTempo();
     calc();
 </script>
 </body>
