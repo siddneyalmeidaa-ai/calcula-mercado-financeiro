@@ -3,145 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TERMINAL S.A. | V173 PROJEÇÃO</title>
+    <title>TERMINAL S.A. | V176</title>
     <style>
-        :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --red: #FF3131; }
+        :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
-        body { background: #000; color: #fff; min-height: 100vh; padding-bottom: 80px; }
+        body { background: #000; color: #fff; padding-bottom: 80px; }
         
-        body.snapshot .painel-modular, body.snapshot .ticker-tape, body.snapshot .btn-snap, body.snapshot .bar-info, body.snapshot .top-inputs { display: none !important; }
-        body.snapshot .box-master { margin-top: 80px; border-width: 3px; transform: scale(1.1); }
-
-        .ticker-tape { width: 100%; background: #050505; border-bottom: 1px solid #111; }
         .bar-info { padding: 12px; border-bottom: 1px solid var(--gold); display: flex; justify-content: space-between; align-items: center; font-size: 10px; background:#050505; }
-        
+        .macro-banner { display: flex; justify-content: space-around; padding: 8px; background: #080808; border-bottom: 1px solid #111; font-size: 9px; font-weight: 900; color: #777; }
+        .macro-banner b { color: #fff; margin-left: 3px; }
+
         .box-master { margin: 12px; border: 2px solid var(--gold); border-radius: 12px; padding: 20px; text-align: center; background: #050505; }
         .val-moldado { font-size: 32px; font-weight: 900; color: var(--gold); margin: 10px 0; }
-        .resumo-geral { display: flex; justify-content: space-around; margin-bottom: 15px; font-size: 10px; font-weight: bold; }
+        .resumo-sub { display: flex; justify-content: space-around; font-size: 9px; font-weight: bold; margin-bottom: 10px; }
 
-        .top-inputs { display: flex; gap: 5px; margin: 0 12px; }
-        .input-card { background: #080808; border: 1px solid #222; flex: 1; padding: 10px; border-radius: 8px; text-align: center; }
-        .input-card label { display: block; font-size: 7px; color: var(--gold); font-weight: 900; margin-bottom: 5px; }
-        .input-card input { width: 100%; background: transparent; border: none; color: #fff; text-align: center; font-size: 16px; font-weight: bold; outline: none; }
-
-        .painel-modular { margin: 10px 12px; background: #050505; border: 1px solid #222; border-radius: 10px; overflow: hidden; }
-        .painel-header { padding: 10px 15px; background: #080808; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #111; }
-        .painel-header span { font-size: 9px; font-weight: 900; }
+        .painel-modular { margin: 10px 12px; background: #080808; border: 1px solid #222; border-radius: 10px; overflow: hidden; }
+        .painel-header { padding: 10px 15px; background: #111; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; }
+        .painel-header span { font-size: 9px; font-weight: 900; color: var(--gold); }
         .painel-body { padding: 12px; display: flex; flex-direction: column; gap: 8px; }
 
         .row-in { display: flex; justify-content: space-between; align-items: center; font-size: 11px; }
-        .field { background: #111; border: 1px solid #333; color: #fff; padding: 5px; border-radius: 4px; width: 130px; text-align: center; font-weight: bold; outline: none; }
-        .proj-label { font-size: 10px; color: #888; font-weight: 900; border-top: 1px solid #222; padding-top: 8px; margin-top: 5px; }
-        .proj-val { color: var(--accent); font-weight: 900; }
-
-        .btn-snap { position: fixed; bottom: 20px; right: 20px; background: var(--gold); border: none; padding: 12px 22px; border-radius: 30px; font-weight: 900; font-size: 11px; z-index: 100; cursor: pointer; }
+        .field { background: #1a1a1a; border: 1px solid #333; color: #fff; padding: 6px; border-radius: 4px; width: 120px; text-align: center; font-weight: bold; outline: none; }
+        .field-gold { border-color: var(--gold); color: var(--gold); }
+        .proj-box { margin-top: 5px; padding-top: 5px; border-top: 1px solid #222; display: flex; justify-content: space-between; font-size: 10px; font-weight: 900; }
+        
+        .btn-snap { position: fixed; bottom: 20px; right: 20px; background: var(--gold); border: none; padding: 12px 22px; border-radius: 30px; font-weight: 900; font-size: 11px; cursor: pointer; }
     </style>
 </head>
 <body>
 
-<div class="ticker-tape">
-    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
-    { "symbols": [{"proName": "BMFBOVESPA:IBOV", "title": "IBOVESPA"},{"proName": "BMFBOVESPA:PETR4", "title": "PETR4"},{"proName": "BMFBOVESPA:VALE3", "title": "VALE3"}], "colorTheme": "dark", "isTransparent": true, "displayMode": "adaptive", "locale": "br" }
-    </script>
+<div class="bar-info">
+    <span>🛡️ TERMINAL S.A. | V176</span>
+    <span style="font-size:8px; color:var(--accent)">SISTEMA ATIVO</span>
 </div>
 
-<div class="bar-info">
-    <span>🛡️ TERMINAL S.A. | V173</span>
-    <span id="ticker-status" style="font-size:8px; color:var(--accent)">CARTEIRA UNIFICADA</span>
+<div class="macro-banner">
+    <span>SELIC: <b id="m-selic">14.75%</b></span>
+    <span>INFLAÇÃO (IPCA): <b id="m-ipca">3.90%</b></span>
 </div>
 
 <div class="box-master">
-    <div class="resumo-geral">
-        <span style="color:var(--blue)">TOTAL R. FIXA: <b id="total-rf">R$ 0</b></span>
-        <span style="color:var(--accent)">TOTAL B3: <b id="total-b3">R$ 0</b></span>
+    <div class="resumo-sub">
+        <span>TOTAL BRUTO: <b id="t-bruto">R$ 0</b></span>
+        <span>TEMPO: <b id="res-meses">0</b> MESES</span>
     </div>
-    <small style="font-size:8px; color:var(--gold); font-weight:900;">LUCRO MOLDADO UNIFICADO (-50%)</small>
+    <small style="font-size:8px; color:var(--gold); font-weight:900;">LUCRO MOLDADO ACUMULADO (-50%)</small>
     <div class="val-moldado" id="v-mold">R$ 0,00</div>
 </div>
 
-<div class="top-inputs">
-    <div class="input-card"><label>Período (Meses)</label><input type="number" id="tempo" value="12" oninput="calc()"></div>
-    <div class="input-card"><label>Aporte Mensal</label><input type="number" id="mensal" value="200" oninput="calc()"></div>
-</div>
-
 <div class="painel-modular">
-    <div class="painel-header"><span style="color:var(--blue)">[1] ESTRUTURA RENDA FIXA</span></div>
+    <div class="painel-header"><span>[1] ESTRUTURA CDB (PÓS)</span></div>
     <div class="painel-body">
-        <div class="row-in">Valor Inicial: <input type="number" id="val-rf" class="field" style="color:var(--gold)" value="500" oninput="calc()"></div>
-        <div class="row-in">Produto: <select id="prod-rf" class="field" onchange="calc()"><option value="CDB">CDB / PÓS</option><option value="LCI">LCI / LCA</option></select></div>
-        <div class="row-in">Taxa (%): <input type="number" id="taxa" class="field" value="100" oninput="calc()"></div>
-        <div class="row-in proj-label">RENDIMENTO PROJETADO: <span class="proj-val" id="proj-rf">R$ 0</span></div>
+        <div class="row-in">Valor Inicial: <input type="number" id="v-cdb" class="field field-gold" value="200" oninput="calc()"></div>
+        <div class="row-in">Taxa (% CDI): <input type="number" id="tx-cdb" class="field" value="100" oninput="calc()"></div>
+        <div class="proj-box">LUCRO (LÍQUIDO): <span id="p-cdb" style="color:var(--accent)">R$ 0</span></div>
     </div>
 </div>
 
 <div class="painel-modular">
-    <div class="painel-header"><span style="color:var(--accent)">[2] ESTRUTURA VOLÁTIL B3</span></div>
+    <div class="painel-header"><span>[2] ESTRUTURA LCI/LCA (ISENTO)</span></div>
     <div class="painel-body">
-        <div class="row-in">Valor Inicial: <input type="number" id="val-b3" class="field" style="color:var(--gold)" value="100" oninput="calc()"></div>
-        <div class="row-in">Ticker: <input type="text" id="ticker" class="field" placeholder="PETR4" onchange="buscaB3(this.value)"></div>
-        <div class="row-in">Oscilação Mensal %: <input type="number" id="osc" class="field" value="1.5" oninput="calc()"></div>
-        <div class="row-in proj-label">RENDIMENTO PROJETADO: <span class="proj-val" id="proj-b3">R$ 0</span></div>
+        <div class="row-in">Valor Inicial: <input type="number" id="v-lci" class="field field-gold" value="100" oninput="calc()"></div>
+        <div class="row-in">Taxa (% CDI): <input type="number" id="tx-lci" class="field" value="90" oninput="calc()"></div>
+        <div class="proj-box">LUCRO (ISENTO): <span id="p-lci" style="color:var(--accent)">R$ 0</span></div>
     </div>
 </div>
 
-<button class="btn-snap" onclick="document.body.classList.toggle('snapshot')">📸 MODO PRINT</button>
+<div class="painel-modular">
+    <div class="painel-header"><span>[3] MERCADO VOLÁTIL B3</span></div>
+    <div class="painel-body">
+        <div class="row-in">Valor Inicial: <input type="number" id="v-b3" class="field field-gold" value="100" oninput="calc()"></div>
+        <div class="row-in">Oscilação Mensal %: <input type="number" id="tx-b3" class="field" value="1.5" oninput="calc()"></div>
+        <div class="proj-box">LUCRO (VARIÁVEL): <span id="p-b3" style="color:var(--accent)">R$ 0</span></div>
+    </div>
+</div>
+
+<div class="painel-modular">
+    <div class="painel-header"><span>PERÍODO GLOBAL</span></div>
+    <div class="painel-body">
+        <div class="row-in">Meses: <input type="number" id="meses" class="field" value="12" oninput="calc()"></div>
+    </div>
+</div>
+
+<button class="btn-snap" onclick="window.print()">📸 MODO PRINT</button>
 
 <script>
-    const SELIC = 14.75;
-
-    async function buscaB3(tk) {
-        if(!tk) return;
-        const status = document.getElementById('ticker-status');
-        const oscField = document.getElementById('osc');
-        status.innerText = "ATUALIZANDO...";
-        try {
-            const proxy = "https://api.allorigins.win/get?url=";
-            const target = `https://brapi.dev/api/quote/${tk.toUpperCase().trim()}`;
-            const res = await fetch(proxy + encodeURIComponent(target));
-            const json = await res.json();
-            const data = JSON.parse(json.contents);
-            if(data.results && data.results[0]) {
-                oscField.value = data.results[0].regularMarketChangePercent.toFixed(2);
-                status.innerText = "B3 CONECTADA: " + tk.toUpperCase();
-                calc();
-            }
-        } catch (e) { status.innerText = "MANUAL"; }
-    }
+    const SELIC = 0.1475; 
+    const txMensalSelic = Math.pow(1 + SELIC, 1/12) - 1;
 
     function calc() {
-        const t = Math.max(1, parseInt(document.getElementById('tempo').value) || 0);
-        const mGeral = parseFloat(document.getElementById('mensal').value) || 0;
-        
-        // --- RENDA FIXA ---
-        const vRF = parseFloat(document.getElementById('val-rf').value) || 0;
-        const prod = document.getElementById('prod-rf').value;
-        const txAtivo = parseFloat(document.getElementById('taxa').value) || 0;
-        const imposto = (prod === "CDB") ? 0.825 : 1; 
-        let txMensaRF = (Math.pow(1 + (SELIC/100), 1/12) - 1) * (txAtivo/100);
-        let liqRF = vRF * Math.pow(1 + txMensaRF, t);
-        for(let j=1; j<=t; j++) { liqRF += (mGeral/2) * Math.pow(1 + txMensaRF, t-j); }
-        let lucroRFBruto = liqRF - (vRF + (mGeral/2 * t));
-        let rendProjetadoRF = lucroRFBruto * imposto;
-        let totalFinalRF = (vRF + (mGeral/2 * t)) + rendProjetadoRF;
+        const t = Math.max(1, parseInt(document.getElementById('meses').value) || 0);
+        document.getElementById('res-meses').innerText = t;
 
-        // --- B3 ---
-        const vB3 = parseFloat(document.getElementById('val-b3').value) || 0;
-        const osc = (parseFloat(document.getElementById('osc').value) || 0) / 100;
-        let liqB3 = vB3 * Math.pow(1 + osc, t);
-        for(let j=1; j<=t; j++) { liqB3 += (mGeral/2) * Math.pow(1 + osc, t-j); }
-        let rendProjetadoB3 = liqB3 - (vB3 + (mGeral/2 * t));
-        let totalFinalB3 = liqB3;
+        // CDB
+        const vCdb = parseFloat(document.getElementById('v-cdb').value) || 0;
+        const txCdb = (parseFloat(document.getElementById('tx-cdb').value) || 0) / 100;
+        const lucroCdb = (vCdb * Math.pow(1 + (txMensalSelic * txCdb), t) - vCdb) * 0.825;
+        document.getElementById('p-cdb').innerText = "R$ " + lucroCdb.toLocaleString('pt-BR', {minimumFractionDigits:2});
 
-        // --- INTERFACE ---
-        document.getElementById('proj-rf').innerText = "R$ " + rendProjetadoRF.toLocaleString('pt-BR', {minimumFractionDigits:2});
-        document.getElementById('proj-b3').innerText = "R$ " + rendProjetadoB3.toLocaleString('pt-BR', {minimumFractionDigits:2});
-        document.getElementById('total-rf').innerText = "R$ " + totalFinalRF.toLocaleString('pt-BR', {maximumFractionDigits:0});
-        document.getElementById('total-b3').innerText = "R$ " + totalFinalB3.toLocaleString('pt-BR', {maximumFractionDigits:0});
+        // LCI
+        const vLci = parseFloat(document.getElementById('v-lci').value) || 0;
+        const txLci = (parseFloat(document.getElementById('tx-lci').value) || 0) / 100;
+        const lucroLci = vLci * Math.pow(1 + (txMensalSelic * txLci), t) - vLci;
+        document.getElementById('p-lci').innerText = "R$ " + lucroLci.toLocaleString('pt-BR', {minimumFractionDigits:2});
 
-        let moldado = (vRF + vB3) + ((rendProjetadoRF + rendProjetadoB3) * 0.5);
-        document.getElementById('v-mold').innerText = "R$ " + (moldado > 0 ? moldado.toLocaleString('pt-BR', {minimumFractionDigits:2}) : "0,00");
+        // B3
+        const vB3 = parseFloat(document.getElementById('v-b3').value) || 0;
+        const txB3 = (parseFloat(document.getElementById('tx-b3').value) || 0) / 100;
+        const lucroB3 = vB3 * Math.pow(1 + txB3, t) - vB3;
+        document.getElementById('p-b3').innerText = "R$ " + lucroB3.toLocaleString('pt-BR', {minimumFractionDigits:2});
+
+        // Totais [cite: 2026-01-16]
+        const capitalTotal = vCdb + vLci + vB3;
+        const lucroFinal = lucroCdb + lucroLci + lucroB3;
+        document.getElementById('t-bruto').innerText = "R$ " + (capitalTotal + lucroFinal).toLocaleString('pt-BR', {maximumFractionDigits:0});
+        document.getElementById('v-mold').innerText = "R$ " + (capitalTotal + (lucroFinal * 0.5)).toLocaleString('pt-BR', {minimumFractionDigits:2});
     }
     calc();
 </script>
+    
 </body>
 </html>
