@@ -3,50 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TERMINAL S.A. | V163 VIVO</title>
+    <title>TERMINAL S.A. | V165 GOLD</title>
     <style>
         :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --red: #FF3131; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background: #000; color: #fff; min-height: 100vh; overflow-y: auto; padding-bottom: 80px; }
         
-        body.snapshot-mode .inputs-main, body.snapshot-mode .card-gaveta, 
-        body.snapshot-mode .tradingview-widget-container, body.snapshot-mode .bar, 
-        body.snapshot-mode .btn-snap { display: none !important; }
-        body.snapshot-mode .box { margin-top: 60px; border-width: 3px; }
+        /* Oculta tudo no Modo Print exceto o resultado principal */
+        body.snapshot .painel-modular, body.snapshot .ticker-tape, body.snapshot .btn-snap, body.snapshot .bar-info { display: none !important; }
+        body.snapshot .box-master { margin-top: 100px; border-width: 3px; transform: scale(1.1); }
 
-        .b3-container { width: 100%; background: #050505; border-bottom: 1px solid #111; }
-        .bar { padding: 12px; border-bottom: 1px solid var(--gold); display: flex; justify-content: space-between; align-items: center; font-size: 10px; background:#050505; }
-        .stats { display: flex; justify-content: space-around; padding: 10px; font-size: 9px; background: #080808; border-bottom: 1px solid #111; }
+        .ticker-tape { width: 100%; background: #050505; border-bottom: 1px solid #111; }
+        .bar-info { padding: 12px; border-bottom: 1px solid var(--gold); display: flex; justify-content: space-between; align-items: center; font-size: 10px; background:#050505; }
         
-        .box { margin: 12px; border: 2px solid var(--gold); border-radius: 12px; padding: 25px; text-align: center; background: #050505; transition: 0.3s; }
-        .box.stop-loss { border-color: var(--red); box-shadow: 0 0 20px rgba(255,49,49,0.5); }
-        .val { font-size: 36px; font-weight: 900; color: var(--gold); text-shadow: 0 0 10px rgba(212,175,55,0.4); }
+        .box-master { margin: 12px; border: 2px solid var(--gold); border-radius: 12px; padding: 25px; text-align: center; background: #050505; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .box-master.alerta { border-color: var(--red); box-shadow: 0 0 20px rgba(255,49,49,0.4); }
+        .val-moldado { font-size: 38px; font-weight: 900; color: var(--gold); text-shadow: 0 0 10px rgba(212,175,55,0.3); }
         
-        .meta-bar-container { width: 80%; height: 4px; background: #111; border-radius: 2px; margin: 10px auto 0; overflow: hidden; }
-        .meta-bar-fill { height: 100%; background: var(--gold); width: 0%; transition: 0.8s ease-out; }
+        .painel-modular { margin: 10px 12px; background: #050505; border: 1px solid #222; border-radius: 10px; overflow: hidden; }
+        .painel-header { padding: 12px 15px; background: #080808; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #111; }
+        .painel-header span { font-size: 9px; font-weight: 900; letter-spacing: 1px; }
+        .painel-body { padding: 15px; display: flex; flex-direction: column; gap: 10px; }
 
-        .inputs-main { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 0 12px; }
-        .in { background: #0a0a0a; padding: 8px; border-radius: 6px; text-align: center; border: 1px solid #222; }
-        .in label { font-size: 6px; color: var(--gold); display: block; font-weight: bold; margin-bottom: 2px; text-transform: uppercase; }
-        input, select { width: 100%; background: none; border: none; color: #fff; text-align: center; font-size: 14px; font-weight: bold; outline: none; }
+        .row-in { display: flex; justify-content: space-between; align-items: center; font-size: 11px; }
+        .field { background: #111; border: 1px solid #333; color: #fff; padding: 6px; border-radius: 4px; width: 115px; text-align: center; font-weight: bold; outline: none; }
+        .field:focus { border-color: var(--gold); }
 
-        .card-gaveta { margin: 10px 12px; background: #050505; border: 1px solid #222; border-radius: 8px; overflow: hidden; }
-        .card-header { padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-        .card-header span { font-size: 10px; font-weight: 900; color: var(--blue); }
-        
-        .gaveta-content { height: 0; padding: 0 15px; opacity: 0; transition: 0.3s; display: flex; flex-direction: column; gap: 10px; }
-        .card-gaveta.aberto .gaveta-content { height: auto; padding: 15px; opacity: 1; border-top: 1px solid #111; }
-        
-        .row { display: flex; justify-content: space-between; align-items: center; font-size: 11px; }
-        .in-gaveta { background: #111; border: 1px solid #333 !important; color: #fff; padding: 5px; border-radius: 4px; width: 110px; text-align: center; }
-
-        .btn-snap { position: fixed; bottom: 20px; right: 20px; background: var(--gold); color: #000; border: none; padding: 12px 20px; border-radius: 30px; font-weight: 900; font-size: 12px; cursor: pointer; z-index: 999; }
+        .btn-snap { position: fixed; bottom: 20px; right: 20px; background: var(--gold); color: #000; border: none; padding: 12px 22px; border-radius: 30px; font-weight: 900; font-size: 11px; z-index: 100; cursor: pointer; }
     </style>
 </head>
 <body>
 
-<div class="b3-container">
-  <div class="tradingview-widget-container">
+<div class="ticker-tape">
     <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
     { "symbols": [
       {"proName": "BMFBOVESPA:IBOV", "title": "IBOVESPA"},
@@ -55,137 +43,83 @@
       {"proName": "FX_IDC:USDBRL", "title": "DÓLAR"}
     ], "colorTheme": "dark", "isTransparent": true, "displayMode": "adaptive", "locale": "br" }
     </script>
-  </div>
 </div>
 
-<div class="bar">
-    <span id="versao-label">🛡️ TERMINAL S.A. | V163</span>
-    <span id="dias-copom" style="color:var(--accent)">-</span>
+<div class="bar-info">
+    <span>🛡️ TERMINAL S.A. | V165</span>
+    <span style="color:var(--accent)">SISTEMA ATIVO</span>
 </div>
 
-<div class="stats">
-    <span>SELIC: <b id="display-selic">14.75%</b></span>
-    <span>INFLAÇÃO: <b id="display-inflacao">3.90%</b></span>
-</div>
-
-<div class="box" id="main-box">
+<div class="box-master" id="main-box">
     <small style="font-size:8px; color:var(--gold); font-weight:900; letter-spacing: 2px;">LUCRO MOLDADO (-50%)</small>
-    <div class="val" id="v-mold">R$ 0,00</div>
-    <div class="meta-bar-container"><div class="meta-bar-fill" id="meta-fill"></div></div>
+    <div class="val-moldado" id="v-mold">R$ 0,00</div>
 </div>
 
-<div class="inputs-main">
-    <div class="in"><label>APORTE INICIAL</label><input type="number" id="ini" value="0" oninput="saveAndCalc()"></div>
-    <div class="in"><label>APORTE MENSAL</label><input type="number" id="mes" value="0" oninput="saveAndCalc()"></div>
-    <div class="in"><label>MESES</label><input type="number" id="tempo" value="12" oninput="saveAndCalc()"></div>
-</div>
-
-<div class="card-gaveta" id="cardA">
-    <div class="card-header" onclick="toggle('cardA')"><span>ESTRATÉGIA RENDA FIXA ⚙️</span><b id="res-a">R$ 0</b></div>
-    <div class="gaveta-content">
-        <div class="row">Produto: <select id="prod-a" onchange="saveAndCalc()" class="in-gaveta"><option value="CDB">CDB / PÓS</option><option value="LCI_LCA">LCI / LCA</option></select></div>
-        <div class="row">Motor: <select id="motor-a" onchange="ajustarTaxaPadrao()" class="in-gaveta"><option value="CDI">PÓS (% DA SELIC)</option><option value="IPCA">INFLAÇÃO + (%)</option></select></div>
-        <div class="row">Taxa: <input type="number" id="taxa-a" class="in-gaveta" value="100" oninput="saveAndCalc()"></div>
+<div class="painel-modular">
+    <div class="painel-header"><span style="color:var(--blue)">ESTRUTURA RENDA FIXA</span><b id="res-rf">R$ 0</b></div>
+    <div class="painel-body">
+        <div class="row-in">Aporte Inicial: <input type="number" id="ini" class="field" value="100" oninput="calc()"></div>
+        <div class="row-in">Meses: <input type="number" id="tempo" class="field" value="12" oninput="calc()"></div>
+        <div class="row-in">Produto: 
+            <select id="prod-rf" class="field" onchange="calc()">
+                <option value="0.825">CDB (PÓS-FIXADO)</option>
+                <option value="1">LCI / LCA (ISENTO)</option>
+            </select>
+        </div>
     </div>
 </div>
 
-<div class="card-gaveta" id="cardB">
-    <div class="card-header" onclick="toggle('cardB')"><span>MERCADO FINANCEIRO B3 ⚙️</span><b id="res-b">R$ 0</b></div>
-    <div class="gaveta-content">
-        <div class="row">Ticker: <input type="text" id="ticker" class="in-gaveta" placeholder="EX: PETR4" oninput="saveAndCalc()"></div>
-        <div class="row">Oscilação Mês %: <input type="number" id="oscilacao" class="in-gaveta" value="0" oninput="saveAndCalc()"></div>
+<div class="painel-modular">
+    <div class="painel-header"><span style="color:var(--accent)">ESTRUTURA VOLÁTIL B3</span><b id="res-b3">R$ 0</b></div>
+    <div class="painel-body">
+        <div class="row-in">Ticker: <input type="text" id="ticker" class="field" value="PETR4" onblur="puxarOscilacao()"></div>
+        <div class="row-in">Oscilação Mês %: <input type="number" id="osc" class="field" value="1.5" oninput="calc()"></div>
     </div>
 </div>
 
-<button class="btn-snap" onclick="document.body.classList.toggle('snapshot-mode')">📸 MODO PRINT</button>
+<button class="btn-snap" onclick="document.body.classList.toggle('snapshot')">📸 MODO PRINT</button>
 
 <script>
-    let config = { selic: 14.75, inflacao: 3.90, dataCopom: "2026-05-06T00:00:00" };
-    let currentVal = 0;
+    const SELIC = 14.75;
+    let valorAnterior = 0;
 
-    function toggle(id) { document.getElementById(id).classList.toggle('aberto'); }
-
-    function saveAndCalc() {
-        const data = {
-            ini: document.getElementById('ini').value,
-            mes: document.getElementById('mes').value,
-            tempo: document.getElementById('tempo').value,
-            ticker: document.getElementById('ticker').value,
-            osc: document.getElementById('oscilacao').value
-        };
-        localStorage.setItem('terminalData', JSON.stringify(data));
-        calc();
-    }
-
-    function animateValue(obj, start, end, duration) {
-        let startTimestamp = null;
-        const step = (timestamp) => {
-            if (!startTimestamp) startTimestamp = timestamp;
-            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-            const val = start + progress * (end - start);
-            obj.innerHTML = "R$ " + val.toLocaleString('pt-BR', {minimumFractionDigits: 2});
-            if (progress < 1) window.requestAnimationFrame(step);
-        };
-        window.requestAnimationFrame(step);
-    }
-
-    async function carregarConfig() {
-        try {
-            const response = await fetch('config.json');
-            if (response.ok) { config = await response.json(); }
-        } catch (e) {}
-        
-        const saved = localStorage.getItem('terminalData');
-        if(saved) {
-            const d = JSON.parse(saved);
-            document.getElementById('ini').value = d.ini;
-            document.getElementById('mes').value = d.mes;
-            document.getElementById('tempo').value = d.tempo;
-            document.getElementById('ticker').value = d.ticker;
-            document.getElementById('oscilacao').value = d.osc;
+    async function puxarOscilacao() {
+        const ticker = document.getElementById('ticker').value.toUpperCase().trim();
+        if(ticker.length >= 4) {
+            try {
+                const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent('https://brapi.dev/api/quote/'+ticker)}`);
+                const json = await response.json();
+                const data = JSON.parse(json.contents);
+                if(data.results && data.results[0]) {
+                    document.getElementById('osc').value = data.results[0].regularMarketChangePercent.toFixed(2);
+                    calc();
+                }
+            } catch (e) { console.log("Erro API"); }
         }
-        calc();
     }
 
     function calc() {
         const i = parseFloat(document.getElementById('ini').value) || 0;
-        const m = parseFloat(document.getElementById('mes').value) || 0;
         const t = Math.max(1, parseInt(document.getElementById('tempo').value) || 0);
-        const totalInvestido = i + (m * t);
-
+        
         // RF
-        const motor = document.getElementById('motor-a').value;
-        const taxaUser = parseFloat(document.getElementById('taxa-a').value) || 0;
-        let taxaAnual = (motor === "CDI") ? config.selic * (taxaUser/100) : config.inflacao + taxaUser;
-        let taxaMA = Math.pow(1 + (taxaAnual/100), 1/12) - 1;
-        let brutoA = i * Math.pow(1 + taxaMA, t);
-        for(let j=1; j<=t; j++) brutoA += m * Math.pow(1 + taxaMA, t-j);
-        let liqA = totalInvestido + ((brutoA - totalInvestido) * 0.825);
+        const rfMult = parseFloat(document.getElementById('prod-rf').value);
+        let taxaRF = Math.pow(1 + (SELIC/100), 1/12) - 1;
+        let liqRF = i + ((i * Math.pow(1 + taxaRF, t) - i) * rfMult);
 
         // B3
-        const oscRaw = document.getElementById('oscilacao').value;
-        const oscM = (parseFloat(oscRaw) || 0) / 100;
-        document.getElementById('main-box').classList.toggle('stop-loss', parseFloat(oscRaw) < 0);
-        let liqB = i * Math.pow(1 + oscM, t);
-        for(let k=1; k<=t; k++) liqB += m * Math.pow(1 + oscM, t-k);
+        const osc = (parseFloat(document.getElementById('osc').value) || 0) / 100;
+        let liqB3 = i * Math.pow(1 + osc, t);
 
-        document.getElementById('res-a').innerText = "R$ " + liqA.toLocaleString('pt-BR',{maximumFractionDigits:0});
-        document.getElementById('res-b').innerText = "R$ " + liqB.toLocaleString('pt-BR',{maximumFractionDigits:0});
+        document.getElementById('main-box').classList.toggle('alerta', osc < 0);
+        document.getElementById('res-rf').innerText = "R$ " + liqRF.toLocaleString('pt-BR', {maximumFractionDigits:0});
+        document.getElementById('res-b3').innerText = "R$ " + liqB3.toLocaleString('pt-BR', {maximumFractionDigits:0});
 
-        let moldado = totalInvestido + (((liqA + liqB) / 2 - totalInvestido) * 0.5);
-        let final = totalInvestido > 0 ? moldado : 0;
-        
-        animateValue(document.getElementById('v-mold'), currentVal, final, 500);
-        currentVal = final;
-
-        const fill = document.getElementById('meta-fill');
-        fill.style.width = totalInvestido > 0 ? Math.min(100, (final / (totalInvestido * 2)) * 100) + "%" : "0%";
-        
-        const diff = Math.ceil((new Date(config.dataCopom) - new Date()) / (1000 * 60 * 60 * 24));
-        document.getElementById('dias-copom').innerText = "COPOM EM: " + diff + "D";
+        let moldado = i + ((((liqRF + liqB3) / 2) - i) * 0.5);
+        document.getElementById('v-mold').innerText = "R$ " + (i > 0 ? moldado.toLocaleString('pt-BR', {minimumFractionDigits:2}) : "0,00");
     }
-
-    carregarConfig();
+    calc();
 </script>
-</body>
+<
+    /body>
 </html>
