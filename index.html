@@ -33,13 +33,13 @@
 
 <div class="bar">
     <span>🛡️ TERMINAL S.A. | V158</span>
-    <span id="dias-copom">Calculando...</span>
+    <span id="dias-copom" style="color:var(--accent)">Calculando...</span>
 </div>
 
 <div class="stats">
-    <span>SELIC: <b id="val-selic">14.75%</b></span>
-    <span>CDI: <b id="val-cdi">14.65%</b></span>
-    <span>IPCA: <b id="val-ipca">3.90%</b></span>
+    <span>SELIC: <b>14.75%</b></span>
+    <span>CDI: <b>14.65%</b></span>
+    <span>IPCA: <b>3.90%</b></span>
 </div>
 
 <div class="box">
@@ -64,13 +64,13 @@
                 <option value="CDB">CDB</option>
                 <option value="LCI_LCA">LCI / LCA</option>
                 <option value="CRA_CRI">CRA / CRI</option>
-                <option value="TESOURO">TESOURO</option>
-                <option value="DEB_COMUM">DEB. COMUM</option>
-                <option value="DEB_INCENT">DEB. INCENT.</option>
+                <option value="TESOURO">TESOURO SELIC</option>
+                <option value="DEB_COMUM">DEBÊNTURE COMUM</option>
+                <option value="DEB_INCENT">DEBÊNTURE INCENT.</option>
             </select>
         </div>
         <div class="row">Motor: 
-            <select id="motor-a" onchange="calc()" class="in-gaveta">
+            <select id="motor-a" onchange="ajustarTaxaPadrao()" class="in-gaveta">
                 <option value="CDI">PÓS (% CDI)</option>
                 <option value="PRE">PRÉ-FIXADO (%)</option>
                 <option value="IPCA">IPCA + (%)</option>
@@ -101,34 +101,33 @@
 <script>
     function toggle(id) { document.getElementById(id).classList.toggle('aberto'); }
 
-    // Motor de Tempo Real - Padrão Ouro
+    // Motor de Tempo Dinâmico
     function motorTempo() {
-        const dataReuniao = new Date("2026-05-06T00:00:00");
-        const hoje = new Date();
-        const diff = dataReuniao - hoje;
-        const dias = Math.ceil(diff / (1000 * 60 * 60 * 24));
+        const dataCopom = new Date("2026-05-06T00:00:00");
+        const diff = Math.ceil((dataCopom - new Date()) / (1000 * 60 * 60 * 24));
         const el = document.getElementById('dias-copom');
-        
-        if(dias > 0) {
-            el.innerText = "COPOM EM: " + dias + "d";
-            el.style.color = "var(--accent)";
-        } else {
-            el.innerText = "COPOM EM ANDAMENTO";
-            el.style.color = "red";
-        }
+        el.innerText = diff > 0 ? "COPOM EM: " + diff + "d" : "REUNIÃO HOJE";
+    }
+
+    // Blindagem de Taxa IPCA+
+    function ajustarTaxaPadrao() {
+        const motor = document.getElementById('motor-a').value;
+        const campoTaxa = document.getElementById('taxa-a');
+        if(motor === "IPCA") { campoTaxa.value = "6"; } 
+        else if(motor === "CDI") { campoTaxa.value = "100"; }
+        calc();
     }
 
     function calc() {
-        motorTempo(); // Atualiza os dias toda vez que algo muda
+        motorTempo();
         const i = parseFloat(document.getElementById('ini').value) || 0;
         const m = parseFloat(document.getElementById('mes').value) || 0;
         const t = Math.max(1, parseInt(document.getElementById('tempo').value) || 0);
-        
-        // Valores que futuramente virão do JSON
         const cdi = 14.65;
         const ipca = 3.90;
         const totalInvestido = i + (m * t);
 
+        const prod = document.getElementById('prod-a').value;
         const motor = document.getElementById('motor-a').value;
         const taxaUser = parseFloat(document.getElementById('taxa-a').value) || 0;
         
@@ -141,7 +140,7 @@
         let brutoA = i * Math.pow(1 + taxaMA, t);
         for(let j=1; j<=t; j++) { brutoA += m * Math.pow(1 + taxaMA, t-j); }
         
-        const isento = ["LCI_LCA", "CRA_CRI", "DEB_INCENT"].includes(document.getElementById('prod-a').value);
+        const isento = ["LCI_LCA", "CRA_CRI", "DEB_INCENT"].includes(prod);
         let fIr = t > 24 ? 0.15 : t > 12 ? 0.175 : 0.225;
         let liqA = totalInvestido + ((brutoA - totalInvestido) * (isento ? 1 : (1 - fIr)));
 
