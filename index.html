@@ -3,38 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TERMINAL S.A. | V160</title>
+    <title>TERMINAL S.A. | V162 BLINDADA</title>
     <style>
-        :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; }
+        :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --red: #FF3131; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background: #000; color: #fff; min-height: 100vh; overflow-y: auto; padding-bottom: 50px; }
+        body { background: #000; color: #fff; min-height: 100vh; overflow-y: auto; padding-bottom: 80px; transition: 0.3s; }
         
-        /* Widget B3 Sticky */
-        .b3-container { width: 100%; background: #050505; border-bottom: 1px solid #111; }
+        /* Snapshot Mode */
+        body.snapshot-mode .inputs-main, 
+        body.snapshot-mode .card-gaveta, 
+        body.snapshot-mode .tradingview-widget-container,
+        body.snapshot-mode .bar { display: none !important; }
+        body.snapshot-mode .box { margin-top: 50px; border-width: 3px; }
 
+        .b3-container { width: 100%; background: #050505; border-bottom: 1px solid #111; }
         .bar { padding: 12px; border-bottom: 1px solid var(--gold); display: flex; justify-content: space-between; align-items: center; font-size: 10px; background:#050505; }
         .stats { display: flex; justify-content: space-around; padding: 10px; font-size: 9px; background: #080808; border-bottom: 1px solid #111; }
-        .box { margin: 12px; border: 2px solid var(--gold); border-radius: 12px; padding: 20px; text-align: center; background: #050505; }
-        .val { font-size: 32px; font-weight: 900; color: var(--gold); text-shadow: 0 0 10px rgba(212,175,55,0.3); }
         
+        /* Box Principal Blindado */
+        .box { margin: 12px; border: 2px solid var(--gold); border-radius: 12px; padding: 25px; text-align: center; background: #050505; transition: 0.3s; position: relative; }
+        .box.stop-loss { border-color: var(--red); box-shadow: 0 0 20px rgba(255,49,49,0.5); }
+        .val { font-size: 36px; font-weight: 900; color: var(--gold); text-shadow: 0 0 10px rgba(212,175,55,0.4); transition: 0.3s; }
+        .box.stop-loss .val { color: var(--red); text-shadow: 0 0 15px rgba(255,49,49,0.6); }
+        
+        /* Barra de Meta */
+        .meta-bar-container { width: 80%; height: 4px; background: #111; border-radius: 2px; margin: 10px auto 0; overflow: hidden; }
+        .meta-bar-fill { height: 100%; background: var(--gold); width: 0%; transition: 0.5s; }
+
         .inputs-main { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 0 12px; }
         .in { background: #0a0a0a; padding: 8px; border-radius: 6px; text-align: center; border: 1px solid #222; }
-        .in label { font-size: 6px; color: var(--gold); display: block; font-weight: bold; margin-bottom: 2px; }
+        .in label { font-size: 6px; color: var(--gold); display: block; font-weight: bold; margin-bottom: 2px; text-transform: uppercase; }
         input, select { width: 100%; background: none; border: none; color: #fff; text-align: center; font-size: 14px; font-weight: bold; outline: none; }
 
         .card-gaveta { margin: 10px 12px; background: #050505; border: 1px solid #222; border-radius: 8px; overflow: hidden; }
         .card-header { padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
         .card-header span { font-size: 10px; font-weight: 900; color: var(--blue); }
-        .card-header b { font-size: 14px; color: #fff; }
         
         .gaveta-content { height: 0; padding: 0 15px; opacity: 0; transition: 0.3s; display: flex; flex-direction: column; gap: 10px; }
         .card-gaveta.aberto .gaveta-content { height: auto; padding: 15px; opacity: 1; border-top: 1px solid #111; }
         
         .row { display: flex; justify-content: space-between; align-items: center; font-size: 11px; }
         .in-gaveta { background: #111; border: 1px solid #333 !important; color: #fff; padding: 5px; border-radius: 4px; width: 110px; text-align: center; }
-        
-        table { width: 100%; font-size: 10px; border-collapse: collapse; margin-top: 10px; background: #050505; }
-        td, th { padding: 10px; text-align: center; border-bottom: 1px solid #111; }
+
+        /* Botão Snapshot */
+        .btn-snap { position: fixed; bottom: 20px; right: 20px; background: var(--gold); color: #000; border: none; padding: 12px 20px; border-radius: 30px; font-weight: 900; font-size: 12px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 999; }
     </style>
 </head>
 <body>
@@ -50,18 +62,14 @@
       {"proName": "BMFBOVESPA:VALE3", "title": "VALE3"},
       {"proName": "FX_IDC:USDBRL", "title": "DÓLAR/BRL"}
     ],
-    "showSymbolLogo": true,
-    "colorTheme": "dark",
-    "isTransparent": true,
-    "displayMode": "adaptive",
-    "locale": "br"
+    "showSymbolLogo": true, "colorTheme": "dark", "isTransparent": true, "displayMode": "adaptive", "locale": "br"
     }
     </script>
   </div>
 </div>
 
 <div class="bar">
-    <span id="versao-label">🛡️ TERMINAL S.A. | V160</span>
+    <span id="versao-label">🛡️ TERMINAL S.A. | V162 BLINDADA</span>
     <span id="dias-copom" style="color:var(--accent)">SINCRONIZANDO...</span>
 </div>
 
@@ -70,9 +78,12 @@
     <span>INFLAÇÃO: <b id="display-inflacao">3.90%</b></span>
 </div>
 
-<div class="box">
+<div class="box" id="main-box">
     <small style="font-size:8px; color:var(--gold); font-weight:900; letter-spacing: 2px;">LUCRO MOLDADO (-50%)</small>
     <div class="val" id="v-mold">R$ 0,00</div>
+    <div class="meta-bar-container">
+        <div class="meta-bar-fill" id="meta-fill"></div>
+    </div>
 </div>
 
 <div class="inputs-main">
@@ -116,12 +127,7 @@
     </div>
 </div>
 
-<div style="margin:12px; border:1px solid #111; border-radius: 8px; overflow: hidden;">
-    <table>
-        <thead><tr><th>Mês</th><th>Ação</th><th>Stake (1%)</th></tr></thead>
-        <tbody id="fav"></tbody>
-    </table>
-</div>
+<button class="btn-snap" id="btn-snap" onclick="toggleSnapshot()">📸 MODO PRINT</button>
 
 <script>
     let config = { selic: 14.75, inflacao: 3.90, dataCopom: "2026-05-06T00:00:00" };
@@ -135,11 +141,18 @@
                 document.getElementById('display-inflacao').innerText = config.inflacao + "%";
                 if(config.versao) document.getElementById('versao-label').innerText = "🛡️ " + config.versao;
             }
-        } catch (e) { console.log("Usando backup interno"); }
+        } catch (e) { console.log("Erro JSON"); }
         calc();
     }
 
     function toggle(id) { document.getElementById(id).classList.toggle('aberto'); }
+
+    function toggleSnapshot() {
+        const body = document.body;
+        const btn = document.getElementById('btn-snap');
+        body.classList.toggle('snapshot-mode');
+        btn.innerText = body.classList.contains('snapshot-mode') ? "🔙 VOLTAR" : "📸 MODO PRINT";
+    }
 
     function motorTempo() {
         const diff = Math.ceil((new Date(config.dataCopom) - new Date()) / (1000 * 60 * 60 * 24));
@@ -149,8 +162,7 @@
     function ajustarTaxaPadrao() {
         const motor = document.getElementById('motor-a').value;
         const campoTaxa = document.getElementById('taxa-a');
-        if(motor === "IPCA") campoTaxa.value = "6"; 
-        else if(motor === "CDI") campoTaxa.value = "100";
+        campoTaxa.value = (motor === "IPCA") ? "6" : (motor === "CDI") ? "100" : campoTaxa.value;
         calc();
     }
 
@@ -161,34 +173,44 @@
         const t = Math.max(1, parseInt(document.getElementById('tempo').value) || 0);
         const totalInvestido = i + (m * t);
 
+        // Lógica Renda Fixa
         const motor = document.getElementById('motor-a').value;
         const taxaUser = parseFloat(document.getElementById('taxa-a').value) || 0;
-        
         let taxaAnual = (motor === "CDI") ? config.selic * (taxaUser/100) : (motor === "PRE") ? taxaUser : config.inflacao + taxaUser;
-
         let taxaMA = Math.pow(1 + (taxaAnual/100), 1/12) - 1;
         let brutoA = i * Math.pow(1 + taxaMA, t);
         for(let j=1; j<=t; j++) brutoA += m * Math.pow(1 + taxaMA, t-j);
         
         const isento = ["LCI_LCA"].includes(document.getElementById('prod-a').value);
-        let fIr = t > 24 ? 0.15 : t > 12 ? 0.175 : 0.225;
-        let liqA = totalInvestido + ((brutoA - totalInvestido) * (isento ? 1 : (1 - fIr)));
+        let liqA = totalInvestido + ((brutoA - totalInvestido) * (isento ? 1 : 0.825));
 
-        const oscM = (parseFloat(document.getElementById('oscilacao').value) || 0) / 100;
+        // Lógica Bolsa com Stop Loss Visual
+        const oscRaw = document.getElementById('oscilacao').value;
+        const oscM = (parseFloat(oscRaw) || 0) / 100;
+        const mainBox = document.getElementById('main-box');
+
+        if(parseFloat(oscRaw) < 0) { mainBox.classList.add('stop-loss'); } 
+        else { mainBox.classList.remove('stop-loss'); }
+
         let liqB = i * Math.pow(1 + oscM, t);
         for(let k=1; k<=t; k++) liqB += m * Math.pow(1 + oscM, t-k);
 
         document.getElementById('res-a').innerText = "R$ " + liqA.toLocaleString('pt-BR',{maximumFractionDigits:0});
         document.getElementById('res-b').innerText = "R$ " + liqB.toLocaleString('pt-BR',{maximumFractionDigits:0});
 
-        let moldado = totalInvestido + ((liqA - totalInvestido) * 0.5); 
-        document.getElementById('v-mold').innerText = "R$ " + (totalInvestido > 0 ? moldado.toLocaleString('pt-BR', {minimumFractionDigits:2}) : "0,00");
+        // Lucro Moldado Padrão Ouro
+        let lucroReal = (liqA + liqB) / 2; 
+        let moldado = totalInvestido + ((lucroReal - totalInvestido) * 0.5); 
+        const valorFinal = (totalInvestido > 0 ? moldado : 0);
+        document.getElementById('v-mold').innerText = "R$ " + valorFinal.toLocaleString('pt-BR', {minimumFractionDigits:2});
 
-        let hF = "";
-        for(let n=1; n<=3; n++) {
-            hF += `<tr><td>${t+n}</td><td style="color:var(--accent)">ENTRA</td><td>R$ ${((moldado * 0.01) / n).toFixed(2)}</td></tr>`;
-        }
-        document.getElementById('fav').innerHTML = hF;
+        // Lógica Barra de Meta (Meta = Dobrar Capital)
+        const fill = document.getElementById('meta-fill');
+        if(totalInvestido > 0) {
+            let meta = totalInvestido * 2;
+            let progresso = (valorFinal / meta) * 100;
+            fill.style.width = Math.min(100, progresso) + "%";
+        } else { fill.style.width = "0%"; }
     }
 
     carregarConfig();
