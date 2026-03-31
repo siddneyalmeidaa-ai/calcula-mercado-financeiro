@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TERMINAL S.A. | V166</title>
+    <title>TERMINAL S.A. | V167 BLINDADA</title>
     <style>
         :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --red: #FF3131; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
-        body { background: #000; color: #fff; min-height: 100vh; overflow-x: hidden; padding-bottom: 80px; }
+        body { background: #000; color: #fff; min-height: 100vh; padding-bottom: 80px; }
         
-        /* Snapshot */
         body.snapshot .painel-modular, body.snapshot .ticker-tape, body.snapshot .btn-snap, body.snapshot .bar-info { display: none !important; }
         body.snapshot .box-master { margin-top: 80px; border-width: 3px; transform: scale(1.1); }
 
@@ -29,10 +28,7 @@
         .field:focus { border-color: var(--gold); }
 
         .btn-snap { position: fixed; bottom: 20px; right: 20px; background: var(--gold); border: none; padding: 12px 22px; border-radius: 30px; font-weight: 900; font-size: 11px; cursor: pointer; z-index: 100; }
-        
-        /* Status de busca */
-        .loading-ticker { color: var(--gold); font-size: 8px; animation: blink 1s infinite; display: none; }
-        @keyframes blink { 50% { opacity: 0; } }
+        .status-msg { font-size: 8px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -42,15 +38,14 @@
     { "symbols": [
       {"proName": "BMFBOVESPA:IBOV", "title": "IBOVESPA"},
       {"proName": "BMFBOVESPA:PETR4", "title": "PETR4"},
-      {"proName": "BMFBOVESPA:VALE3", "title": "VALE3"},
-      {"proName": "FX_IDC:USDBRL", "title": "DÓLAR"}
+      {"proName": "BMFBOVESPA:VALE3", "title": "VALE3"}
     ], "colorTheme": "dark", "isTransparent": true, "displayMode": "adaptive", "locale": "br" }
     </script>
 </div>
 
 <div class="bar-info">
-    <span>🛡️ TERMINAL S.A. | V166</span>
-    <span id="ticker-status" class="loading-ticker">BUSCANDO...</span>
+    <span>🛡️ TERMINAL S.A. | V167</span>
+    <span id="ticker-status" class="status-msg" style="color:var(--accent)">SISTEMA PRONTO</span>
 </div>
 
 <div class="box-master" id="main-box">
@@ -75,7 +70,7 @@
 <div class="painel-modular">
     <div class="painel-header"><span style="color:var(--accent)">ESTRUTURA VOLÁTIL B3</span><b id="res-b3">R$ 0</b></div>
     <div class="painel-body">
-        <div class="row-in">Ticker: <input type="text" id="ticker" class="field" placeholder="EX: VALE3" oninput="handleTickerInput(this.value)"></div>
+        <div class="row-in">Ticker: <input type="text" id="ticker" class="field" placeholder="PETR4" oninput="handleTicker(this.value)"></div>
         <div class="row-in">Oscilação Mês %: <input type="number" id="osc" class="field" value="0" oninput="calc()"></div>
     </div>
 </div>
@@ -84,66 +79,57 @@
 
 <script>
     const SELIC = 14.75; //
-    let timeoutBusca = null;
+    let tBusca = null;
 
-    // Detecta a digitação e aguarda 1 segundo para buscar (mais inteligente) [cite: 2026-01-11]
-    function handleTickerInput(val) {
-        clearTimeout(timeoutBusca);
-        document.getElementById('ticker-status').style.display = "none";
-        
-        if(val.length >= 4) {
-            timeoutBusca = setTimeout(() => {
-                puxarOscilacaoReal(val.toUpperCase().trim());
-            }, 1000); 
+    function handleTicker(v) {
+        clearTimeout(tBusca);
+        if(v.length >= 4) {
+            tBusca = setTimeout(() => buscaB3(v.toUpperCase().trim()), 800);
         }
     }
 
-    async function puxarOscilacaoReal(ticker) {
-        const oscField = document.getElementById('osc');
+    async function buscaB3(tk) {
         const status = document.getElementById('ticker-status');
-        
-        status.style.display = "block";
-        status.innerText = "BUSCANDO " + ticker + "...";
+        const oscField = document.getElementById('osc');
+        status.innerText = "CONECTANDO B3...";
+        status.style.color = "var(--gold)";
 
         try {
-            // Usando o proxy para evitar erro de CORS [cite: 2026-01-23]
-            const proxy = "https://api.allorigins.win/get?url=";
-            const target = `https://brapi.dev/api/quote/${ticker}`;
-            const response = await fetch(proxy + encodeURIComponent(target));
-            const json = await response.json();
+            // Tentativa direta com fallback de proxy para evitar erro de conexão [cite: 2026-01-23]
+            const url = `https://brapi.dev/api/quote/${tk}`;
+            const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`);
+            const json = await res.json();
             const data = JSON.parse(json.contents);
 
             if(data.results && data.results[0]) {
-                const varDia = data.results[0].regularMarketChangePercent;
-                oscField.value = varDia.toFixed(2);
-                status.innerText = "SINCRONIZADO";
-                setTimeout(() => status.style.display = "none", 2000);
-                calc(); // [cite: 2026-01-11]
+                oscField.value = data.results[0].regularMarketChangePercent.toFixed(2);
+                status.innerText = "VALOR SINCRONIZADO";
+                status.style.color = "var(--accent)";
+                calc();
             } else {
-                status.innerText = "TICKER NÃO ENCONTRADO";
+                status.innerText = "TICKER INVÁLIDO";
+                status.style.color = "var(--red)";
             }
-        } catch (e) { 
-            status.innerText = "ERRO NA CONEXÃO B3";
+        } catch (e) {
+            status.innerText = "ERRO DE CONEXÃO - USE MANUAL";
+            status.style.color = "var(--red)";
         }
     }
 
     function calc() {
         const i = parseFloat(document.getElementById('ini').value) || 0;
         const t = Math.max(1, parseInt(document.getElementById('tempo').value) || 0);
-        
-        // RF
         const rfMult = parseFloat(document.getElementById('prod-rf').value);
-        let taxaRF = Math.pow(1 + (SELIC/100), 1/12) - 1;
-        let liqRF = i + ((i * Math.pow(1 + taxaRF, t) - i) * rfMult);
+        
+        let txRF = Math.pow(1 + (SELIC/100), 1/12) - 1;
+        let liqRF = i + ((i * Math.pow(1 + txRF, t) - i) * rfMult);
 
-        // B3
         const osc = (parseFloat(document.getElementById('osc').value) || 0) / 100;
         let liqB3 = i * Math.pow(1 + osc, t);
 
         document.getElementById('res-rf').innerText = "R$ " + liqRF.toLocaleString('pt-BR', {maximumFractionDigits:0});
         document.getElementById('res-b3').innerText = "R$ " + liqB3.toLocaleString('pt-BR', {maximumFractionDigits:0});
 
-        // Lucro Moldado (-50% sobre o ganho médio) [cite: 2026-01-16]
         let moldado = i + ((((liqRF + liqB3) / 2) - i) * 0.5);
         document.getElementById('v-mold').innerText = "R$ " + (i > 0 ? moldado.toLocaleString('pt-BR', {minimumFractionDigits:2}) : "0,00");
     }
