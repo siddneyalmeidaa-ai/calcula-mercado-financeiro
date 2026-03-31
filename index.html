@@ -3,37 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TERMINAL S.A. | V156</title>
+    <title>TERMINAL S.A. | V157</title>
     <style>
         :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; --grey: #888; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background: #000; color: #fff; min-height: 100vh; overflow-y: auto; padding-bottom: 50px; }
-        
         .bar { padding: 12px; border-bottom: 1px solid var(--gold); display: flex; justify-content: space-between; align-items: center; font-size: 10px; background:#050505; }
         .stats { display: flex; justify-content: space-around; padding: 10px; font-size: 9px; background: #080808; border-bottom: 1px solid #111; }
-        
         .box { margin: 12px; border: 2px solid var(--gold); border-radius: 12px; padding: 20px; text-align: center; background: #050505; }
         .val { font-size: 32px; font-weight: 900; color: var(--gold); text-shadow: 0 0 10px rgba(212,175,55,0.3); }
-
         .inputs-main { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 0 12px; }
         .in { background: #0a0a0a; padding: 8px; border-radius: 6px; text-align: center; border: 1px solid #222; }
         .in label { font-size: 6px; color: var(--gold); display: block; font-weight: bold; margin-bottom: 2px; }
         input, select { width: 100%; background: none; border: none; color: #fff; text-align: center; font-size: 14px; font-weight: bold; outline: none; border-radius: 4px; }
-
-        /* CARDS GAVETA */
         .card-gaveta { margin: 10px 12px; background: #050505; border: 1px solid #222; border-radius: 8px; overflow: hidden; transition: 0.3s; }
         .card-header { padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
         .card-header span { font-size: 10px; font-weight: 900; color: var(--blue); }
         .card-header b { font-size: 14px; color: #fff; }
-        
         .gaveta-content { height: 0; padding: 0 15px; opacity: 0; transition: 0.3s; display: flex; flex-direction: column; gap: 10px; border-top: 0px solid #111; }
         .card-gaveta.aberto { border-color: var(--gold); }
         .card-gaveta.aberto .gaveta-content { height: auto; padding: 15px; opacity: 1; border-top-width: 1px; }
-
         .row { display: flex; justify-content: space-between; align-items: center; font-size: 11px; }
-        .row-detalhe { font-size: 9px; color: var(--grey); margin-bottom: 5px; }
-        .in-gaveta { background: #111; border: 1px solid #333; color: #fff; padding: 5px; border-radius: 4px; width: 100px; text-align: center; }
-
+        .in-gaveta { background: #111; border: 1px solid #333 !important; color: #fff; padding: 5px; border-radius: 4px; width: 110px; text-align: center; }
         table { width: 100%; font-size: 10px; border-collapse: collapse; margin-top: 10px; background: #050505; }
         td, th { padding: 10px; text-align: center; border-bottom: 1px solid #111; }
     </style>
@@ -41,7 +32,7 @@
 <body>
 
 <div class="bar">
-    <span>🛡️ TERMINAL S.A. | V156</span>
+    <span>🛡️ TERMINAL S.A. | V157</span>
     <span id="dias-copom" style="color:var(--accent)">COPOM EM: --d</span>
 </div>
 
@@ -59,7 +50,7 @@
 <div class="inputs-main">
     <div class="in"><label>APORTE INICIAL</label><input type="number" id="ini" value="0" oninput="calc()"></div>
     <div class="in"><label>APORTE MENSAL</label><input type="number" id="mes" value="0" oninput="calc()"></div>
-    <div class="in"><label>MESES</label><input type="number" id="tempo" value="0" oninput="calc()"></div>
+    <div class="in"><label>MESES</label><input type="number" id="tempo" value="12" oninput="calc()"></div>
 </div>
 
 <div class="card-gaveta" id="cardA">
@@ -68,18 +59,24 @@
         <b id="res-a">R$ 0</b>
     </div>
     <div class="gaveta-content">
-        <div class="row">Escolha o Produto: 
-            <select id="produto-a" onchange="calc()" class="in-gaveta">
+        <div class="row">Produto: 
+            <select id="prod-a" onchange="calc()" class="in-gaveta">
                 <option value="CDB">CDB</option>
                 <option value="LCI_LCA">LCI / LCA</option>
                 <option value="CRA_CRI">CRA / CRI</option>
-                <option value="TESOURO">TESOURO SELIC</option>
-                <option value="DEB_COMUM">DEBÊNTURE COMUM</option>
-                <option value="DEB_INCENTIVADA">DEBÊNTURE INCENT.</option>
+                <option value="TESOURO">TESOURO</option>
+                <option value="DEB_COMUM">DEB. COMUM</option>
+                <option value="DEB_INCENT">DEB. INCENT.</option>
             </select>
         </div>
-        <div id="detalhe-a" class="row-detalhe">Motor: Pós-Fixado (% CDI). IR: Sim (Tabela Regressiva).</div>
-        <div class="row">Taxa do Produto (%): <input type="number" id="taxa-a" class="in-gaveta" value="107" oninput="calc()"></div>
+        <div class="row">Motor: 
+            <select id="motor-a" onchange="calc()" class="in-gaveta">
+                <option value="CDI">PÓS (% CDI)</option>
+                <option value="PRE">PRÉ-FIXADO (%)</option>
+                <option value="IPCA">IPCA + (%)</option>
+            </select>
+        </div>
+        <div class="row">Taxa do Ativo: <input type="number" id="taxa-a" class="in-gaveta" value="100" oninput="calc()"></div>
     </div>
 </div>
 
@@ -102,71 +99,46 @@
 </div>
 
 <script>
-    function toggle(id) {
-        document.getElementById(id).classList.toggle('aberto');
-    }
-
-    // Central de Inteligência Tributária (Sidney, use essa área para as regras do jogo)
-    const CATALOGO_ATV = {
-        "CDB": { motor: "% CDI", isento: false, ir: "TABELA" },
-        "LCI_LCA": { motor: "% CDI", isento: true, ir: "ISENTO" },
-        "CRA_CRI": { motor: "% CDI", isento: true, ir: "ISENTO" },
-        "TESOURO": { motor: "% CDI", isento: false, ir: "TABELA" },
-        "DEB_COMUM": { motor: "% CDI", isento: false, ir: "TABELA" },
-        "DEB_INCENTIVADA": { motor: "% CDI", isento: true, ir: "ISENTO" }
-    };
+    function toggle(id) { document.getElementById(id).classList.toggle('aberto'); }
 
     function calc() {
-        // Pega valores e garante que são números limpos
         const i = parseFloat(document.getElementById('ini').value) || 0;
         const m = parseFloat(document.getElementById('mes').value) || 0;
-        const t = Math.max(0, parseInt(document.getElementById('tempo').value) || 0);
+        const t = Math.max(1, parseInt(document.getElementById('tempo').value) || 0);
         const cdi = 14.65;
+        const ipca = 3.90;
         const totalInvestido = i + (m * t);
 
-        // 1. Lógica do Arsenal Renda Fixa (Super Gaveta)
-        const produtoA = document.getElementById('produto-a').value;
-        const infoAtv = CATALOGO_ATV[produtoA];
+        // Lógica Renda Fixa Inteligente
+        const prod = document.getElementById('prod-a').value;
+        const motor = document.getElementById('motor-a').value;
+        const taxaUser = parseFloat(document.getElementById('taxa-a').value) || 0;
         
-        // Atualiza legenda da gaveta
-        document.getElementById('detalhe-a').innerText = `Motor: ${infoAtv.motor}. IR: ${infoAtv.ir}.`;
+        let taxaAnual = 0;
+        if(motor === "CDI") taxaAnual = cdi * (taxaUser/100);
+        else if(motor === "PRE") taxaAnual = taxaUser;
+        else if(motor === "IPCA") taxaAnual = ipca + taxaUser;
 
-        const taxaAUser = parseFloat(document.getElementById('taxa-a').value) || 0;
-        
-        let taxaAnualA = cdi * (taxaAUser/100);
-        let taxaMA = Math.pow(1 + (taxaAnualA/100), 1/12) - 1;
-        
+        let taxaMA = Math.pow(1 + (taxaAnual/100), 1/12) - 1;
         let brutoA = i * Math.pow(1 + taxaMA, t);
         for(let j=1; j<=t; j++) { brutoA += m * Math.pow(1 + taxaMA, t-j); }
         
-        let lucroA = Math.max(0, brutoA - totalInvestido);
-        
-        // Aplicação automática de IR regressivo com base no tempo (T)
-        let fIr = 0.225; // Até 12 meses
-        if (t > 24) fIr = 0.15; // Acima de 24 meses
-        else if (t > 12) fIr = 0.175; // 12 a 24 meses
+        const isento = ["LCI_LCA", "CRA_CRI", "DEB_INCENT"].includes(prod);
+        let fIr = t > 24 ? 0.15 : t > 12 ? 0.175 : 0.225;
+        let liqA = totalInvestido + ((brutoA - totalInvestido) * (isento ? 1 : (1 - fIr)));
 
-        // O código agora define se paga IR ou não automaticamente
-        let liqA = totalInvestido + (lucroA * (infoAtv.isento ? 1 : (1 - fIr))); 
-
-        // 2. Lógica Bolsa (Variável)
+        // Lógica Bolsa
         const oscM = (parseFloat(document.getElementById('oscilacao').value) || 0) / 100;
         let liqB = i * Math.pow(1 + oscM, t);
         for(let k=1; k<=t; k++) { liqB += m * Math.pow(1 + oscM, t-k); }
         if (oscM === 0) liqB = totalInvestido;
 
-        // Atualiza Cards
         document.getElementById('res-a').innerText = "R$ " + liqA.toLocaleString('pt-BR',{maximumFractionDigits:0});
         document.getElementById('res-b').innerText = "R$ " + liqB.toLocaleString('pt-BR',{maximumFractionDigits:0});
 
-        // REGRA SIDNEY: LUCRO MOLDADO = Investimento + 50% do lucro da Renda Fixa
         let moldado = totalInvestido + ((liqA - totalInvestido) * 0.5); 
-        
-        if (totalInvestido === 0) moldado = 0;
+        document.getElementById('v-mold').innerText = "R$ " + (totalInvestido > 0 ? moldado.toLocaleString('pt-BR', {minimumFractionDigits:2}) : "0,00");
 
-        document.getElementById('v-mold').innerText = "R$ " + moldado.toLocaleString('pt-BR', {minimumFractionDigits:2});
-
-        // Tabela Favelinha baseada no Moldado
         let hF = "";
         for(let n=1; n<=3; n++) {
             let stake = (moldado * 0.01) / n;
@@ -175,7 +147,6 @@
         document.getElementById('fav').innerHTML = hF;
     }
 
-    // Datas COPOM
     const dataCopom = new Date("2026-05-06");
     const diffDays = Math.ceil((dataCopom - new Date()) / (1000 * 60 * 60 * 24));
     document.getElementById('dias-copom').innerText = "COPOM EM: " + diffDays + "d";
