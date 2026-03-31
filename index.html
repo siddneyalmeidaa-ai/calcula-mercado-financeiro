@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TERMINAL S.A. | V199 OMNI-SYNC</title>
+    <title>TERMINAL S.A. | V201 SPLIT-SYNC</title>
     <style>
-        :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --red: #ff4444; }
+        :root { --gold: #D4AF37; --accent: #00FF41; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Courier New', monospace; }
         body { background: #000; color: #fff; padding-bottom: 140px; overflow-x: hidden; }
 
-        /* CABEÇALHO DE AUDITORIA */
+        /* CABEÇALHO DE AUDITORIA [cite: 2026-01-20] */
         .header-sys { padding: 12px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; font-size: 9px; background: #050505; position: sticky; top: 0; z-index: 1000; }
         
         /* LETREIRO DE MERCADO */
@@ -23,16 +23,16 @@
         .val-moldado { font-size: 40px; font-weight: 900; color: var(--gold); margin: 5px 0; letter-spacing: -1px; }
         .stamp { position: absolute; top: 8px; right: 8px; font-size: 7px; color: var(--accent); border: 1px solid var(--accent); padding: 2px 4px; border-radius: 3px; transform: rotate(5deg); font-weight: 900; }
 
-        /* CARDS DE OPERAÇÃO */
+        /* CARDS DE OPERAÇÃO [cite: 2026-01-11] */
         .card { margin: 15px; background: #080808; border: 1px solid #1a1a1a; border-radius: 10px; overflow: hidden; }
         .card-h { padding: 10px 15px; background: #111; font-size: 9px; font-weight: 900; color: var(--gold); border-bottom: 1px solid #222; letter-spacing: 1px; }
         .card-b { padding: 15px; display: flex; flex-direction: column; gap: 10px; }
 
         .field-row { display: flex; justify-content: space-between; align-items: center; font-size: 11px; }
-        .in-num { background: #000; border: 1px solid #333; color: #fff; padding: 10px; border-radius: 5px; width: 150px; text-align: center; font-weight: bold; outline: none; }
+        .in-num { background: #000; border: 1px solid #333; color: #fff; padding: 10px; border-radius: 5px; width: 160px; text-align: center; font-weight: bold; outline: none; font-size: 11px; }
         .in-num:focus { border-color: var(--gold); }
         
-        .status-sync { font-size: 9px; color: var(--accent); margin-top: 5px; text-align: right; font-weight: 900; }
+        .status-sync { font-size: 9px; color: var(--accent); margin-top: 5px; text-align: right; font-weight: 900; min-height: 12px; }
 
         .btn-print { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--gold); color: #000; border: none; padding: 18px; border-radius: 50px; font-weight: 900; font-size: 12px; width: 85%; z-index: 999; box-shadow: 0 4px 15px rgba(0,0,0,0.6); }
     </style>
@@ -40,9 +40,9 @@
 <body onload="initSystem()">
 
 <div class="header-sys">
-    <span>🛡️ TERMINAL S.A. | V199</span>
+    <span>🛡️ TERMINAL S.A. | V201</span>
     <span id="live-clock">--:--:--</span>
-    <span style="color:var(--accent)">● SYNC GITHUB/B3 ACTIVE</span>
+    <span style="color:var(--accent)">● ASSET SPLIT & B3 SYNC ACTIVE</span>
 </div>
 
 <div class="ticker-wrap">
@@ -57,33 +57,49 @@
 
 <div class="box-master">
     <div class="stamp">VERIFICADO</div>
-    <small style="font-size:9px; color:var(--gold); font-weight: 900; letter-spacing: 1px;">LUCRO MOLDADO (AJUSTE -50%)</small>
+    <small style="font-size:9px; color:var(--gold); font-weight: 900;">LUCRO MOLDADO (AJUSTE -50%)</small>
     <div class="val-moldado" id="v-mold">R$ 0,00</div>
-    <div id="debug-info" style="font-size: 8px; color: #444; margin-top: 5px;">Aguardando Entrada...</div>
 </div>
 
 <div class="card">
-    <div class="card-h">ENTRADA UNIFICADA (BUSCA INTELIGENTE)</div>
+    <div class="card-h">PERSONALIZAÇÃO DE RENDA FIXA (BANCO)</div>
     <div class="card-b">
+        <div class="field-row">Aporte Inicial: <input type="number" id="capital-banco" class="in-num" value="5000" oninput="main()"></div>
         <div class="field-row">
-            Ativo/CDB: 
-            <input type="text" id="master-in" list="lista-omni" class="in-num" placeholder="Ex: CDB 107% ou VALE3" oninput="processInput(this.value)">
+            Produto: 
+            <input type="text" id="produto-in" list="lista-omni" class="in-num" placeholder="Ex: CDB 107%" oninput="processInputBanco(this.value)">
         </div>
-        <div class="field-row">Aporte Mensal: <input type="number" id="capital" class="in-num" value="500" oninput="main()"></div>
-        <div class="field-row">Tempo (Meses): <input type="number" id="meses" class="in-num" value="12" oninput="main()"></div>
-        <div class="status-sync" id="sync-msg">Aguardando cruzamento...</div>
+        <div class="status-sync" id="banco-msg">Aguardando entrada...</div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-h">AUTO-SYNC B3 (AÇÕES / FIIs)</div>
+    <div class="card-b">
+        <div class="field-row">Aporte B3: <input type="number" id="capital-b3" class="in-num" value="1000" oninput="main()"></div>
+        <div class="field-row">
+            Ticker do Ativo: 
+            <input type="text" id="ticker-in" list="lista-omni" class="in-num" placeholder="Ex: VALE3" onchange="processInputB3(this.value)">
+        </div>
+        <div class="status-sync" id="b3-msg">Aguardando cruzamento...</div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-h">GESTÃO DE TEMPO</div>
+    <div class="card-b">
+        <div class="field-row">Meses: <input type="number" id="meses" class="in-num" value="12" oninput="main()"></div>
     </div>
 </div>
 
 <div id="datalist-container"></div>
 
-<button class="btn-print" onclick="window.print()">📸 GERAR AUDITORIA UNIFICADA</button>
+<button class="btn-print" onclick="window.print()">📸 GERAR AUDITORIA FINAL</button>
 
 <script>
     const API_TOKEN = "3YfY2Nvp75kG9ANMx4vrDx";
     let selicM = Math.pow(1 + 0.1075, 1/12) - 1;
-    let ipcaM = Math.pow(1 + 0.0450, 1/12) - 1;
-    let currentTax = 0;
+    let bancoTax = 0; let b3Tax = 0;
 
     function initSystem() {
         setInterval(() => { document.getElementById('live-clock').innerText = new Date().toLocaleTimeString(); }, 1000);
@@ -91,36 +107,29 @@
         main();
     }
 
-    // CARREGA A PASTA DA DATALIST
     function loadExternalList() {
         fetch('datalist_omni.html')
             .then(r => r.text())
-            .then(d => {
-                document.getElementById('datalist-container').innerHTML = d;
-                document.getElementById('sync-msg').innerText = "● LISTA OMNI SINCRONIZADA";
-            })
-            .catch(e => { document.getElementById('sync-msg').innerText = "● MODO OFFLINE"; });
+            .then(d => { document.getElementById('datalist-container').innerHTML = d; });
     }
 
-    // PROCESSADOR DE RECONHECIMENTO [cite: 2026-02-28]
-    function processInput(val) {
+    // Processamento da Renda Fixa [cite: 2026-02-28]
+    function processInputBanco(val) {
         let input = val.toUpperCase();
-        let msg = document.getElementById('sync-msg');
-        
         if(input.includes("CDB") || input.includes("CDI")) {
             let num = val.match(/\d+/);
             let perc = num ? parseInt(num[0]) : 100;
-            currentTax = selicM * (perc / 100);
-            msg.innerText = `● RECONHECIDO: CDB ${perc}% CDI`;
+            bancoTax = selicM * (perc / 100);
+            document.getElementById('banco-msg').innerText = `● BANCO: CDB ${perc}% CDI`;
             main();
-        } else if(input.includes("IPCA")) {
-            let num = val.match(/\d+/);
-            let extra = num ? parseInt(num[0]) : 0;
-            currentTax = ipcaM + (Math.pow(1 + (extra/100), 1/12) - 1);
-            msg.innerText = `● RECONHECIDO: IPCA + ${extra}%`;
-            main();
-        } else if(input.length >= 4) {
-            msg.innerText = "● CRUZANDO DADOS B3...";
+        }
+    }
+
+    // Processamento da B3 [cite: 2026-02-28, 2026-01-23]
+    function processInputB3(val) {
+        let input = val.toUpperCase();
+        if(input.length >= 4 && !input.includes("CDB")) {
+            document.getElementById('b3-msg').innerText = "● CRUZANDO DADOS B3...";
             syncB3(input);
         }
     }
@@ -131,26 +140,24 @@
             const d = await r.json();
             if(d.results[0]) {
                 let osc = d.results[0].regularMarketChangePercent;
-                currentTax = osc / 100;
-                document.getElementById('sync-msg').innerText = `● B3 SYNC: ${t} (${osc.toFixed(2)}%)`;
+                b3Tax = osc / 100;
+                document.getElementById('b3-msg').innerText = `● B3 SYNC: ${t} (${osc.toFixed(2)}%)`;
                 main();
             }
         } catch(e) {}
     }
 
     function main() {
-        const v0 = parseFloat(document.getElementById('capital').value) || 0;
+        const cBanco = parseFloat(document.getElementById('capital-banco').value) || 0;
+        const cB3 = parseFloat(document.getElementById('capital-b3').value) || 0;
         const t = parseInt(document.getElementById('meses').value) || 1;
         
-        // CÁLCULO COM REGRA DE -50% NA PROJEÇÃO [cite: 2026-01-16, 2026-02-03]
-        let lucroTotal = 0;
-        for(let i=1; i<=t; i++) {
-            lucroTotal += (v0 * i) * currentTax;
-        }
+        // CÁLCULO MOLDADO (-50% NA PROJEÇÃO) [cite: 2026-01-16, 2026-01-23]
+        const lucroBanco = (cBanco * t) * bancoTax;
+        const lucroB3 = (cB3 * t) * b3Tax;
         
-        const final = (v0 * t) + (lucroTotal * 0.5);
+        const final = (cBanco * t) + (cB3 * t) + ((lucroBanco + lucroB3) * 0.5);
         document.getElementById('v-mold').innerText = final.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
-        document.getElementById('debug-info').innerText = `Taxa Ref: ${(currentTax*100).toFixed(4)}% | Projeção: ${t}m`;
     }
 </script>
 </body>
