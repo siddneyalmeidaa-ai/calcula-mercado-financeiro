@@ -3,48 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TERMINAL S.A. | V176</title>
+    <title>TERMINAL S.A. | V177 COMPLETO</title>
     <style>
         :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --blue: #00D1FF; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
-        body { background: #000; color: #fff; padding-bottom: 80px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background: #000; color: #fff; min-height: 100vh; overflow-y: auto; padding-bottom: 80px; }
         
         .bar-info { padding: 12px; border-bottom: 1px solid var(--gold); display: flex; justify-content: space-between; align-items: center; font-size: 10px; background:#050505; }
         .macro-banner { display: flex; justify-content: space-around; padding: 8px; background: #080808; border-bottom: 1px solid #111; font-size: 9px; font-weight: 900; color: #777; }
         .macro-banner b { color: #fff; margin-left: 3px; }
 
-        .box-master { margin: 12px; border: 2px solid var(--gold); border-radius: 12px; padding: 20px; text-align: center; background: #050505; }
-        .val-moldado { font-size: 32px; font-weight: 900; color: var(--gold); margin: 10px 0; }
+        .box-master { margin: 12px; border: 2px solid var(--gold); border-radius: 12px; padding: 20px; text-align: center; background: #050505; transition: 0.3s; }
+        .val-moldado { font-size: 32px; font-weight: 900; color: var(--gold); margin: 10px 0; text-shadow: 0 0 10px rgba(212,175,55,0.2); }
         .resumo-sub { display: flex; justify-content: space-around; font-size: 9px; font-weight: bold; margin-bottom: 10px; }
 
         .painel-modular { margin: 10px 12px; background: #080808; border: 1px solid #222; border-radius: 10px; overflow: hidden; }
         .painel-header { padding: 10px 15px; background: #111; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; }
-        .painel-header span { font-size: 9px; font-weight: 900; color: var(--gold); }
+        .painel-header span { font-size: 9px; font-weight: 900; color: var(--gold); letter-spacing: 1px; }
         .painel-body { padding: 12px; display: flex; flex-direction: column; gap: 8px; }
 
         .row-in { display: flex; justify-content: space-between; align-items: center; font-size: 11px; }
         .field { background: #1a1a1a; border: 1px solid #333; color: #fff; padding: 6px; border-radius: 4px; width: 120px; text-align: center; font-weight: bold; outline: none; }
         .field-gold { border-color: var(--gold); color: var(--gold); }
+        
         .proj-box { margin-top: 5px; padding-top: 5px; border-top: 1px solid #222; display: flex; justify-content: space-between; font-size: 10px; font-weight: 900; }
         
-        .btn-snap { position: fixed; bottom: 20px; right: 20px; background: var(--gold); border: none; padding: 12px 22px; border-radius: 30px; font-weight: 900; font-size: 11px; cursor: pointer; }
+        /* Botão Ocultar e Tabelas */
+        #btn-toggle { background: #111; border: 1px solid #333; color: #555; width: calc(100% - 24px); margin: 0 12px; padding: 10px; border-radius: 6px; font-size: 9px; font-weight: 900; cursor: pointer; }
+        #btn-toggle.active { color: var(--gold); border-color: var(--gold); }
+        .detalhamento { margin: 15px 12px; display: none; }
+        .table-ouro { width: 100%; border-collapse: collapse; font-size: 10px; border: 1px solid #1a1a1a; }
+        .table-ouro th { background: #080808; text-align: left; padding: 8px; color: #666; }
+        .table-ouro td { padding: 8px; border-bottom: 1px solid #111; }
+
+        .btn-snap { position: fixed; bottom: 20px; right: 20px; background: var(--gold); border: none; padding: 12px 22px; border-radius: 30px; font-weight: 900; font-size: 11px; cursor: pointer; z-index: 100; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        
+        body.snapshot .painel-modular, body.snapshot .btn-snap, body.snapshot .bar-info, body.snapshot .macro-banner, body.snapshot #btn-toggle { display: none !important; }
+        body.snapshot .box-master { margin-top: 100px; transform: scale(1.1); border-width: 3px; }
     </style>
 </head>
 <body>
 
 <div class="bar-info">
-    <span>🛡️ TERMINAL S.A. | V176</span>
-    <span style="font-size:8px; color:var(--accent)">SISTEMA ATIVO</span>
+    <span>🛡️ TERMINAL S.A. | V177</span>
+    <span id="sys-status" style="font-size:8px; color:var(--accent)">SISTEMA UNIFICADO</span>
 </div>
 
 <div class="macro-banner">
-    <span>SELIC: <b id="m-selic">14.75%</b></span>
-    <span>INFLAÇÃO (IPCA): <b id="m-ipca">3.90%</b></span>
+    <span>SELIC: <b>14.75%</b></span>
+    <span>INFLAÇÃO (IPCA): <b>3.90%</b></span>
 </div>
 
 <div class="box-master">
     <div class="resumo-sub">
-        <span>TOTAL BRUTO: <b id="t-bruto">R$ 0</b></span>
+        <span style="color:var(--blue)">BRUTO TOTAL: <b id="t-bruto">R$ 0</b></span>
         <span>TEMPO: <b id="res-meses">0</b> MESES</span>
     </div>
     <small style="font-size:8px; color:var(--gold); font-weight:900;">LUCRO MOLDADO ACUMULADO (-50%)</small>
@@ -52,11 +64,11 @@
 </div>
 
 <div class="painel-modular">
-    <div class="painel-header"><span>[1] ESTRUTURA CDB (PÓS)</span></div>
+    <div class="painel-header"><span>[1] ESTRUTURA CDB (PÓS-FIXADO)</span></div>
     <div class="painel-body">
         <div class="row-in">Valor Inicial: <input type="number" id="v-cdb" class="field field-gold" value="200" oninput="calc()"></div>
         <div class="row-in">Taxa (% CDI): <input type="number" id="tx-cdb" class="field" value="100" oninput="calc()"></div>
-        <div class="proj-box">LUCRO (LÍQUIDO): <span id="p-cdb" style="color:var(--accent)">R$ 0</span></div>
+        <div class="proj-box">LUCRO (C/ IMPOSTO): <span id="p-cdb" style="color:var(--accent)">R$ 0</span></div>
     </div>
 </div>
 
@@ -70,22 +82,35 @@
 </div>
 
 <div class="painel-modular">
-    <div class="painel-header"><span>[3] MERCADO VOLÁTIL B3</span></div>
+    <div class="painel-header"><span>[3] MERCADO FINANCEIRO B3</span></div>
     <div class="painel-body">
         <div class="row-in">Valor Inicial: <input type="number" id="v-b3" class="field field-gold" value="100" oninput="calc()"></div>
-        <div class="row-in">Oscilação Mensal %: <input type="number" id="tx-b3" class="field" value="1.5" oninput="calc()"></div>
+        <div class="row-in">Oscilação Mês %: <input type="number" id="tx-b3" class="field" value="1.5" oninput="calc()"></div>
         <div class="proj-box">LUCRO (VARIÁVEL): <span id="p-b3" style="color:var(--accent)">R$ 0</span></div>
     </div>
 </div>
 
 <div class="painel-modular">
-    <div class="painel-header"><span>PERÍODO GLOBAL</span></div>
+    <div class="painel-header"><span>PARÂMETROS GERAIS</span></div>
     <div class="painel-body">
-        <div class="row-in">Meses: <input type="number" id="meses" class="field" value="12" oninput="calc()"></div>
+        <div class="row-in">Período (Meses): <input type="number" id="meses" class="field" value="12" oninput="calc()"></div>
     </div>
 </div>
 
-<button class="btn-snap" onclick="window.print()">📸 MODO PRINT</button>
+<button id="btn-toggle" onclick="toggleDetails()">EXPANDIR PADRÃO OURO</button>
+
+<div class="detalhamento" id="detalhe-ouro">
+    <table class="table-ouro">
+        <thead><tr><th>RESUMO TÉCNICO</th><th>VALOR</th></tr></thead>
+        <tbody>
+            <tr><td>Capital Total Investido</td><td id="td-inv">R$ 0</td></tr>
+            <tr><td>Lucro Total Projetado</td><td id="td-lucro">R$ 0</td></tr>
+            <tr><td>Projeção Final Bruta</td><td id="td-bruto">R$ 0</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<button class="btn-snap" onclick="document.body.classList.toggle('snapshot')">📸 MODO PRINT</button>
 
 <script>
     const SELIC = 0.1475; 
@@ -95,32 +120,54 @@
         const t = Math.max(1, parseInt(document.getElementById('meses').value) || 0);
         document.getElementById('res-meses').innerText = t;
 
-        // CDB
+        // 1. CDB (IR 17.5% p/ 12 meses)
         const vCdb = parseFloat(document.getElementById('v-cdb').value) || 0;
         const txCdb = (parseFloat(document.getElementById('tx-cdb').value) || 0) / 100;
         const lucroCdb = (vCdb * Math.pow(1 + (txMensalSelic * txCdb), t) - vCdb) * 0.825;
         document.getElementById('p-cdb').innerText = "R$ " + lucroCdb.toLocaleString('pt-BR', {minimumFractionDigits:2});
 
-        // LCI
+        // 2. LCI
         const vLci = parseFloat(document.getElementById('v-lci').value) || 0;
         const txLci = (parseFloat(document.getElementById('tx-lci').value) || 0) / 100;
         const lucroLci = vLci * Math.pow(1 + (txMensalSelic * txLci), t) - vLci;
         document.getElementById('p-lci').innerText = "R$ " + lucroLci.toLocaleString('pt-BR', {minimumFractionDigits:2});
 
-        // B3
+        // 3. B3
         const vB3 = parseFloat(document.getElementById('v-b3').value) || 0;
-        const txB3 = (parseFloat(document.getElementById('tx-b3').value) || 0) / 100;
-        const lucroB3 = vB3 * Math.pow(1 + txB3, t) - vB3;
+        const txB3 = (parseFloat(document.getElementById('tx-tx-b3')?.value) || 1.5) / 100; // Fallback se ID mudar
+        const oscB3 = (parseFloat(document.getElementById('tx-b3').value) || 0) / 100;
+        const lucroB3 = vB3 * Math.pow(1 + oscB3, t) - vB3;
         document.getElementById('p-b3').innerText = "R$ " + lucroB3.toLocaleString('pt-BR', {minimumFractionDigits:2});
 
-        // Totais [cite: 2026-01-16]
-        const capitalTotal = vCdb + vLci + vB3;
-        const lucroFinal = lucroCdb + lucroLci + lucroB3;
-        document.getElementById('t-bruto').innerText = "R$ " + (capitalTotal + lucroFinal).toLocaleString('pt-BR', {maximumFractionDigits:0});
-        document.getElementById('v-mold').innerText = "R$ " + (capitalTotal + (lucroFinal * 0.5)).toLocaleString('pt-BR', {minimumFractionDigits:2});
+        // TOTAIS [cite: 2026-01-16]
+        const totalInvestido = vCdb + vLci + vB3;
+        const lucroTotal = lucroCdb + lucroLci + lucroB3;
+        const brutoTotal = totalInvestido + lucroTotal;
+        const moldado = totalInvestido + (lucroTotal * 0.5);
+
+        document.getElementById('t-bruto').innerText = "R$ " + brutoTotal.toLocaleString('pt-BR', {maximumFractionDigits:0});
+        document.getElementById('v-mold').innerText = "R$ " + moldado.toLocaleString('pt-BR', {minimumFractionDigits:2});
+        
+        // Tabela Padrão Ouro [cite: 2026-01-11]
+        document.getElementById('td-inv').innerText = "R$ " + totalInvestido.toLocaleString('pt-BR');
+        document.getElementById('td-lucro').innerText = "R$ " + lucroTotal.toLocaleString('pt-BR');
+        document.getElementById('td-bruto').innerText = "R$ " + brutoTotal.toLocaleString('pt-BR');
+    }
+
+    function toggleDetails() {
+        const d = document.getElementById('detalhe-ouro');
+        const b = document.getElementById('btn-toggle');
+        if(d.style.display === "block") {
+            d.style.display = "none";
+            b.innerText = "EXPANDIR PADRÃO OURO";
+            b.classList.remove('active');
+        } else {
+            d.style.display = "block";
+            b.innerText = "OCULTAR PADRÃO OURO";
+            b.classList.add('active');
+        }
     }
     calc();
 </script>
-    
 </body>
 </html>
