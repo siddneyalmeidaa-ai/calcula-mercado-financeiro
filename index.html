@@ -3,146 +3,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TERMINAL S.A. | V178 COMPLETO</title>
+    <title>TERMINAL S.A. | V180 GOLD</title>
     <style>
         :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --red: #ff4444; --blue: #00D1FF; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
-        body { background: #000; color: #fff; padding-bottom: 100px; }
-        
-        /* Ticker Superior (Restaurado V163) */
-        .ticker-wrap { background: #050505; border-bottom: 1px solid #111; display: flex; overflow: hidden; padding: 10px 0; gap: 20px; }
-        .tick-item { white-space: nowrap; font-size: 10px; font-weight: 900; padding: 0 15px; border-right: 1px solid #222; }
-        .tick-item span { color: var(--accent); margin-left: 5px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Courier New', monospace; }
+        body { background: #000; color: #fff; padding-bottom: 120px; overflow-x: hidden; }
 
-        .bar-info { padding: 12px; border-bottom: 1px solid var(--gold); display: flex; justify-content: space-between; align-items: center; font-size: 10px; background:#050505; }
-        .status-sys { font-size: 8px; color: var(--accent); font-weight: 900; }
+        /* TICKER ANIMADO (RESTAURADO) */
+        .ticker-container { background: #050505; border-bottom: 1px solid #111; overflow: hidden; white-space: nowrap; padding: 12px 0; position: relative; }
+        .ticker-move { display: inline-block; animation: marquee 25s linear infinite; }
+        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        .tick-item { display: inline-block; margin-right: 50px; font-size: 11px; font-weight: 900; }
+        .tick-item b { color: var(--gold); }
+        .tick-item span { color: var(--accent); margin-left: 6px; }
 
-        .macro-banner { display: flex; justify-content: space-around; padding: 8px; background: #080808; border-bottom: 1px solid #111; font-size: 9px; font-weight: 900; color: #777; }
+        .bar-info { padding: 12px; border-bottom: 1px solid var(--gold); display: flex; justify-content: space-between; align-items: center; font-size: 10px; background:#080808; }
+        .status-sys { font-size: 8px; color: var(--accent); animation: blink 1.5s infinite; }
+        @keyframes blink { 50% { opacity: 0.3; } }
+
+        .macro-banner { display: flex; justify-content: space-around; padding: 10px; background: #0a0a0a; border-bottom: 1px solid #1a1a1a; font-size: 9px; font-weight: 900; color: #555; }
         .macro-banner b { color: #fff; }
 
-        /* Barra de Divisão (Restaurada V170) */
-        .gauge-container { margin: 15px 12px 0; height: 4px; background: #222; border-radius: 2px; display: flex; overflow: hidden; }
-        #gauge-fixa { background: var(--blue); width: 50%; transition: 0.5s; }
-        #gauge-b3 { background: var(--accent); width: 50%; transition: 0.5s; }
+        /* GAUGES */
+        .gauge-wrap { margin: 15px 15px 0; height: 8px; background: #111; border-radius: 4px; display: flex; overflow: hidden; border: 1px solid #222; }
+        #g-fixa { background: var(--blue); width: 50%; transition: 1s ease-in-out; }
+        #g-b3 { background: var(--accent); width: 50%; transition: 1s ease-in-out; }
 
-        .box-master { margin: 5px 12px 12px; border: 2px solid var(--gold); border-radius: 0 0 12px 12px; padding: 20px; text-align: center; background: #050505; border-top: none; }
-        .val-moldado { font-size: 32px; font-weight: 900; color: var(--gold); margin: 10px 0; }
-        
-        .painel-modular { margin: 10px 12px; background: #080808; border: 1px solid #222; border-radius: 10px; overflow: hidden; }
-        .painel-header { padding: 10px 15px; background: #111; display: flex; justify-content: space-between; font-size: 9px; font-weight: 900; color: var(--gold); border-bottom: 1px solid #222; }
-        .painel-body { padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+        /* BOX MASTER */
+        .box-master { margin: 0 15px 15px; border: 2px solid var(--gold); border-radius: 0 0 15px 15px; padding: 30px 20px; text-align: center; background: radial-gradient(circle at center, #111 0%, #000 100%); border-top: none; }
+        .val-moldado { font-size: 42px; font-weight: 900; color: var(--gold); margin: 15px 0; text-shadow: 0 0 25px rgba(212,175,55,0.4); }
+        .sub-tots { display: flex; justify-content: space-between; font-size: 10px; font-weight: bold; border-top: 1px solid #222; padding-top: 15px; }
 
-        .row-in { display: flex; justify-content: space-between; align-items: center; font-size: 11px; }
-        .field { background: #1a1a1a; border: 1px solid #333; color: #fff; padding: 6px; border-radius: 4px; width: 100px; text-align: center; font-weight: bold; outline: none; }
-        .select-field { width: 120px; background: #111; color: var(--gold); border: 1px solid #333; padding: 5px; font-size: 10px; font-weight: 900; }
+        /* PAINÉIS */
+        .card { margin: 15px; background: #080808; border: 1px solid #222; border-radius: 10px; overflow: hidden; }
+        .card-h { padding: 12px 15px; background: #111; font-size: 10px; font-weight: 900; color: var(--gold); border-bottom: 1px solid #222; display: flex; justify-content: space-between; }
+        .card-b { padding: 15px; display: flex; flex-direction: column; gap: 12px; }
+
+        .field-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
+        .in-num { background: #000; border: 1px solid #333; color: #fff; padding: 8px; border-radius: 5px; width: 110px; text-align: center; font-weight: bold; }
+        .sel-opt { width: 140px; background: #000; color: var(--gold); border: 1px solid #333; padding: 8px; font-size: 10px; font-weight: 900; border-radius: 5px; }
         
-        .proj-box { margin-top: 5px; padding-top: 5px; border-top: 1px solid #222; display: flex; justify-content: space-between; font-size: 10px; font-weight: 900; }
-        
-        .btn-snap { position: fixed; bottom: 20px; right: 20px; background: var(--gold); border: none; padding: 12px 22px; border-radius: 30px; font-weight: 900; font-size: 11px; z-index: 100; }
+        .res-line { margin-top: 10px; padding-top: 10px; border-top: 1px dashed #333; display: flex; justify-content: space-between; font-size: 11px; font-weight: 900; }
+
+        /* LOGS E AUDITORIA */
+        .log-terminal { margin: 15px; padding: 12px; background: #050505; border: 1px solid #1a1a1a; height: 100px; overflow-y: auto; font-size: 9px; color: #444; border-radius: 5px; }
+        .audit-table { width: calc(100% - 30px); margin: 0 15px 20px; border-collapse: collapse; font-size: 10px; }
+        .audit-table td { padding: 10px; border-bottom: 1px solid #111; color: #777; }
+        .audit-table b { color: var(--gold); }
+
+        .btn-print { position: fixed; bottom: 25px; right: 25px; background: var(--gold); color: #000; border: none; padding: 15px 30px; border-radius: 50px; font-weight: 900; font-size: 12px; box-shadow: 0 8px 20px rgba(212,175,55,0.3); z-index: 999; }
     </style>
 </head>
 <body>
 
-<div class="ticker-wrap">
-    <div class="tick-item">IBOVESPA <b>182.514,20</b><span>+0,53%</span></div>
-    <div class="tick-item">PETR4 <b>49,67</b><span>+0,53%</span></div>
-    <div class="tick-item">VALE3 <b>79,50</b><span>+0,63%</span></div>
-    <div class="tick-item">DÓLAR <b>5,2520</b><span style="color:#777">0,00%</span></div>
+<div class="ticker-container">
+    <div class="ticker-move" id="tick-move">
+        <div class="tick-item">IBOVESPA <b>182.514,20</b><span>+0,53%</span></div>
+        <div class="tick-item">PETR4 <b>49,67</b><span>+0,26%</span></div>
+        <div class="tick-item">VALE3 <b>79,50</b><span>+0,63%</span></div>
+        <div class="tick-item">DÓLAR <b>5,2520</b><span style="color:#777">0,00%</span></div>
+        <div class="tick-item">BITCOIN <b>420.122</b><span>+1,20%</span></div>
+    </div>
 </div>
 
 <div class="bar-info">
-    <span>🛡️ TERMINAL S.A. | V178</span>
-    <span class="status-sys">SINCRONIZADO</span>
+    <span>🛡️ TERMINAL S.A. | V180 | QUANTUM MEMORY</span>
+    <span class="status-sys">● CORE SINCRONIZADO</span>
 </div>
 
 <div class="macro-banner">
     <span>SELIC: <b>14.75%</b></span>
     <span>IPCA: <b>3.90%</b></span>
+    <span>CDI: <b>14.65%</b></span>
 </div>
 
-<div class="gauge-container">
-    <div id="gauge-fixa"></div>
-    <div id="gauge-b3"></div>
+<div class="gauge-wrap">
+    <div id="g-fixa"></div>
+    <div id="g-b3"></div>
 </div>
 
 <div class="box-master">
-    <small style="font-size:8px; color:var(--gold); font-weight:900;">LUCRO MOLDADO UNIFICADO (-50%)</small>
+    <small style="font-size:10px; color:var(--gold); font-weight:900; letter-spacing: 3px;">LUCRO MOLDADO TOTAL (-50%)</small>
     <div class="val-moldado" id="v-mold">R$ 0,00</div>
-    <div style="display:flex; justify-content: space-between; font-size:9px; margin-top:5px;">
-        <span style="color:var(--blue)">FIXA: <b id="tot-f">R$ 0</b></span>
-        <span style="color:var(--accent)">B3: <b id="tot-b">R$ 0</b></span>
+    <div class="sub-tots">
+        <span style="color:var(--blue)">CONSERVADOR: <b id="out-f">R$ 0</b></span>
+        <span style="color:var(--accent)">VOLÁTIL B3: <b id="out-b">R$ 0</b></span>
     </div>
 </div>
 
-<div class="painel-modular">
-    <div class="painel-header"><span>[1] ESTRUTURA RENDA FIXA</span></div>
-    <div class="painel-body">
-        <div class="row-in">Aporte Inicial: <input type="number" id="v-fixa" class="field" value="500" oninput="calc()"></div>
-        <div class="row-in">Aporte Mensal: <input type="number" id="m-fixa" class="field" value="200" oninput="calc()"></div>
-        <div class="row-in">Produto: 
-            <select id="p-fixa" class="select-field" onchange="calc()">
-                <option value="1.0">CDB (100% CDI)</option>
-                <option value="0.9">LCI/LCA (ISENTO)</option>
+<div class="card">
+    <div class="card-h"><span>[01] ESTRUTURA RENDA FIXA</span> <span>V.04</span></div>
+    <div class="card-b">
+        <div class="field-row">Aporte Inicial: <input type="number" id="v0-f" class="in-num" value="500" oninput="main()"></div>
+        <div class="field-row">Aporte Mensal: <input type="number" id="am-f" class="in-num" value="200" oninput="main()"></div>
+        <div class="field-row">Tipo de Produto: 
+            <select id="t-f" class="sel-opt" onchange="main()">
+                <option value="cdi_100">CDB (100% CDI)</option>
+                <option value="lci_90">LCI/LCA (90% CDI)</option>
+                <option value="pre_12">PRÉ-FIXADO (12,5% a.a)</option>
+                <option value="pre_15">PRÉ-FIXADO (15,0% a.a)</option>
             </select>
         </div>
-        <div class="proj-box">RENDIMENTO PROJETADO: <span id="r-fixa" style="color:var(--accent)">R$ 0</span></div>
+        <div class="res-line">LUCRO ESTIMADO: <span id="luc-f" style="color:var(--accent)">R$ 0</span></div>
     </div>
 </div>
 
-<div class="painel-modular">
-    <div class="painel-header"><span>[2] ESTRUTURA VOLÁTIL B3</span></div>
-    <div class="painel-body">
-        <div class="row-in">Valor Inicial: <input type="number" id="v-b3" class="field" value="100" oninput="calc()"></div>
-        <div class="row-in">Ticker: <input type="text" class="field" value="PETR4" style="text-transform:uppercase"></div>
-        <div class="row-in">Oscilação Mensal %: <input type="number" id="tx-b3" class="field" value="1.5" oninput="calc()"></div>
-        <div class="proj-box">RENDIMENTO PROJETADO: <span id="r-b3" style="color:var(--accent)">R$ 0</span></div>
+<div class="card">
+    <div class="card-h"><span>[02] ESTRUTURA VARIÁVEL B3</span> <span>V.02</span></div>
+    <div class="card-b">
+        <div class="field-row">Valor Alocado: <input type="number" id="v0-b" class="in-num" value="100" oninput="main()"></div>
+        <div class="field-row">Ativo Principal: <input type="text" class="in-num" value="PETR4" style="text-transform:uppercase"></div>
+        <div class="field-row">Oscilação Mês %: <input type="number" id="tx-b" class="in-num" value="1.5" step="0.1" oninput="main()"></div>
+        <div class="res-line">RESULTADO B3: <span id="luc-b" style="color:var(--accent)">R$ 0</span></div>
     </div>
 </div>
 
-<div class="painel-modular">
-    <div class="painel-header"><span>PARÂMETROS DE TEMPO</span></div>
-    <div class="painel-body">
-        <div class="row-in">Período (Meses): <input type="number" id="meses" class="field" value="12" oninput="calc()"></div>
+<div class="card">
+    <div class="card-h"><span>[00] GESTÃO DE TEMPO</span></div>
+    <div class="card-b">
+        <div class="field-row">Período (Meses): <input type="number" id="meses" class="in-num" value="12" oninput="main()"></div>
     </div>
 </div>
 
-<button class="btn-snap" onclick="window.print()">📸 MODO PRINT</button>
+<div class="log-terminal" id="logs">
+    [SYSTEM]: Booting V180 Quantum Memory...<br>
+    [CORE]: Marquee Ticker Ativado.<br>
+    [CORE]: Lógica de Pré-Fixado Injetada.
+</div>
+
+<table class="audit-table">
+    <tr><td>CAPITAL TOTAL INVESTIDO:</td><td style="text-align:right"><b id="aud-inv">R$ 0</b></td></tr>
+    <tr><td>LUCRO BRUTO ACUMULADO:</td><td style="text-align:right"><b id="aud-luc">R$ 0</b></td></tr>
+    <tr><td>MÉTRICA DE RISCO:</td><td style="text-align:right"><b style="color:var(--blue)">MODERADO</b></td></tr>
+</table>
+
+<button class="btn-print" onclick="window.print()">📸 AUDITORIA</button>
 
 <script>
-    function calc() {
-        const t = Math.max(1, parseInt(document.getElementById('meses').value) || 0);
-        const selicMensal = Math.pow(1 + 0.1475, 1/12) - 1;
+    function main() {
+        try {
+            const t = Math.max(1, parseInt(document.getElementById('meses').value) || 0);
+            const selicA = 0.1475;
+            const selicM = Math.pow(1 + selicA, 1/12) - 1;
 
-        // Cálculo Renda Fixa (Com Aporte Mensal)
-        const v0f = parseFloat(document.getElementById('v-fixa').value) || 0;
-        const mf = parseFloat(document.getElementById('m-fixa').value) || 0;
-        const taxaF = selicMensal * parseFloat(document.getElementById('p-fixa').value);
-        
-        let totalF = v0f * Math.pow(1 + taxaF, t);
-        for(let i=1; i<=t; i++) { totalF += mf * Math.pow(1 + taxaF, t - i); }
-        const lucroF = totalF - (v0f + (mf * t));
-        
-        // Cálculo B3
-        const v0b = parseFloat(document.getElementById('v-b3').value) || 0;
-        const taxaB = (parseFloat(document.getElementById('tx-b3').value) || 0) / 100;
-        const totalB = v0b * Math.pow(1 + taxaB, t);
-        const lucroB = totalB - v0b;
+            // Lógica Renda Fixa
+            const v0f = parseFloat(document.getElementById('v0-f').value) || 0;
+            const amf = parseFloat(document.getElementById('am-f').value) || 0;
+            const tipo = document.getElementById('t-f').value;
+            
+            let taxaM = 0;
+            let ir = 0.825; // 17.5% IR padrão
 
-        // Atualização UI
-        document.getElementById('r-fixa').innerText = "R$ " + lucroF.toLocaleString('pt-BR', {minimumFractionDigits:2});
-        document.getElementById('r-b3').innerText = "R$ " + lucroB.toLocaleString('pt-BR', {minimumFractionDigits:2});
-        document.getElementById('tot-f').innerText = "R$ " + totalF.toLocaleString('pt-BR', {maximumFractionDigits:0});
-        document.getElementById('tot-b').innerText = "R$ " + totalB.toLocaleString('pt-BR', {maximumFractionDigits:0});
+            if(tipo === "cdi_100") { taxaM = selicM; }
+            else if(tipo === "lci_90") { taxaM = selicM * 0.9; ir = 1.0; }
+            else if(tipo === "pre_12") { taxaM = Math.pow(1 + 0.125, 1/12) - 1; }
+            else if(tipo === "pre_15") { taxaM = Math.pow(1 + 0.15, 1/12) - 1; }
 
-        const moldado = (v0f + (mf * t) + v0b) + ((lucroF + lucroB) * 0.5);
-        document.getElementById('v-mold').innerText = "R$ " + moldado.toLocaleString('pt-BR', {minimumFractionDigits:2});
+            let totalF = v0f * Math.pow(1 + taxaM, t);
+            for(let i=1; i<=t; i++) totalF += amf * Math.pow(1 + taxaM, t - i);
+            
+            const invF = v0f + (amf * t);
+            const lucroF = (totalF - invF) * ir;
 
-        // Gauge
-        const pF = (totalF / (totalF + totalB)) * 100;
-        document.getElementById('gauge-fixa').style.width = pF + "%";
-        document.getElementById('gauge-b3').style.width = (100 - pF) + "%";
+            // Lógica B3
+            const v0b = parseFloat(document.getElementById('v0-b').value) || 0;
+            const txB = (parseFloat(document.getElementById('tx-b').value) || 0) / 100;
+            const totalB = v0b * Math.pow(1 + txB, t);
+            const lucroB = totalB - v0b;
+
+            // Updates
+            document.getElementById('luc-f').innerText = "R$ " + lucroF.toLocaleString('pt-BR', {minimumFractionDigits:2});
+            document.getElementById('luc-b').innerText = "R$ " + lucroB.toLocaleString('pt-BR', {minimumFractionDigits:2});
+            document.getElementById('out-f').innerText = "R$ " + (invF + lucroF).toLocaleString('pt-BR', {maximumFractionDigits:0});
+            document.getElementById('out-b').innerText = "R$ " + totalB.toLocaleString('pt-BR', {maximumFractionDigits:0});
+
+            const moldado = (invF + v0b) + ((lucroF + lucroB) * 0.5);
+            document.getElementById('v-mold').innerText = "R$ " + moldado.toLocaleString('pt-BR', {minimumFractionDigits:2});
+
+            // Gauge
+            const pF = ( (invF+lucroF) / ((invF+lucroF) + totalB) ) * 100;
+            document.getElementById('g-fixa').style.width = pF + "%";
+            document.getElementById('g-b3').style.width = (100 - pF) + "%";
+
+            // Audit
+            document.getElementById('aud-inv').innerText = "R$ " + (invF + v0b).toLocaleString('pt-BR');
+            document.getElementById('aud-luc').innerText = "R$ " + (lucroF + lucroB).toLocaleString('pt-BR');
+            
+            log(`Update: RF=${invF.toFixed(0)} | B3=${v0b.toFixed(0)} | MOLD=${moldado.toFixed(2)}`);
+        } catch(e) { log("!! ERRO CRÍTICO NA ENGINE !!"); }
     }
-    calc();
+
+    function log(m) {
+        const l = document.getElementById('logs');
+        l.innerHTML = `[${new Date().toLocaleTimeString()}] ${m}<br>` + l.innerHTML;
+    }
+
+    // Clone ticker for seamless loop
+    const tm = document.getElementById('tick-move');
+    tm.innerHTML += tm.innerHTML;
+
+    main();
 </script>
 </body>
 </html>
