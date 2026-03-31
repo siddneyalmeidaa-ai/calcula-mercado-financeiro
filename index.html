@@ -3,59 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TERMINAL S.A. | V204 SUPREME</title>
+    <title>TERMINAL S.A. | V205 FIXED</title>
     <style>
         :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --danger: #FF3B30; --gray: #222; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Courier New', monospace; -webkit-font-smoothing: antialiased; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Courier New', monospace; }
         body { background: var(--bg); color: #fff; padding-bottom: 150px; overflow-x: hidden; }
-
-        /* HEADER DE AUDITORIA QUANTUM [cite: 2026-01-20] */
-        .header-sys { padding: 12px 15px; border-bottom: 1px solid var(--gray); display: flex; justify-content: space-between; font-size: 10px; background: #050505; position: sticky; top: 0; z-index: 1000; letter-spacing: 1px; }
-        .live-status { color: var(--accent); display: flex; align-items: center; gap: 5px; font-weight: 900; }
-        .live-status::before { content: ""; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; display: inline-block; animation: blink 1s infinite; }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-
-        /* TAPE DE MERCADO DINÂMICO [cite: 2026-02-28] */
+        .header-sys { padding: 12px 15px; border-bottom: 1px solid var(--gray); display: flex; justify-content: space-between; font-size: 10px; background: #050505; position: sticky; top: 0; z-index: 1000; }
         .ticker-wrap { background: #000; border-bottom: 1px solid var(--gold); overflow: hidden; white-space: nowrap; padding: 12px 0; }
         .ticker-move { display: inline-block; animation: marquee 160s linear infinite; }
-        .tick-item { display: inline-block; margin-right: 40px; font-size: 11px; font-weight: 900; color: #eee; }
-        .tick-item b { color: var(--gold); }
+        .tick-item { display: inline-block; margin-right: 40px; font-size: 11px; font-weight: 900; }
         @keyframes marquee { 0% { transform: translateX(10%); } 100% { transform: translateX(-400%); } }
-
-        /* DISPLAY DE RESULTADO MOLDADO (O DIFERENCIAL) [cite: 2026-01-16] */
-        .box-master { margin: 20px 15px; border: 2px solid var(--gold); border-radius: 15px; padding: 35px 20px; text-align: center; background: radial-gradient(circle at center, #111 0%, #000 100%); position: relative; box-shadow: 0 0 20px rgba(212, 175, 55, 0.1); }
-        .stamp { position: absolute; top: 10px; right: 10px; font-size: 8px; color: var(--accent); border: 1px solid var(--accent); padding: 3px 6px; border-radius: 4px; transform: rotate(5deg); font-weight: 900; text-transform: uppercase; }
-        .val-moldado { font-size: 44px; font-weight: 900; color: var(--gold); margin: 8px 0; letter-spacing: -1.5px; text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
-        .efficiency-label { font-size: 11px; font-weight: 900; letter-spacing: 2px; color: var(--accent); margin-top: 10px; }
-
-        /* CARTÕES DE ENTRADA */
-        .card { margin: 0 15px 15px 15px; background: #080808; border: 1px solid #1a1a1a; border-radius: 12px; overflow: hidden; }
-        .card-h { padding: 12px 15px; background: #121212; font-size: 10px; font-weight: 900; color: var(--gold); border-bottom: 1px solid #222; text-transform: uppercase; }
+        .box-master { margin: 20px 15px; border: 2px solid var(--gold); border-radius: 15px; padding: 35px 20px; text-align: center; background: radial-gradient(circle, #111 0%, #000 100%); position: relative; }
+        .val-moldado { font-size: 40px; font-weight: 900; color: var(--gold); margin: 8px 0; letter-spacing: -1.5px; }
+        .efficiency-label { font-size: 11px; font-weight: 900; letter-spacing: 1px; margin-top: 10px; }
+        .card { margin: 0 15px 15px 15px; background: #080808; border: 1px solid #1a1a1a; border-radius: 12px; }
+        .card-h { padding: 12px 15px; background: #121212; font-size: 10px; font-weight: 900; color: var(--gold); border-bottom: 1px solid #222; }
         .card-b { padding: 18px; display: flex; flex-direction: column; gap: 15px; }
-
-        .field-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 600; color: #aaa; }
-        .in-num { background: #000; border: 1px solid #333; color: #fff; padding: 12px; border-radius: 6px; width: 160px; text-align: center; font-weight: 900; outline: none; transition: 0.3s; font-size: 13px; }
-        .in-num:focus { border-color: var(--gold); box-shadow: 0 0 5px rgba(212, 175, 55, 0.5); }
-        
-        .status-sync { font-size: 10px; color: var(--accent); text-align: right; font-weight: 900; min-height: 14px; margin-top: -5px; }
-
-        /* BOTÃO DE AUDITORIA FINAL [cite: 2026-01-11] */
-        .btn-print { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); background: var(--gold); color: #000; border: none; padding: 20px; border-radius: 50px; font-weight: 900; font-size: 13px; width: 88%; z-index: 1100; box-shadow: 0 10px 30px rgba(0,0,0,0.8); cursor: pointer; transition: 0.2s; }
-        .btn-print:active { transform: translateX(-50%) scale(0.96); }
-
-        @media print { .btn-print, .header-sys { display: none; } body { padding: 0; } .card { border: 1px solid #eee; } }
+        .field-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
+        .in-num { background: #000; border: 1px solid #333; color: #fff; padding: 12px; border-radius: 6px; width: 150px; text-align: center; font-weight: 900; font-size: 14px; outline: none; }
+        .status-sync { font-size: 10px; color: var(--accent); text-align: right; font-weight: 900; margin-top: -5px; }
+        .btn-print { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); background: var(--gold); color: #000; border: none; padding: 20px; border-radius: 50px; font-weight: 900; width: 88%; z-index: 1100; cursor: pointer; }
     </style>
 </head>
 <body onload="initSystem()">
 
 <div class="header-sys">
-    <span>🛡️ TERMINAL S.A. | V204</span>
+    <span>🛡️ TERMINAL S.A. | V205</span>
     <span id="live-clock">--:--:--</span>
-    <span class="live-status">QUANTUM SYNC ACTIVE</span>
+    <span style="color:var(--accent)">● QUANTUM CORE FIXED</span>
 </div>
 
 <div class="ticker-wrap">
-    <div class="ticker-move" id="tick-move">
+    <div class="ticker-move">
         <span class="tick-item">SELIC <b>10.75%</b></span>
         <span class="tick-item">IPCA <b>4.50%</b></span>
         <span class="tick-item">PETR4 <font color="#00FF41">39,67 +0.26%</font></span>
@@ -65,70 +44,55 @@
 </div>
 
 <div class="box-master">
-    <div class="stamp">AUDITADO</div>
-    <small style="font-size:9px; color:var(--gold); font-weight: 900; letter-spacing: 1px;">LUCRO MOLDADO (TRAVA -50%)</small>
+    <small style="font-size:9px; color:var(--gold); font-weight: 900;">LUCRO MOLDADO (TRAVA -50%)</small>
     <div class="val-moldado" id="v-mold">R$ 0,00</div>
     <div class="efficiency-label" id="efficiency-msg">EFICIÊNCIA VS BANCO: 0.00%</div>
 </div>
 
 <div class="card">
-    <div class="card-h">CONFIGURAÇÃO DE FLUXO DE CAIXA</div>
+    <div class="card-h">FLUXO DE CAIXA</div>
     <div class="card-b">
-        <div class="field-row">Aporte Inicial: <input type="number" id="capital" class="in-num" value="1000" oninput="main()"></div>
-        <div class="field-row">Aporte Mensal: <input type="number" id="mensal" class="in-num" value="200" oninput="main()"></div>
+        <div class="field-row">Aporte Inicial: <input type="number" id="capital" class="in-num" value="10" oninput="main()"></div>
+        <div class="field-row">Aporte Mensal: <input type="number" id="mensal" class="in-num" value="10" oninput="main()"></div>
         <div class="field-row">Tempo (Meses): <input type="number" id="meses" class="in-num" value="12" oninput="main()"></div>
     </div>
 </div>
 
 <div class="card">
-    <div class="card-h">INTELIGÊNCIA DE ATIVOS (BANCO + B3)</div>
+    <div class="card-h">ATIVO E B3 SYNC</div>
     <div class="card-b">
-        <div class="field-row">
-            Busca Ativo: 
-            <input type="text" id="master-in" list="lista-omni" class="in-num" placeholder="CDB 153% ou TICKER" oninput="processInput(this.value)">
-        </div>
-        <div class="status-sync" id="sync-msg">AGUARDANDO CRUZAMENTO...</div>
+        <div class="field-row">Busca Ativo: <input type="text" id="master-in" list="lista-omni" class="in-num" placeholder="CDB ou TICKER" oninput="processInput(this.value)"></div>
+        <div class="status-sync" id="sync-msg">SISTEMA PRONTO</div>
     </div>
 </div>
 
 <div id="datalist-container"></div>
-
-<button class="btn-print" onclick="window.print()">📸 GERAR AUDITORIA SUPREME</button>
+<button class="btn-print" onclick="window.print()">📸 GERAR AUDITORIA V205</button>
 
 <script>
     const API_TOKEN = "3YfY2Nvp75kG9ANMx4vrDx";
-    let selicM = Math.pow(1 + 0.1075, 1/12) - 1;
-    let currentTax = 0;
+    let selicA = 0.1075;
+    let selicM = Math.pow(1 + selicA, 1/12) - 1;
+    let currentTax = selicM; // Default 100% CDI
 
     function initSystem() {
         setInterval(() => { document.getElementById('live-clock').innerText = new Date().toLocaleTimeString(); }, 1000);
-        loadList();
+        fetch('datalist_omni.html').then(r => r.text()).then(d => { document.getElementById('datalist-container').innerHTML = d; });
         main();
     }
 
-    // CARGA DA PASTA OMNI [cite: 2026-02-28]
-    function loadList() {
-        fetch('datalist_omni.html').then(r => r.text()).then(d => {
-            document.getElementById('datalist-container').innerHTML = d;
-            document.getElementById('sync-msg').innerText = "● REPOSITÓRIO SINCRONIZADO";
-        }).catch(() => { document.getElementById('sync-msg').innerText = "● MODO LOCAL ATIVO"; });
-    }
-
-    // MOTOR DE RECONHECIMENTO HÍBRIDO [cite: 2026-02-28, 2026-01-23]
     function processInput(val) {
         let input = val.toUpperCase();
-        let msg = document.getElementById('sync-msg');
-
-        if(input.includes("CDB") || input.includes("CDI") || input.includes("LC")) {
-            let matches = val.match(/\d+/);
-            let perc = matches ? parseInt(matches[0]) : 100;
-            currentTax = selicM * (perc / 100);
-            msg.innerText = `● RENDIMENTO: ${perc}% DO CDI DETECTADO`;
+        if(input.includes("CDB") || input.includes("CDI")) {
+            let num = val.match(/\d+/) ? parseInt(val.match(/\d+/)[0]) : 100;
+            currentTax = selicM * (num / 100);
+            document.getElementById('sync-msg').innerText = `● RENDIMENTO: ${num}% CDI`;
             main();
-        } else if(input.length >= 4) {
-            msg.innerText = "● ACESSANDO API B3...";
-            syncB3(input);
-        }
+        } else if(input.includes("TESOURO")) {
+            currentTax = selicM * 1.05; // Simulação Tesouro Selic + taxa
+            document.getElementById('sync-msg').innerText = "● TESOURO DIRETO SINCRONIZADO";
+            main();
+        } else if(input.length >= 4) { syncB3(input); }
     }
 
     async function syncB3(t) {
@@ -136,12 +100,11 @@
             const r = await fetch(`https://brapi.dev/api/quote/${t.toUpperCase()}?token=${API_TOKEN}`);
             const d = await r.json();
             if(d.results[0]) {
-                let osc = d.results[0].regularMarketChangePercent;
-                currentTax = (osc / 100);
-                document.getElementById('sync-msg').innerText = `● B3: ${t.toUpperCase()} (${osc.toFixed(2)}%)`;
+                currentTax = (d.results[0].regularMarketChangePercent / 100) / 12;
+                document.getElementById('sync-msg').innerText = `● B3: ${t.toUpperCase()}`;
                 main();
             }
-        } catch(e) { document.getElementById('sync-msg').innerText = "● ERRO NA CONEXÃO B3"; }
+        } catch(e) {}
     }
 
     function main() {
@@ -149,29 +112,29 @@
         const vM = parseFloat(document.getElementById('mensal').value) || 0;
         const t = parseInt(document.getElementById('meses').value) || 1;
         
-        // MOTOR DE JUROS COMPOSTOS ACUMULATIVO [cite: 2026-01-28]
+        // CÁLCULO CORRIGIDO (JUROS SOBRE O MONTANTE, NÃO MULTIPLICAÇÃO)
         let montanteFinal = v0;
-        let lucroAcumulado = 0;
+        let lucroBrutoAcumulado = 0;
 
         for (let i = 1; i <= t; i++) {
-            let rendimentoMes = montanteFinal * currentTax;
-            lucroAcumulado += rendimentoMes;
-            montanteFinal += rendimentoMes + vM;
+            let rendimentoDoMes = montanteFinal * currentTax;
+            lucroBrutoAcumulado += rendimentoDoMes;
+            montanteFinal += vM + rendimentoDoMes;
         }
 
-        // APLICAÇÃO DA REGRA DE OURO (TRAVA -50%) [cite: 2026-01-16]
-        const capitalInvestido = v0 + (vM * t);
-        const resultadoFinal = capitalInvestido + (lucroAcumulado * 0.5);
+        // TRAVA -50% NO LUCRO [cite: 2026-01-16]
+        const totalInvestido = v0 + (vM * t);
+        const lucroMoldado = lucroBrutoAcumulado * 0.5;
+        const final = totalInvestido + lucroMoldado;
 
-        // ATUALIZAÇÃO VISUAL [cite: 2026-01-11]
-        document.getElementById('v-mold').innerText = resultadoFinal.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+        document.getElementById('v-mold').innerText = final.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
         
-        // EFICIÊNCIA COMPARATIVA VS BANCO PADRÃO [cite: 2026-02-03]
-        const baseBanco = capitalInvestido + (capitalInvestido * selicM * t);
-        const efc = ((resultadoFinal / baseBanco) * 100).toFixed(2);
-        const efcMsg = document.getElementById('efficiency-msg');
-        efcMsg.innerText = `EFICIÊNCIA VS BANCO: ${efc}% ${efc >= 100 ? '🔥' : '⚠️'}`;
-        efcMsg.style.color = efc >= 100 ? "var(--accent)" : "var(--danger)";
+        // EFICIÊNCIA VS CDI PADRÃO
+        const lucroReferencia = (totalInvestido * selicM * t);
+        const efc = ((lucroMoldado / (lucroReferencia * 0.5)) * 100).toFixed(2);
+        const msg = document.getElementById('efficiency-msg');
+        msg.innerText = `EFICIÊNCIA VS BANCO: ${efc}% ${efc >= 100 ? '🔥' : '⚠️'}`;
+        msg.style.color = efc >= 100 ? "var(--accent)" : "var(--danger)";
     }
 </script>
 </body>
