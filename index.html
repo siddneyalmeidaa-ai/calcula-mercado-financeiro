@@ -3,190 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TERMINAL S.A. | V193 GOLD FINAL</title>
+    <title>TERMINAL S.A. | V196 FINAL</title>
     <style>
-        :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --red: #ff4444; --blue: #00D1FF; }
+        :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --red: #ff4444; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Courier New', monospace; }
         body { background: #000; color: #fff; padding-bottom: 140px; overflow-x: hidden; }
 
+        /* CABEÇALHO DE AUDITORIA [cite: 2026-01-20] */
         .header-sys { padding: 12px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; font-size: 9px; background: #050505; position: sticky; top: 0; z-index: 1000; }
         .header-sys b { color: var(--gold); }
 
-        /* LETREIRO MASTER - TODOS OS SETORES DO BRASIL [cite: 2026-02-28] */
+        /* LETREIRO ULTRA-LENTO COM MACRO INJETADO [cite: 2026-02-28] */
         .ticker-wrap { background: #000; border-bottom: 1px solid var(--gold); overflow: hidden; white-space: nowrap; padding: 12px 0; }
-        .ticker-move { display: inline-block; animation: marquee 220s linear infinite; }
-        @keyframes marquee { 0% { transform: translateX(10%); } 100% { transform: translateX(-350%); } }
+        .ticker-move { display: inline-block; animation: marquee 190s linear infinite; }
+        @keyframes marquee { 0% { transform: translateX(10%); } 100% { transform: translateX(-380%); } }
         .tick-item { display: inline-block; margin-right: 60px; font-size: 11px; font-weight: 900; }
+        .tick-macro { border: 1px solid #333; padding: 2px 8px; border-radius: 4px; background: #111; color: var(--gold); }
 
+        /* BOX MASTER - RESULTADO MOLDADO (-50%) [cite: 2026-01-16, 2026-01-23] */
         .box-master { margin: 15px; border: 2px solid var(--gold); border-radius: 12px; padding: 35px 20px; text-align: center; background: radial-gradient(circle, #0a0a0a 0%, #000 100%); position: relative; }
-        .val-moldado { font-size: 42px; font-weight: 900; color: var(--gold); margin: 10px 0; letter-spacing: -1.5px; text-shadow: 0 0 15px rgba(212, 175, 55, 0.3); }
-        .stamp { position: absolute; top: 10px; right: 10px; font-size: 7px; color: var(--accent); border: 1px solid var(--accent); padding: 2px 5px; border-radius: 3px; transform: rotate(5deg); }
+        .val-moldado { font-size: 42px; font-weight: 900; color: var(--gold); margin: 10px 0; letter-spacing: -1.5px; text-shadow: 0 0 10px rgba(212, 175, 55, 0.2); }
+        .stamp { position: absolute; top: 10px; right: 10px; font-size: 7px; color: var(--accent); border: 1px solid var(--accent); padding: 2px 5px; border-radius: 3px; transform: rotate(5deg); font-weight: 900; }
 
+        /* CARDS DE OPERAÇÃO [cite: 2026-01-11] */
         .card { margin: 15px; background: #080808; border: 1px solid #1a1a1a; border-radius: 10px; overflow: hidden; }
-        .card-h { padding: 12px 15px; background: #111; font-size: 10px; font-weight: 900; color: var(--gold); border-bottom: 1px solid #222; display: flex; justify-content: space-between; }
+        .card-h { padding: 12px 15px; background: #111; font-size: 10px; font-weight: 900; color: var(--gold); border-bottom: 1px solid #222; }
         .card-b { padding: 15px; display: flex; flex-direction: column; gap: 12px; }
 
         .field-row { display: flex; justify-content: space-between; align-items: center; font-size: 11px; }
-        .in-num { background: #000; border: 1px solid #333; color: #fff; padding: 12px; border-radius: 5px; width: 140px; text-align: center; font-weight: bold; outline: none; font-size: 11px; transition: 0.3s; }
-        .in-num:focus { border-color: var(--gold); background: #050505; }
+        .in-num { background: #000; border: 1px solid #333; color: #fff; padding: 12px; border-radius: 5px; width: 135px; text-align: center; font-weight: bold; outline: none; font-size: 11px; }
+        .in-sel { background: #000; border: 1px solid #333; color: var(--gold); padding: 12px; border-radius: 5px; width: 135px; font-size: 10px; font-weight: 900; }
 
-        .btn-print { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); background: var(--gold); color: #000; border: none; padding: 20px 50px; border-radius: 50px; font-weight: 900; font-size: 13px; cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,0.8); z-index: 999; width: 85%; }
+        .btn-print { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); background: var(--gold); color: #000; border: none; padding: 20px; border-radius: 50px; font-weight: 900; font-size: 13px; width: 85%; z-index: 999; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
     </style>
 </head>
 <body onload="initSystem()">
 
 <div class="header-sys">
-    <span>🛡️ TERMINAL S.A. | V193 FINAL</span>
+    <span>🛡️ TERMINAL S.A. | V196</span>
     <span id="live-clock">--:--:--</span>
-    <span style="color:var(--accent)">● SYNC B3 ONLINE</span>
+    <span style="color:var(--accent)">● SYNC B3 AUTOMATED</span>
 </div>
 
 <div class="ticker-wrap">
     <div class="ticker-move" id="tick-move">
+        <span class="tick-item tick-macro">SELIC <b id="tick-s">10.75%</b></span>
+        <span class="tick-item tick-macro">IPCA <b id="tick-i">4.50%</b></span>
         <span class="tick-item">IBOVESPA <b>128.514</b> <font color="#00FF41">+0.53%</font></span>
         <span class="tick-item">PETR4 <b>39,67</b> <font color="#00FF41">+0.26%</font></span>
         <span class="tick-item">VALE3 <b>69,50</b> <font color="#ff4444">-0.63%</font></span>
-        <span class="tick-item">BBAS3 <b>27,45</b> <font color="#00FF41">+0.88%</font></span>
-        <span class="tick-item">MXRF11 <b>10,45</b> <font color="#00FF41">+0.05%</font></span>
-        <span class="tick-item">HGLG11 <b>165,20</b> <font color="#ff4444">-0.12%</font></span>
-        <span class="tick-item">IPCA+ 2029 <b>6,12%</b> <font color="#00FF41">SAFE</font></span>
-        <span class="tick-item">DÓLAR <b>4,95</b> <font color="#777">SYNC</font></span>
         <span class="tick-item">BITCOIN <b>352.120</b> <font color="#00FF41">+2.15%</font></span>
-        <span class="tick-item">WEGE3 <b>38,90</b> <font color="#00FF41">+1.50%</font></span>
+        <span class="tick-item">MXRF11 <b>10,45</b> <font color="#00FF41">+0.05%</font></span>
     </div>
 </div>
 
 <div class="box-master">
-    <div class="stamp">AUDITADO</div>
+    <div class="stamp">VERIFICADO</div>
     <small style="font-size:10px; color:var(--gold); font-weight: 900; letter-spacing: 2px;">LUCRO MOLDADO (AJUSTE -50%)</small>
     <div class="val-moldado" id="v-mold">R$ 0,00</div>
-    <div style="font-size: 8px; color: #555; margin-top: 5px;">BASEADO EM SELIC: <span id="s-val">10.75%</span> | IPCA: <span id="i-val">4.50%</span></div>
 </div>
 
 <div class="card">
-    <div class="card-h">PRATELEIRA DE ATIVOS (BANCO COMPLETO)</div>
+    <div class="card-h">PERSONALIZAÇÃO DE RENDA FIXA (DESTRAVADO)</div>
     <div class="card-b">
         <div class="field-row">Aporte Inicial: <input type="number" id="v0-f" class="in-num" value="500" oninput="main()"></div>
         <div class="field-row">Aporte Mensal: <input type="number" id="am-f" class="in-num" value="200" oninput="main()"></div>
-        <div class="field-row">Investimento: 
-            <select id="t-f" class="in-num" style="width:165px" onchange="main()">
-                <optgroup label="RENDA FIXA (CDB)">
-                    <option value="cdi_100">CDB 100% CDI</option>
-                    <option value="cdi_120">CDB 120% CDI</option>
-                    <option value="pre_15">CDB PRÉ 15% a.a.</option>
-                </optgroup>
-                <optgroup label="ISENTOS (CRI/CRA/LCI/LCA)">
-                    <option value="lci_90">LCI/LCA 90% CDI</option>
-                    <option value="cri_8">CRI IPCA + 8%</option>
-                    <option value="cra_7">CRA IPCA + 7.5%</option>
-                    <option value="deb_inc">DEBÊNTURE INCENTIVADA</option>
-                </optgroup>
-                <optgroup label="ESTRATÉGICOS">
-                    <option value="t_selic">TESOURO SELIC</option>
-                    <option value="t_ipca">TESOURO IPCA+</option>
-                    <option value="fii_div">FII (DIVIDENDOS)</option>
-                </optgroup>
+        <div class="field-row">Modelo: 
+            <select id="modelo-f" class="in-sel" onchange="main()">
+                <option value="cdi">% do CDI (CDB/LCI)</option>
+                <option value="ipca">IPCA + % (CRI/CRA)</option>
+                <option value="pre">PRÉ (% ao ano)</option>
+            </select>
+        </div>
+        <div class="field-row">Taxa Combinada %: <input type="number" id="taxa-f" class="in-num" value="100" oninput="main()"></div>
+        <div class="field-row">Imposto? 
+            <select id="ir-f" class="in-sel" onchange="main()">
+                <option value="com">COM IR (CDB)</option>
+                <option value="sem">ISENTO (LCI/CRI)</option>
             </select>
         </div>
     </div>
 </div>
 
 <div class="card">
-    <div class="card-h">MARGEM VOLÁTIL B3</div>
+    <div class="card-h">AUTO-SYNC B3 (AÇÕES / FIIs)</div>
     <div class="card-b">
         <div class="field-row">Ticker do Ativo: <input type="text" id="ticker-in" class="in-num" value="VALE3" onchange="syncRealData(this.value)"></div>
-        <div class="field-row">Capital Alocado: <input type="number" id="v0-b" class="in-num" value="100" oninput="main()"></div>
-        <div class="field-row">Oscilação %: <input type="number" id="tx-b3" class="in-num" value="0.63" step="0.01" oninput="main()"></div>
+        <div class="field-row">Valor Alocado: <input type="number" id="v0-b" class="in-num" value="100" oninput="main()"></div>
+        <div class="field-row">Oscilação %: <input type="number" id="tx-b3" class="in-num" value="0.63" step="0.01" oninput="main()" readonly></div>
     </div>
 </div>
 
 <div class="card">
-    <div class="card-h">PERÍODO DE PROJEÇÃO</div>
+    <div class="card-h">GESTÃO DE TEMPO</div>
     <div class="card-b">
-        <div class="field-row">Tempo (Meses): <input type="number" id="meses" class="in-num" value="12" oninput="main()"></div>
+        <div class="field-row">Meses: <input type="number" id="meses" class="in-num" value="12" oninput="main()"></div>
     </div>
 </div>
 
-<button class="btn-print" onclick="window.print()">📸 RELATÓRIO DE AUDITORIA FINAL</button>
+<button class="btn-print" onclick="window.print()">📸 GERAR AUDITORIA UNIFICADA</button>
 
 <script>
     const API_TOKEN = "3YfY2Nvp75kG9ANMx4vrDx";
-    let selicAnual = 0.1075; 
-    let ipcaAnual = 0.0450;
+    let sAnual = 0.1075; let iAnual = 0.0450;
 
     function initSystem() {
-        setInterval(() => {
-            const now = new Date();
-            document.getElementById('live-clock').innerText = now.toLocaleTimeString();
-        }, 1000);
+        setInterval(() => { document.getElementById('live-clock').innerText = new Date().toLocaleTimeString(); }, 1000);
         syncMacroData();
         main();
     }
 
     async function syncMacroData() {
         try {
-            const resp = await fetch(`https://brapi.dev/api/v2/prime-rate?token=${API_TOKEN}`);
-            const data = await resp.json();
-            const s = data.primeRates.find(r => r.name === "Selic").value;
-            const i = data.primeRates.find(r => r.name === "IPCA").value;
-            document.getElementById('s-val').innerText = s + "%";
-            document.getElementById('i-val').innerText = i + "%";
-            selicAnual = parseFloat(s) / 100;
-            ipcaAnual = parseFloat(i) / 100;
-        } catch (e) { console.log("Offline Sync"); }
+            const r = await fetch(`https://brapi.dev/api/v2/prime-rate?token=${API_TOKEN}`);
+            const d = await r.json();
+            const s = d.primeRates.find(x => x.name === "Selic").value;
+            const i = d.primeRates.find(x => x.name === "IPCA").value;
+            document.getElementById('tick-s').innerText = s + "%";
+            document.getElementById('tick-i').innerText = i + "%";
+            sAnual = parseFloat(s)/100; iAnual = parseFloat(i)/100;
+            main();
+        } catch(e) { console.log("Offline Mode"); }
     }
 
-    async function syncRealData(ticker) {
-        if(!ticker) return;
+    async function syncRealData(t) {
+        if(!t) return;
         try {
-            const response = await fetch(`https://brapi.dev/api/quote/${ticker.toUpperCase()}?token=${API_TOKEN}`);
-            const data = await response.json();
-            if (data.results && data.results[0]) {
-                document.getElementById('tx-b3').value = data.results[0].regularMarketChangePercent.toFixed(2);
-                main(); 
+            const r = await fetch(`https://brapi.dev/api/quote/${t.toUpperCase()}?token=${API_TOKEN}`);
+            const d = await r.json();
+            if(d.results[0]) {
+                document.getElementById('tx-b3').value = d.results[0].regularMarketChangePercent.toFixed(2);
+                main();
             }
-        } catch (e) { console.log("B3 Sync Error"); }
+        } catch(e) { console.log("B3 Sync Error"); }
     }
 
     function main() {
-        const t = Math.max(1, parseInt(document.getElementById('meses').value) || 0);
-        const selicM = Math.pow(1 + selicAnual, 1/12) - 1;
-        const ipcaM = Math.pow(1 + ipcaAnual, 1/12) - 1;
+        const m = Math.max(1, parseInt(document.getElementById('meses').value));
+        const sM = Math.pow(1 + sAnual, 1/12) - 1;
+        const iM = Math.pow(1 + iAnual, 1/12) - 1;
 
         const v0f = parseFloat(document.getElementById('v0-f').value) || 0;
         const amf = parseFloat(document.getElementById('am-f').value) || 0;
-        const tipo = document.getElementById('t-f').value;
+        const modelo = document.getElementById('modelo-f').value;
+        const taxaIn = parseFloat(document.getElementById('taxa-f').value) || 0;
+        const ir = document.getElementById('ir-f').value === "com" ? 0.825 : 1.0;
         
-        let txM = selicM;
-        let ir = 0.825; // 17.5% IR
+        let txFinal = 0;
+        if(modelo === "cdi") txFinal = sM * (taxaIn / 100);
+        if(modelo === "ipca") txFinal = iM + (Math.pow(1 + (taxaIn/100), 1/12) - 1);
+        if(modelo === "pre") txFinal = Math.pow(1 + (taxaIn/100), 1/12) - 1;
 
-        // LÓGICA DE ATIVOS OMNI
-        if(tipo === "cdi_120") txM = selicM * 1.2;
-        if(tipo === "pre_15") txM = Math.pow(1.15, 1/12) - 1;
-        if(tipo.includes("lci") || tipo.includes("cri") || tipo.includes("cra") || tipo.includes("deb")) {
-            ir = 1.0; 
-            if(tipo.includes("cri")) txM = ipcaM + (Math.pow(1.08, 1/12)-1);
-            if(tipo.includes("cra")) txM = ipcaM + (Math.pow(1.075, 1/12)-1);
-        }
-        if(tipo === "fii_div") { txM = 0.008; ir = 1.0; } // Média 0.8% isento
-
-        let mF = v0f * Math.pow(1 + txM, t);
-        for(let i=1; i<=t; i++) mF += amf * Math.pow(1 + txM, t - i);
-        const lucroF = (mF - (v0f + (amf * t))) * ir;
+        let mF = v0f * Math.pow(1 + txFinal, m);
+        for(let i=1; i<=m; i++) mF += amf * Math.pow(1 + txFinal, m - i);
+        const lF = (mF - (v0f + (amf * m))) * ir;
 
         const v0b = parseFloat(document.getElementById('v0-b').value) || 0;
-        const txB = (parseFloat(document.getElementById('tx-b3').value) || 0) / 100;
-        const lucroB = v0b * txB;
+        const lB = v0b * (parseFloat(document.getElementById('tx-b3').value)/100 || 0);
 
-        // VALOR REALISTA: Capital Total + 50% do Lucro (Sinceridade de Auditoria)
-        const capitalTotal = v0f + (amf * t) + v0b;
-        const moldado = capitalTotal + ((lucroF + lucroB) * 0.5);
-        
-        document.getElementById('v-mold').innerText = moldado.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+        // REGRA DE PROJEÇÃO -50% [cite: 2026-01-16]
+        const res = (v0f + (amf * m) + v0b) + ((lF + lB) * 0.5);
+        document.getElementById('v-mold').innerText = res.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
     }
 
-    const tickContent = document.getElementById('tick-move');
-    tickContent.innerHTML += tickContent.innerHTML + tickContent.innerHTML;
+    const tick = document.getElementById('tick-move');
+    tick.innerHTML += tick.innerHTML + tick.innerHTML;
 </script>
 </body>
 </html>
