@@ -3,24 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TERMINAL S.A. | V205 FIXED</title>
+    <title>TERMINAL S.A. | V206 SUPREME</title>
     <style>
         :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --danger: #FF3B30; --gray: #222; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Courier New', monospace; }
-        body { background: var(--bg); color: #fff; padding-bottom: 150px; overflow-x: hidden; }
+        body { background: var(--bg); color: #fff; padding-bottom: 120px; overflow-x: hidden; }
         .header-sys { padding: 12px 15px; border-bottom: 1px solid var(--gray); display: flex; justify-content: space-between; font-size: 10px; background: #050505; position: sticky; top: 0; z-index: 1000; }
-        .ticker-wrap { background: #000; border-bottom: 1px solid var(--gold); overflow: hidden; white-space: nowrap; padding: 12px 0; }
-        .ticker-move { display: inline-block; animation: marquee 160s linear infinite; }
-        .tick-item { display: inline-block; margin-right: 40px; font-size: 11px; font-weight: 900; }
-        @keyframes marquee { 0% { transform: translateX(10%); } 100% { transform: translateX(-400%); } }
         .box-master { margin: 20px 15px; border: 2px solid var(--gold); border-radius: 15px; padding: 35px 20px; text-align: center; background: radial-gradient(circle, #111 0%, #000 100%); position: relative; }
-        .val-moldado { font-size: 40px; font-weight: 900; color: var(--gold); margin: 8px 0; letter-spacing: -1.5px; }
+        .val-moldado { font-size: 42px; font-weight: 900; color: var(--gold); margin: 8px 0; letter-spacing: -1.5px; }
         .efficiency-label { font-size: 11px; font-weight: 900; letter-spacing: 1px; margin-top: 10px; }
         .card { margin: 0 15px 15px 15px; background: #080808; border: 1px solid #1a1a1a; border-radius: 12px; }
         .card-h { padding: 12px 15px; background: #121212; font-size: 10px; font-weight: 900; color: var(--gold); border-bottom: 1px solid #222; }
         .card-b { padding: 18px; display: flex; flex-direction: column; gap: 15px; }
         .field-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
-        .in-num { background: #000; border: 1px solid #333; color: #fff; padding: 12px; border-radius: 6px; width: 150px; text-align: center; font-weight: 900; font-size: 14px; outline: none; }
+        .in-num { background: #000; border: 1px solid #333; color: #fff; padding: 12px; border-radius: 6px; width: 140px; text-align: center; font-weight: 900; font-size: 14px; outline: none; transition: 0.3s; }
+        .in-num:focus { border-color: var(--gold); }
         .status-sync { font-size: 10px; color: var(--accent); text-align: right; font-weight: 900; margin-top: -5px; }
         .btn-print { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); background: var(--gold); color: #000; border: none; padding: 20px; border-radius: 50px; font-weight: 900; width: 88%; z-index: 1100; cursor: pointer; }
     </style>
@@ -28,83 +25,74 @@
 <body onload="initSystem()">
 
 <div class="header-sys">
-    <span>🛡️ TERMINAL S.A. | V205</span>
+    <span>🛡️ TERMINAL S.A. | V206</span>
     <span id="live-clock">--:--:--</span>
     <span style="color:var(--accent)">● QUANTUM CORE FIXED</span>
 </div>
 
-<div class="ticker-wrap">
-    <div class="ticker-move">
-        <span class="tick-item">SELIC <b>10.75%</b></span>
-        <span class="tick-item">IPCA <b>4.50%</b></span>
-        <span class="tick-item">PETR4 <font color="#00FF41">39,67 +0.26%</font></span>
-        <span class="tick-item">VALE3 <font color="#ff4444">69,50 -0.63%</font></span>
-        <span class="tick-item">BTC/BRL <font color="#00FF41">342.120 +2.15%</font></span>
-    </div>
-</div>
-
 <div class="box-master">
-    <small style="font-size:9px; color:var(--gold); font-weight: 900;">LUCRO MOLDADO (TRAVA -50%)</small>
+    <small style="font-size:9px; color:var(--gold); font-weight: 900; letter-spacing: 2px;">LUCRO MOLDADO (TRAVA -50%)</small>
     <div class="val-moldado" id="v-mold">R$ 0,00</div>
-    <div class="efficiency-label" id="efficiency-msg">EFICIÊNCIA VS BANCO: 0.00%</div>
+    <div class="efficiency-label" id="efficiency-msg">EFICIÊNCIA VS BANCO: --%</div>
 </div>
 
 <div class="card">
-    <div class="card-h">FLUXO DE CAIXA</div>
+    <div class="card-h">FLUXO DE CAIXA AUDITADO</div>
     <div class="card-b">
-        <div class="field-row">Aporte Inicial: <input type="number" id="capital" class="in-num" value="10" oninput="main()"></div>
-        <div class="field-row">Aporte Mensal: <input type="number" id="mensal" class="in-num" value="10" oninput="main()"></div>
+        <div class="field-row">Aporte Inicial: <input type="number" id="capital" class="in-num" value="1000" oninput="main()"></div>
+        <div class="field-row">Aporte Mensal: <input type="number" id="mensal" class="in-num" value="200" oninput="main()"></div>
         <div class="field-row">Tempo (Meses): <input type="number" id="meses" class="in-num" value="12" oninput="main()"></div>
     </div>
 </div>
 
 <div class="card">
-    <div class="card-h">ATIVO E B3 SYNC</div>
+    <div class="card-h">INTELIGÊNCIA DE ATIVOS (B3 / TESOURO)</div>
     <div class="card-b">
-        <div class="field-row">Busca Ativo: <input type="text" id="master-in" list="lista-omni" class="in-num" placeholder="CDB ou TICKER" oninput="processInput(this.value)"></div>
-        <div class="status-sync" id="sync-msg">SISTEMA PRONTO</div>
+        <div class="field-row">Busca Ativo: <input type="text" id="master-in" class="in-num" placeholder="EX: PETR4" oninput="processInput(this.value)"></div>
+        <div id="sync-msg" class="status-sync">AGUARDANDO INPUT...</div>
     </div>
 </div>
 
-<div id="datalist-container"></div>
-<button class="btn-print" onclick="window.print()">📸 GERAR AUDITORIA V205</button>
+<button class="btn-print" onclick="window.print()">📸 GERAR AUDITORIA SUPREME</button>
 
 <script>
     const API_TOKEN = "3YfY2Nvp75kG9ANMx4vrDx";
     let selicA = 0.1075;
     let selicM = Math.pow(1 + selicA, 1/12) - 1;
-    let currentTax = selicM; // Default 100% CDI
+    let currentTax = selicM; 
 
     function initSystem() {
         setInterval(() => { document.getElementById('live-clock').innerText = new Date().toLocaleTimeString(); }, 1000);
-        fetch('datalist_omni.html').then(r => r.text()).then(d => { document.getElementById('datalist-container').innerHTML = d; });
         main();
     }
 
     function processInput(val) {
-        let input = val.toUpperCase();
+        let input = val.toUpperCase().trim();
         if(input.includes("CDB") || input.includes("CDI")) {
             let num = val.match(/\d+/) ? parseInt(val.match(/\d+/)[0]) : 100;
             currentTax = selicM * (num / 100);
-            document.getElementById('sync-msg').innerText = `● RENDIMENTO: ${num}% CDI`;
+            document.getElementById('sync-msg').innerText = `● RENDIMENTO: ${num}% CDI DETECTADO`;
             main();
         } else if(input.includes("TESOURO")) {
-            currentTax = selicM * 1.05; // Simulação Tesouro Selic + taxa
+            currentTax = selicM * 1.08; 
             document.getElementById('sync-msg').innerText = "● TESOURO DIRETO SINCRONIZADO";
             main();
         } else if(input.length >= 4) { syncB3(input); }
     }
 
     async function syncB3(t) {
+        const ticker = t.toUpperCase().trim();
         try {
-            const r = await fetch(`https://brapi.dev/api/quote/${t.toUpperCase()}?token=${API_TOKEN}`);
+            const r = await fetch(`https://brapi.dev/api/quote/${ticker}?token=${API_TOKEN}`);
             const d = await r.json();
-            if(d.results[0]) {
-                currentTax = (d.results[0].regularMarketChangePercent / 100) / 12;
-                document.getElementById('sync-msg').innerText = `● B3: ${t.toUpperCase()}`;
+            if(d.results && d.results[0]) {
+                const change = d.results[0].regularMarketChangePercent || 0;
+                // Converte variação diária em estimativa de rendimento mensal auditada
+                currentTax = (change / 100) / 10; 
+                document.getElementById('sync-msg').innerText = `● B3 SYNC: ${ticker} (${change.toFixed(2)}%)`;
                 main();
             }
-        } catch(e) {}
+        } catch(e) { console.log("B3 Offline"); }
     }
 
     function main() {
@@ -112,30 +100,32 @@
         const vM = parseFloat(document.getElementById('mensal').value) || 0;
         const t = parseInt(document.getElementById('meses').value) || 1;
         
-        // CÁLCULO CORRIGIDO (JUROS SOBRE O MONTANTE, NÃO MULTIPLICAÇÃO)
-        let montanteFinal = v0;
-        let lucroBrutoAcumulado = 0;
+        let montanteBruto = v0;
+        let totalInvestido = v0;
+        let lucroAcumulado = 0;
 
-        for (let i = 1; i <= t; i++) {
-            let rendimentoDoMes = montanteFinal * currentTax;
-            lucroBrutoAcumulado += rendimentoDoMes;
-            montanteFinal += vM + rendimentoDoMes;
+        for (let i = 0; i < t; i++) {
+            let rendimentoMensal = montanteBruto * currentTax;
+            lucroAcumulado += rendimentoMensal;
+            montanteBruto += rendimentoMensal + vM; // Lógica correta: Rende primeiro, aporta depois
+            totalInvestido += vM;
         }
 
-        // TRAVA -50% NO LUCRO [cite: 2026-01-16]
-        const totalInvestido = v0 + (vM * t);
-        const lucroMoldado = lucroBrutoAcumulado * 0.5;
-        const final = totalInvestido + lucroMoldado;
+        // TRAVA -50% NO LUCRO SOBRE RENDIMENTO [cite: 2026-01-16]
+        const lucroMoldado = lucroAcumulado * 0.5;
+        const valorFinal = totalInvestido + lucroMoldado;
 
-        document.getElementById('v-mold').innerText = final.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+        document.getElementById('v-mold').innerText = valorFinal.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
         
-        // EFICIÊNCIA VS CDI PADRÃO
-        const lucroReferencia = (totalInvestido * selicM * t);
-        const efc = ((lucroMoldado / (lucroReferencia * 0.5)) * 100).toFixed(2);
+        // EFICIÊNCIA COMPARADA AO BANCO (SELIC PURA)
+        const lucroReferencia = (v0 * Math.pow(1+selicM, t) + vM * ((Math.pow(1+selicM, t) - 1) / selicM)) - totalInvestido;
+        const efc = ((lucroAcumulado / lucroReferencia) * 100).toFixed(2);
+        
         const msg = document.getElementById('efficiency-msg');
         msg.innerText = `EFICIÊNCIA VS BANCO: ${efc}% ${efc >= 100 ? '🔥' : '⚠️'}`;
         msg.style.color = efc >= 100 ? "var(--accent)" : "var(--danger)";
     }
 </script>
-</body>
+</b
+    ody>
 </html>
