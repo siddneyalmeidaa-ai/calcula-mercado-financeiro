@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TERMINAL S.A. | V206 REAL TIME</title>
+    <title>TERMINAL S.A. | V206 SUPREME FIXED</title>
     <style>
         :root { --gold: #D4AF37; --bg: #000; --accent: #00FF41; --danger: #FF3B30; --gray: #222; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Courier New', monospace; }
@@ -35,7 +35,11 @@
 
 <div class="ticker-wrap">
     <div class="ticker-move" id="live-ticker">
-        <span class="tick-item">AGUARDANDO DADOS B3...</span>
+        <span class="tick-item">SELIC <b>10.75%</b></span>
+        <span class="tick-item">IPCA <b>4.50%</b></span>
+        <span class="tick-item">PETR4 <font color="#00FF41">39,67 +0.26%</font></span>
+        <span class="tick-item">VALE3 <font color="#ff4444">69,50 -0.63%</font></span>
+        <span class="tick-item">BTC/BRL <font color="#00FF41">342.120 +2.15%</font></span>
     </div>
 </div>
 
@@ -66,11 +70,12 @@
 
 <script>
     const API_TOKEN = "3YfY2Nvp75kG9ANMx4vrDx";
-    let currentTax = 0.0089; // CDI base
+    let selicM = Math.pow(1 + 0.1075, 1/12) - 1;
+    let currentTax = selicM;
 
     function initSystem() {
         setInterval(() => { document.getElementById('live-clock').innerText = new Date().toLocaleTimeString(); }, 1000);
-        updateTicker(); // Chama o letreiro real time
+        updateTicker(); // Tenta atualizar, mas mantém o padrão se falhar
         main();
     }
 
@@ -78,19 +83,21 @@
         try {
             const r = await fetch(`https://brapi.dev/api/quote/PETR4,VALE3,ITUB4,BTC-USD?token=${API_TOKEN}`);
             const d = await r.json();
-            let html = "";
-            d.results.forEach(res => {
-                const color = res.regularMarketChangePercent >= 0 ? "#00FF41" : "#FF3B30";
-                html += `<span class="tick-item">${res.symbol} <font color="${color}">${res.regularMarketPrice.toFixed(2)} (${res.regularMarketChangePercent.toFixed(2)}%)</font></span>`;
-            });
-            document.getElementById('live-ticker').innerHTML = html + html; // Duplica para efeito infinito
-        } catch(e) { console.log("Erro no Ticker"); }
+            if(d.results) {
+                let html = `<span class="tick-item">SELIC <b>10.75%</b></span><span class="tick-item">IPCA <b>4.50%</b></span>`;
+                d.results.forEach(res => {
+                    const color = res.regularMarketChangePercent >= 0 ? "#00FF41" : "#FF3B30";
+                    html += `<span class="tick-item">${res.symbol} <font color="${color}">${res.regularMarketPrice.toFixed(2)} (${res.regularMarketChangePercent.toFixed(2)}%)</font></span>`;
+                });
+                document.getElementById('live-ticker').innerHTML = html + html;
+            }
+        } catch(e) { console.log("Usando dados offline por segurança."); }
     }
 
     function processInput(val) {
         let input = val.toUpperCase().trim();
         if(input.includes("CDB") || input.includes("CDI")) {
-            currentTax = 0.0089; 
+            currentTax = selicM; 
             document.getElementById('sync-msg').innerText = `● RENDIMENTO: 100% CDI`;
             main();
         } else if(input.length >= 4) { syncB3(input); }
@@ -121,13 +128,19 @@
         for (let i = 1; i <= t; i++) {
             let rendimentoDoMes = montanteFinal * currentTax;
             lucroBrutoAcumulado += rendimentoDoMes;
-            montanteFinal += rendimentoDoMes + vM; // Rende primeiro, aporta depois
+            montanteFinal += rendimentoDoMes + vM;
             totalInvestido += vM;
         }
 
         const lucroMoldado = lucroBrutoAcumulado * 0.5;
         const final = totalInvestido + lucroMoldado;
         document.getElementById('v-mold').innerText = final.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+        
+        const lucroReferencia = (totalInvestido * selicM * t);
+        const efc = ((lucroMoldado / (lucroReferencia * 0.5)) * 100).toFixed(2);
+        const msg = document.getElementById('efficiency-msg');
+        msg.innerText = `EFICIÊNCIA VS BANCO: ${efc}%`;
+        msg.style.color = efc >= 100 ? "var(--accent)" : "var(--danger)";
     }
 </script>
 </body>
